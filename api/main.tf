@@ -61,7 +61,7 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
     "application/json" = jsonencode(
       {
         "title": "Energy Calculation as a Service",
-        "version": "0.0.1"
+        "version": var.api_version
       }
     )  
   }
