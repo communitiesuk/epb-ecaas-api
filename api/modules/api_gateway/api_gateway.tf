@@ -43,7 +43,10 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
     "application/json" = jsonencode(
       {
         "title": "Energy Calculation as a Service",
-        "version": var.api_version
+        "version": var.api_version,
+        "links": {
+          "describedBy": "https://ecaas-api-docs.epcregisters.net"
+          }
       }
     )  
   }
