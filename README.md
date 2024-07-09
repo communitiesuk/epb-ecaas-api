@@ -7,7 +7,7 @@ The Terraform for deployed ECaaS environments is in the `api` folder - navigate 
 
 Initialise using the right backend-config, to avoid clash of state file names.
 
-Terraform to your heart's content!
+Terraform to your heart's content.
 
 ```bash
 $ cd api
