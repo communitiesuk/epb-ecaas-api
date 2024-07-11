@@ -1,0 +1,9 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
+      - aws-vault exec this_profile -- terraform plan
+  post_build:
+    commands:
