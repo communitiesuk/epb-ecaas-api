@@ -1,9 +1,24 @@
 version: 0.1
 
 phases:
+  pre_build:
+    commands:
+      # install homebrew
+      - NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      - brew --version
+
+      # install terraform
+      - brew install aws-vault
+      - brew tap hashicorp/tap
+      - brew install hashicorp/tap/terraform
+      - terraform --version
+
   build:
     commands:
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
       - aws-vault exec this_profile -- terraform plan
+
   post_build:
     commands:
