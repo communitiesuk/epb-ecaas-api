@@ -18,6 +18,8 @@ phases:
       - terraform --version
       # assume integration account role
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
+      - cd api
+      - terraform init --backend-config=backend_ecaas_api_integration.hcl
       - terraform plan
 
   post_build:
