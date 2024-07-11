@@ -16,8 +16,9 @@ phases:
       - brew tap hashicorp/tap
       - brew install hashicorp/tap/terraform
       - terraform --version
+      # assume integration account role
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
-      - aws-vault exec this_profile --debug -- terraform plan
+      - terraform plan
 
   post_build:
     commands:
