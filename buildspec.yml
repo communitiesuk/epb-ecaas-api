@@ -17,10 +17,10 @@ phases:
       - brew install hashicorp/tap/terraform
       - terraform --version
       # assume integration account role
-      - echo "Before assuming role $ROLE_ARN"
+      - echo "Before assuming role, id $AWS_ACCOUNT_ID"
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
       - cd api
-      - echo "After assuming role $ROLE_ARN"
+      - echo "After assuming role id $AWS_ACCOUNT_ID"
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
       - terraform plan
 
