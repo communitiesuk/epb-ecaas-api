@@ -3,6 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
+      # TODO use Yum instead of homebrew https://developer.hashicorp.com/terraform/install#linux or change image used in infra repo
       # install homebrew
       - NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
@@ -14,7 +15,8 @@ phases:
       - terraform --version
       # assume integration account role
       - echo "Before assuming role, id $AWS_ACCOUNT_ID"
-      - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server this_profile
+      - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
+      - export AWS_PROFILE=ci_server
       - cd api
       - echo "After assuming role id $AWS_ACCOUNT_ID"
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
