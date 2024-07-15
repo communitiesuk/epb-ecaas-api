@@ -8,10 +8,6 @@ phases:
       - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
       - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       - brew --version
-
-      # install aws-vault
-      - brew install aws-vault
-
       # install terraform
       - brew tap hashicorp/tap
       - brew install hashicorp/tap/terraform
@@ -26,3 +22,4 @@ phases:
 
   post_build:
     commands:
+      - echo "Entered the post_build phase..."
