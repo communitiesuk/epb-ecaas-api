@@ -1,17 +1,16 @@
 version: 0.2
 
 phases:
-  build:
+  install:
     commands:
       - sudo yum install -y yum-utils shadow-utils
       - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - sudo yum -y install terraform
-      # assume integration account role
-      - echo "Before assuming role, id $AWS_ACCOUNT_ID"
+  build:
+    commands:
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
       - cd api
-      - echo "After assuming role id $AWS_ACCOUNT_ID"
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
       - terraform plan
       - terraform apply -auto-approve
