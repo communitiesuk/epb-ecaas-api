@@ -14,7 +14,7 @@ phases:
       - echo "After assuming role id $AWS_ACCOUNT_ID"
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
       - terraform plan
-      - terraform apply -y
+      - terraform apply -auto-approve
   post_build:
     commands:
       - echo "Entered the post_build phase..."
