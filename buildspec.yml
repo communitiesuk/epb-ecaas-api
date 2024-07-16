@@ -3,10 +3,9 @@ version: 0.2
 phases:
   build:
     commands:
-      - sudo yum install -y yum-utils shadow-utils
-      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-      - sudo yum -y install terraform
-
+#      - sudo yum install -y yum-utils shadow-utils
+#      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+#      - sudo yum -y install terraform
       # assume integration account role
       - echo "Before assuming role, id $AWS_ACCOUNT_ID"
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
