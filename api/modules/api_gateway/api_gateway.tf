@@ -1,6 +1,6 @@
 # Set up API Gateway
 resource "aws_api_gateway_rest_api" "ECaaSAPI" {
-  name = "ECaas API"
+  name        = "ECaas API"
   description = "API for ECaaS (Energy Calculation as a Service)."
 
   endpoint_configuration {
@@ -42,13 +42,13 @@ resource "aws_api_gateway_integration_response" "GetApiIntegrationResponse" {
   response_templates = {
     "application/json" = jsonencode(
       {
-        "title": "Energy Calculation as a Service",
-        "version": var.api_version,
-        "links": {
-          "describedBy": "https://ecaas-api-docs.epcregisters.net"
-          }
+        "title" : "Energy Calculation as a Service",
+        "version" : var.api_version,
+        "links" : {
+          "describedBy" : "https://ecaas-api-docs.epcregisters.net"
+        }
       }
-    )  
+    )
   }
 }
 
@@ -82,5 +82,5 @@ resource "aws_api_gateway_deployment" "Deployment" {
 resource "aws_api_gateway_stage" "DeploymentStage" {
   deployment_id = aws_api_gateway_deployment.Deployment.id
   rest_api_id   = aws_api_gateway_rest_api.ECaaSAPI.id
-  stage_name    = "Deployment"  
+  stage_name    = "Deployment"
 }

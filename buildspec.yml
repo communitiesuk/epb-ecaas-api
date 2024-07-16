@@ -3,16 +3,10 @@ version: 0.2
 phases:
   build:
     commands:
-      # TODO use Yum instead of homebrew https://developer.hashicorp.com/terraform/install#linux or change image used in infra repo
-      # install homebrew
-      - NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
-      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-      - brew --version
-      # install terraform
-      - brew tap hashicorp/tap
-      - brew install hashicorp/tap/terraform
-      - terraform --version
+      - sudo yum install -y yum-utils shadow-utils
+      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - sudo yum -y install terraform
+
       # assume integration account role
       - echo "Before assuming role, id $AWS_ACCOUNT_ID"
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
@@ -21,7 +15,6 @@ phases:
       - echo "After assuming role id $AWS_ACCOUNT_ID"
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
       - terraform plan
-
   post_build:
     commands:
       - echo "Entered the post_build phase..."
