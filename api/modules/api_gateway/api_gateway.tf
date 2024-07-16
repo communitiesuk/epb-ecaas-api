@@ -1,7 +1,7 @@
 # Set up API Gateway
 resource "aws_api_gateway_rest_api" "ECaaSAPI" {
   name        = "ECaas API"
-  description = "API for ECaaS (Energy Calculation as a Service)."
+  description = "API for ECaaS (Energy Calculation as a Service)"
 
   endpoint_configuration {
     types = ["REGIONAL"]
