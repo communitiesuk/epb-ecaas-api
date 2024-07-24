@@ -35,3 +35,7 @@ phases:
   post_build:
     commands:
       - echo "Running post_build commands"
+
+artifacts:
+  files:
+    - '**/*'
