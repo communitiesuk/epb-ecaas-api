@@ -3,6 +3,9 @@ version: 0.2
 phases:
   build:
     commands:
+      # navigate to directory for hem source code
+      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
+
       # install rust and cargo
       # -y option to accept default configuration
       - curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -12,8 +15,7 @@ phases:
 
       - pip3 install cargo-lambda
 
-      # navigate to directory for hem source code
-      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
+      - cd hem-lambda
       - cargo lambda deploy hem-lambda
 
   post_build:
