@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      # navigate to directory for hem source code
+      - cd $CODEBUILD_SRC_DIR_hem_lambda_source_output
+      - cargo lambda deploy hem-lambda
+
+  post_build:
+    commands:
+      - echo "Running post_build commands"
