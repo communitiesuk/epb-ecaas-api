@@ -3,12 +3,6 @@ version: 0.2
 phases:
   build:
     commands:
-      # navigate to directory for hem lambda build output
-      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
-      - echo "current working directory:"
-      - echo $PWD
-      - echo "directory contents:"
-      - ls
       # install rust and cargo
       # -y option to accept default configuration
       - curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -20,6 +14,9 @@ phases:
 
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
+
+      # navigate to directory for hem lambda build output
+      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
 
       - cd hem-lambda
       - cargo lambda deploy hem-lambda
