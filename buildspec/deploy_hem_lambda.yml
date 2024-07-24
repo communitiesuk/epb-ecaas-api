@@ -3,9 +3,12 @@ version: 0.2
 phases:
   build:
     commands:
-      # navigate to directory for hem source code
+      # navigate to directory for hem lambda build output
       - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
-
+      - echo "current working directory:"
+      - echo $PWD
+      - echo "directory contents:"
+      - ls
       # install rust and cargo
       # -y option to accept default configuration
       - curl https://sh.rustup.rs -sSf | sh -s -- -y
