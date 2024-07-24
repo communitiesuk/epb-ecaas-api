@@ -4,7 +4,7 @@ phases:
   build:
     commands:
       # navigate to directory for hem source code
-      - cd $CODEBUILD_SRC_DIR_hem_lambda_source_output
+      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
       - cargo lambda deploy hem-lambda
 
   post_build:
