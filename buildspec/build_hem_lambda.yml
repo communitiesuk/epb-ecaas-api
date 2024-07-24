@@ -17,14 +17,15 @@ phases:
       - cargo --version
 
       # install homebrew
-      - NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
-      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#      - NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#      - (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
+#      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
       # install cargo-lambda
-      - brew tap cargo-lambda/cargo-lambda
-      - brew install cargo-lambda
+#      - brew tap cargo-lambda/cargo-lambda
+#      - brew install cargo-lambda
 
+      - pip3 install cargo-lambda
       # copy the weather file
       - aws s3 cp s3://ecaas-api-pipeline-storage/ecaas-api-pipeline/weather.epw src/weather.epw
 
