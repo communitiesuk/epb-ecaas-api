@@ -18,6 +18,9 @@ phases:
 
       - pip3 install cargo-lambda
 
+      - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
+      - export AWS_PROFILE=ci_server
+
       - cd hem-lambda
       - cargo lambda deploy hem-lambda
 
