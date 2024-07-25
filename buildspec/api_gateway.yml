@@ -12,12 +12,6 @@ phases:
       # so terraform can access it
       - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
 
-      - echo $PWD
-      - ls
-      - ls target
-      - ls target/lambda
-      - ls target/lambda/hem-lambda
-
       - zip lambda.zip target/lambda/hem-lambda/bootstrap
       - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip $CODEBUILD_SRC_DIR/api/lambda.zip
 
@@ -25,6 +19,8 @@ phases:
 
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
+      
+      - aws s3 ls
       
       - cd api
       - terraform init --backend-config=backend_ecaas_api_integration.hcl
