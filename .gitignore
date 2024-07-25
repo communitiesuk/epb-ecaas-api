@@ -32,3 +32,9 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+.DS_STORE
+.env
+
+# avoid committing the lambda zip file
+/api/lambda.zip
