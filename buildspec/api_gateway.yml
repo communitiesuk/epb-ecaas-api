@@ -11,8 +11,14 @@ phases:
       # zip up lambda executable and move into api folder 
       # so terraform can access it
       - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
+
+      - echo $PWD
+      - ls
+
       - zip lambda.zip target/lambda/hem-lambda/bootstrap
       - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip api/lambda.zip
+
+      - cd $CODEBUILD_SRC_DIR
 
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
