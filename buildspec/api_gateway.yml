@@ -14,9 +14,12 @@ phases:
 
       - echo $PWD
       - ls
+      - ls target
+      - ls target/lambda
+      - ls target/lambda/hem-lambda
 
       - zip lambda.zip target/lambda/hem-lambda/bootstrap
-      - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip api/lambda.zip
+      - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip $CODEBUILD_SRC_DIR/api/lambda.zip
 
       - cd $CODEBUILD_SRC_DIR
 
