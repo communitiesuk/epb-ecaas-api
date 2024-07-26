@@ -13,9 +13,9 @@ phases:
 
       # zip up lambda executable and move into api folder 
       # so terraform can access it
-      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
+      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output/target/lambda/hem-lambda
 
-      - zip lambda.zip target/lambda/hem-lambda/bootstrap
+      - zip lambda.zip bootstrap
       - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip $CODEBUILD_SRC_DIR/api/lambda.zip
 
       - cd $CODEBUILD_SRC_DIR
