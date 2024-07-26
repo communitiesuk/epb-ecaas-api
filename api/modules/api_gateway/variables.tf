@@ -3,6 +3,3 @@ variable "api_version" {
   type    = string
 }
 
-variable "integration_hem_lambda_arn" {
-  type    = string
-}
