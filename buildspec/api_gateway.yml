@@ -16,7 +16,7 @@ phases:
       - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output/target/lambda/hem-lambda
 
       - zip lambda.zip bootstrap
-      - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/lambda.zip $CODEBUILD_SRC_DIR/api/lambda.zip
+      - cp $CODEBUILD_SRC_DIR_build_hem_lambda_output/target/lambda/hem-lambda/lambda.zip $CODEBUILD_SRC_DIR/api/lambda.zip
 
       - cd $CODEBUILD_SRC_DIR
 
