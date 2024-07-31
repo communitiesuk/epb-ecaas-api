@@ -19,8 +19,7 @@ phases:
       - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
 
       - cd hem-lambda
-      # - cargo lambda deploy hem-lambda
-      - cargo lambda deploy --binary-name hem-lambda hem-lambda-2
+      - cargo lambda deploy hem-lambda
 
   post_build:
     commands:
