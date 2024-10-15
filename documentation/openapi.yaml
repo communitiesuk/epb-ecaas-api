@@ -1,0 +1,36 @@
+openapi: '3.1.0'
+info:
+  title: Energy Calculation as a Service
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+security: []
+paths:
+  /api:
+    get:
+      operationId: ApiMetadata
+      summary: Get information about the ECaaS API
+      responses:
+        '200':
+          description: OK
+  /home-energy-model:
+    post:
+      operationId: HEMCalculation
+      summary: Calculate the energy performance of a building using the Home Energy Model (HEM)
+      description: ''
+      parameters: []
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  -  data
+                properties:
+                  data:
+                    type: object
+                    $ref: "./fhs_input.schema.json"
+      responses:
+        '200':
+          description: OK
