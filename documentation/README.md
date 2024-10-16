@@ -15,3 +15,11 @@ npx @redocly/cli build-docs openapi.yaml
 ```
 
 Source: [Redocly](https://github.com/Redocly/redoc?tab=readme-ov-file#usage)
+
+## Validating the OpenAPI definition
+
+Validation can run on the OpenAPI document from within this directory using the following (making use of [Spectral](https://docs.stoplight.io/docs/spectral/9ffa04e052cc1-spectral-cli)):
+
+```sh
+npx spectral lint ./openapi.yml -r ./.spectral.yaml
+```
