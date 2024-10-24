@@ -1,0 +1,56 @@
+{
+    "data": {
+      "dwelling_emission_rate": 2.115,
+      "target_emission_rate": 2.758,
+      "emission_rate_compliant": true,
+      "dwelling_primary_energy_rate": 61.190,
+      "target_primary_energy_rate": 63.019,
+      "primary_energy_rate_compliant": true,
+      "dwelling_fabric_energy_efficiency": 41.487,
+      "target_fabric_energy_efficiency": 43.529,
+      "fabric_energy_efficient_compliant": true,
+      "energy_demand": {
+        "space_heating": {
+          "actual": 34.962,
+          "notional": 42.550
+        },
+        "space_cooling": {
+          "actual": 0,
+          "notional": 0
+        }
+      },
+      "delivered_energy_use": {
+        "total": {
+          "actual": 73.750,
+          "notional": 54.866
+        },
+        "by_system": {
+          "space_heating": {
+            "actual": 17.255,
+            "notional": 10.897
+          },
+          "auxiliary": {
+            "actual": 4.54,
+            "notional": 1.904
+          }
+        }
+      },
+      "energy_use_by_fuel": {
+        "main_electricity": {
+          "actual": 73.750,
+          "notional": 54.866
+        },
+        "property2": {
+          "actual": 0,
+          "notional": 0
+        }
+      }
+    },
+    "meta": {
+      "hem_version": "0.32",
+      "hem_version_date": "2025-02-15",
+      "fhs_version": "0.23",
+      "fhs_version_date": "2019-08-24",
+      "software_version": "521c68bd9c715f82205d7d1afd7b88d038839d26"
+    }
+  }

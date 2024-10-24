@@ -46,6 +46,8 @@ paths:
                     $ref: "#/components/schemas/FhsComplianceResponse"
                   meta:
                     $ref: "#/components/schemas/FhsMeta"
+              example:
+                $ref: "./example_response.json"
         "422":
           description: "An error denoting that the request could not be processed by the calculator."
           content:
