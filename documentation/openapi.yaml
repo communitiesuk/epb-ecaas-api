@@ -13,11 +13,11 @@ paths:
       responses:
         "200":
           description: OK
-  /home-energy-model:
+  /future-homes-standard-compliance:
     post:
-      operationId: HEMCalculation
-      summary: Calculate the energy performance of a building using the Home Energy Model (HEM)
-      description: ""
+      operationId: FHSCompliance
+      summary: Check Future Homes Standard (FHS) compliance.
+      description: "Check compliance with the Future Homes Standard (FHS) based on the energy performance of a building calculated using the Home Energy Model (HEM)."
       parameters: []
       requestBody:
         required: true
