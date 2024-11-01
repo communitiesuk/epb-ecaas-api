@@ -89,7 +89,7 @@ components:
         target_fabric_energy_efficiency:
           type: number
           description: "The determined TPEE (Target Fabric Energy Efficiency) of the building. Unit: kWh/m².yr."
-        fabric_energy_efficient_compliant:
+        fabric_energy_efficiency_compliant:
           type: boolean
           description: "Whether the calculated Dwelling Fabric Energy Efficiency is compliant with FHS."
         energy_demand:
