@@ -1,0 +1,11 @@
+[package]
+name = "ecaas-lambda"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.92"
+hem = { git = "https://github.com/communitiesuk/epb-home-energy-model.git", features = ["fhs"] }
+lambda_http = "0.13.0"
+parking_lot = "0.12.3"
+tokio = { version = "1", features = ["macros"] }
