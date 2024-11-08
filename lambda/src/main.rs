@@ -1,8 +1,12 @@
+use chrono::NaiveDate;
 use hem::output::{Output, SinkOutput};
 use hem::read_weather_file::weather_data_to_vec;
-use hem::{run_project, ProjectFlags};
+use hem::{
+    run_project, ProjectFlags, FHS_VERSION, FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
+};
 use lambda_http::{run, service_fn, Body, Error, Request, Response};
 use parking_lot::Mutex;
+use serde::Serialize;
 use serde_json::json;
 use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
@@ -29,17 +33,17 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         Ok(Some(resp)) => Response::builder()
             .status(200)
             .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"data": resp}))?))
+            .body(Body::from(serde_json::to_string(&json!({"data": resp, "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
         Ok(None) => Response::builder()
             .status(503)
             .header("content-type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}]}))?))
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
         Err(e) => Response::builder()
             .status(422)
             .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}]}))?))
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
     };
 
@@ -142,5 +146,28 @@ impl Write for FileLikeStringWriter {
 
     fn flush(&mut self) -> std::io::Result<()> {
         Ok(())
+    }
+}
+
+/// Metadata object containing versioning information for the HEM calculation. Corresponds to "FhsMeta" in the API specification.
+#[derive(Serialize)]
+struct FhsMeta {
+    hem_version: &'static str,
+    hem_version_date: NaiveDate,
+    fhs_version: &'static str,
+    fhs_version_date: NaiveDate,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    software_version: Option<&'static str>,
+}
+
+impl Default for FhsMeta {
+    fn default() -> Self {
+        Self {
+            hem_version: HEM_VERSION,
+            hem_version_date: NaiveDate::parse_from_str(HEM_VERSION_DATE, "%Y-%m-%d").unwrap(),
+            fhs_version: FHS_VERSION,
+            fhs_version_date: NaiveDate::parse_from_str(FHS_VERSION_DATE, "%Y-%m-%d").unwrap(),
+            software_version: Default::default(),
+        }
     }
 }
