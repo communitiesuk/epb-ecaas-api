@@ -1,12 +1,15 @@
-use hem::output::Output;
+use hem::output::{Output, SinkOutput};
 use hem::read_weather_file::weather_data_to_vec;
 use hem::{run_project, ProjectFlags};
+use lambda_http::tracing::debug;
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 use parking_lot::Mutex;
+use serde_json::json;
 use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
 use std::str::from_utf8;
 use std::sync::Arc;
+use uuid::Uuid;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     // Extract some useful information from the request
@@ -17,20 +20,33 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     }
     .as_bytes();
 
-    let output = LambdaOutput::new();
+    let output = SinkOutput {};
 
     let external_conditions =
         weather_data_to_vec(BufReader::new(Cursor::new(include_str!("./weather.epw")))).ok();
+    debug!(
+        "external conditions present: {}",
+        external_conditions.is_some()
+    );
 
-    run_project(input, &output, external_conditions, &ProjectFlags::empty())?;
+    let resp = match run_project(input, output, external_conditions, &ProjectFlags::FHS_COMPLIANCE) {
+        Ok(Some(resp)) => Response::builder()
+            .status(200)
+            .header("Content-Type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"data": resp}))?))
+            .map_err(Box::new)?,
+        Ok(None) => Response::builder()
+            .status(503)
+            .header("content-type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}]}))?))
+            .map_err(Box::new)?,
+        Err(e) => Response::builder()
+            .status(422)
+            .header("Content-Type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}]}))?))
+            .map_err(Box::new)?,
+    };
 
-    // Return something that implements IntoResponse.
-    // It will be serialized to the right response event automatically by the runtime
-    let resp = Response::builder()
-        .status(200)
-        .header("content-type", "text/plain")
-        .body(output.into())
-        .map_err(Box::new)?;
     Ok(resp)
 }
 
@@ -44,9 +60,11 @@ async fn main() -> Result<(), Error> {
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
 /// can write to - this string can then be used as the response body for the Lambda.
 #[derive(Debug)]
+#[allow(dead_code)]
 struct LambdaOutput(Arc<Mutex<String>>);
 
 impl LambdaOutput {
+    #[allow(dead_code)]
     fn new() -> Self {
         Self(Arc::new(Mutex::new(String::with_capacity(
             // output is expected to be about 4MB so allocate this up front

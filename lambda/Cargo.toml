@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.92"
 hem = { git = "https://github.com/communitiesuk/epb-home-energy-model.git", features = ["fhs"] }
-lambda_http = "0.13.0"
+lambda_http = { version = "0.13.0", default-features = false, features = ["apigw_rest", "apigw_http", "tracing"] }
 parking_lot = "0.12.3"
+serde_json = { version = "1.0.132", features = ["preserve_order"] }
 tokio = { version = "1", features = ["macros"] }
+uuid = { version = "1.11.0", features = ["v4", "serde"] }
