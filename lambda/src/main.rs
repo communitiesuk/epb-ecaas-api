@@ -24,10 +24,6 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
     let external_conditions =
         weather_data_to_vec(BufReader::new(Cursor::new(include_str!("./weather.epw")))).ok();
-    debug!(
-        "external conditions present: {}",
-        external_conditions.is_some()
-    );
 
     let resp = match run_project(input, output, external_conditions, &ProjectFlags::FHS_COMPLIANCE) {
         Ok(Some(resp)) => Response::builder()
