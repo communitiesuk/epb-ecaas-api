@@ -49,7 +49,8 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     tracing::subscriber::set_global_default(
-        tracing_subscriber::fmt::fmt()
+        tracing_subscriber::fmt()
+            .json()
             .with_max_level(tracing::Level::INFO)
             .with_span_events(FmtSpan::CLOSE)
             .finish(),
