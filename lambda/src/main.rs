@@ -1,14 +1,14 @@
 use hem::output::{Output, SinkOutput};
 use hem::read_weather_file::weather_data_to_vec;
 use hem::{run_project, ProjectFlags};
-use lambda_http::tracing::debug;
-use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
+use lambda_http::{run, service_fn, Body, Error, Request, Response};
 use parking_lot::Mutex;
 use serde_json::json;
 use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
 use std::str::from_utf8;
 use std::sync::Arc;
+use tracing_subscriber::fmt::format::FmtSpan;
 use uuid::Uuid;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
@@ -48,7 +48,12 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing::init_default_subscriber();
+    tracing::subscriber::set_global_default(
+        tracing_subscriber::fmt::fmt()
+            .with_max_level(tracing::Level::INFO)
+            .with_span_events(FmtSpan::CLOSE)
+            .finish(),
+    )?;
 
     run(service_fn(function_handler)).await
 }

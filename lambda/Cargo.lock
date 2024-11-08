@@ -303,6 +303,8 @@ dependencies = [
  "parking_lot",
  "serde_json",
  "tokio",
+ "tracing",
+ "tracing-subscriber",
  "uuid",
 ]
 
