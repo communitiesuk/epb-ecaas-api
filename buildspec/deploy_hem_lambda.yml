@@ -15,11 +15,8 @@ phases:
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
 
-      # navigate to directory for hem lambda build output
-      - cd $CODEBUILD_SRC_DIR_build_hem_lambda_output
-
-      - cd hem-lambda
-      - cargo lambda deploy hem-lambda
+      - cd lambda
+      - cargo lambda deploy ecaas-lambda
 
   post_build:
     commands:
