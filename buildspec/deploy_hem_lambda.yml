@@ -16,7 +16,7 @@ phases:
       - export AWS_PROFILE=ci_server
 
       - cd lambda
-      - cargo lambda deploy hem-lambda
+      - aws lambda create-function --function-name hem-lambda --runtime provided.al2023 --handler rust.handler --zip-file fileb://target/lambda/hem-lambda/bootstrap.zip
 
   post_build:
     commands:
