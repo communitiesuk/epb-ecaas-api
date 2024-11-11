@@ -24,6 +24,9 @@ phases:
       # overwrite hem symlink to epb-home-energy-model location
       - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
 
+      # make HEM software version available in environment
+      - export HEM_SOFTWARE_VERSION=$CODEBUILD_SOURCE_VERSION_hem_lambda_source_output
+
       # build the lambda
       - cargo lambda build --arm64 -r --output-format zip
 
