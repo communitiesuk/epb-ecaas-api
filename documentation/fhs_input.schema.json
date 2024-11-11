@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
   "title": "Input",
   "type": "object",
   "required": [
@@ -21,7 +21,7 @@
     "ApplianceGains": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/ApplianceGainsDetails"
+        "$ref": "#/$defs/ApplianceGainsDetails"
       }
     },
     "Appliances": {
@@ -30,29 +30,29 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/ApplianceEntry"
+        "$ref": "#/$defs/ApplianceEntry"
       }
     },
     "ColdWaterSource": {
-      "$ref": "#/definitions/ColdWaterSourceInput"
+      "$ref": "#/$defs/ColdWaterSourceInput"
     },
     "Control": {
-      "$ref": "#/definitions/Control"
+      "$ref": "#/$defs/Control"
     },
     "EnergySupply": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/EnergySupplyDetails"
+        "$ref": "#/$defs/EnergySupplyDetails"
       }
     },
     "Events": {
-      "$ref": "#/definitions/WaterHeatingEvents"
+      "$ref": "#/$defs/WaterHeatingEvents"
     },
     "ExternalConditions": {
-      "$ref": "#/definitions/ExternalConditionsInput"
+      "$ref": "#/$defs/ExternalConditionsInput"
     },
     "General": {
-      "$ref": "#/definitions/General"
+      "$ref": "#/$defs/General"
     },
     "GroundFloorArea": {
       "type": [
@@ -67,13 +67,13 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/HeatSourceWetDetails"
+        "$ref": "#/$defs/HeatSourceWetDetails"
       }
     },
     "HeatingControlType": {
       "anyOf": [
         {
-          "$ref": "#/definitions/HeatingControlType"
+          "$ref": "#/$defs/HeatingControlType"
         },
         {
           "type": "null"
@@ -81,16 +81,16 @@
       ]
     },
     "HotWaterDemand": {
-      "$ref": "#/definitions/HotWaterDemand"
+      "$ref": "#/$defs/HotWaterDemand"
     },
     "HotWaterSource": {
-      "$ref": "#/definitions/HotWaterSource"
+      "$ref": "#/$defs/HotWaterSource"
     },
     "InfiltrationVentilation": {
-      "$ref": "#/definitions/InfiltrationVentilation"
+      "$ref": "#/$defs/InfiltrationVentilation"
     },
     "InternalGains": {
-      "$ref": "#/definitions/InternalGains"
+      "$ref": "#/$defs/InternalGains"
     },
     "NumberOfBedrooms": {
       "type": [
@@ -114,7 +114,7 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/OnSiteGenerationDetails"
+        "$ref": "#/$defs/OnSiteGenerationDetails"
       }
     },
     "PartGcompliance": {
@@ -130,7 +130,7 @@
       ]
     },
     "SimulationTime": {
-      "$ref": "#/definitions/SimulationTime"
+      "$ref": "#/$defs/SimulationTime"
     },
     "SpaceCoolSystem": {
       "type": [
@@ -138,7 +138,7 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/SpaceCoolSystemDetails"
+        "$ref": "#/$defs/SpaceCoolSystemDetails"
       }
     },
     "SpaceHeatSystem": {
@@ -147,13 +147,13 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/SpaceHeatSystemDetails"
+        "$ref": "#/$defs/SpaceHeatSystemDetails"
       }
     },
     "Tariff": {
       "anyOf": [
         {
-          "$ref": "#/definitions/Tariff"
+          "$ref": "#/$defs/Tariff"
         },
         {
           "type": "null"
@@ -163,7 +163,7 @@
     "Ventilation": {
       "anyOf": [
         {
-          "$ref": "#/definitions/Ventilation"
+          "$ref": "#/$defs/Ventilation"
         },
         {
           "type": "null"
@@ -176,13 +176,13 @@
         "null"
       ],
       "additionalProperties": {
-        "$ref": "#/definitions/WasteWaterHeatRecoveryDetails"
+        "$ref": "#/$defs/WasteWaterHeatRecoveryDetails"
       }
     },
     "WaterHeatSchedDefault": {
       "anyOf": [
         {
-          "$ref": "#/definitions/WaterHeatingSchedule"
+          "$ref": "#/$defs/WaterHeatingSchedule"
         },
         {
           "type": "null"
@@ -192,7 +192,7 @@
     "Window_Opening_For_Cooling": {
       "anyOf": [
         {
-          "$ref": "#/definitions/WindowOpeningForCooling"
+          "$ref": "#/$defs/WindowOpeningForCooling"
         },
         {
           "type": "null"
@@ -202,12 +202,12 @@
     "Zone": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/ZoneInput"
+        "$ref": "#/$defs/ZoneInput"
       }
     }
   },
   "additionalProperties": false,
-  "definitions": {
+  "$defs": {
     "AirTerminalDevice": {
       "type": "object",
       "required": [
@@ -232,7 +232,7 @@
         "Energysupply": {
           "anyOf": [
             {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             {
               "type": "null"
@@ -270,7 +270,7 @@
         "loadshifting": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ApplianceLoadShifting"
+              "$ref": "#/$defs/ApplianceLoadShifting"
             },
             {
               "type": "null"
@@ -290,10 +290,10 @@
     "ApplianceEntry": {
       "anyOf": [
         {
-          "$ref": "#/definitions/Appliance"
+          "$ref": "#/$defs/Appliance"
         },
         {
-          "$ref": "#/definitions/ApplianceReference"
+          "$ref": "#/$defs/ApplianceReference"
         }
       ]
     },
@@ -312,7 +312,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/ApplianceGainsDetailsEvent"
+            "$ref": "#/$defs/ApplianceGainsDetailsEvent"
           }
         },
         "Standby": {
@@ -323,7 +323,7 @@
           "format": "double"
         },
         "EnergySupply": {
-          "$ref": "#/definitions/EnergySupplyType"
+          "$ref": "#/$defs/EnergySupplyType"
         },
         "gains_fraction": {
           "type": "number",
@@ -332,7 +332,7 @@
         "loadshifting": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ApplianceLoadShifting"
+              "$ref": "#/$defs/ApplianceLoadShifting"
             },
             {
               "type": "null"
@@ -342,7 +342,7 @@
         "schedule": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Schedule_for_double"
+              "$ref": "#/$defs/Schedule_for_double"
             },
             {
               "type": "null"
@@ -448,7 +448,7 @@
       ],
       "properties": {
         "ColdWaterSource": {
-          "$ref": "#/definitions/ColdWaterSourceType"
+          "$ref": "#/$defs/ColdWaterSourceType"
         },
         "flowrate": {
           "type": "number",
@@ -464,7 +464,7 @@
     "Baths": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/BathDetails"
+        "$ref": "#/$defs/BathDetails"
       }
     },
     "BatteryLocation": {
@@ -484,10 +484,10 @@
       ],
       "properties": {
         "cost_schedule_boiler": {
-          "$ref": "#/definitions/Schedule_for_double"
+          "$ref": "#/$defs/Schedule_for_double"
         },
         "cost_schedule_hp": {
-          "$ref": "#/definitions/Schedule_for_double"
+          "$ref": "#/$defs/Schedule_for_double"
         },
         "cost_schedule_start_day": {
           "type": "integer",
@@ -595,7 +595,7 @@
               "format": "double"
             },
             "mass_distribution_class": {
-              "$ref": "#/definitions/MassDistributionClass"
+              "$ref": "#/$defs/MassDistributionClass"
             },
             "orientation360": {
               "type": "number",
@@ -720,7 +720,7 @@
             "shading": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/WindowShadingObject"
+                "$ref": "#/$defs/WindowShadingObject"
               }
             },
             "type": {
@@ -746,7 +746,7 @@
                 "null"
               ],
               "items": {
-                "$ref": "#/definitions/WindowPart"
+                "$ref": "#/$defs/WindowPart"
               }
             }
           },
@@ -793,11 +793,11 @@
                 "null"
               ],
               "items": {
-                "$ref": "#/definitions/EdgeInsulation"
+                "$ref": "#/$defs/EdgeInsulation"
               }
             },
             "floor_type": {
-              "$ref": "#/definitions/FloorType"
+              "$ref": "#/$defs/FloorType"
             },
             "height_basement_walls": {
               "type": [
@@ -818,7 +818,7 @@
               "format": "double"
             },
             "mass_distribution_class": {
-              "$ref": "#/definitions/MassDistributionClass"
+              "$ref": "#/$defs/MassDistributionClass"
             },
             "perimeter": {
               "type": "number",
@@ -839,7 +839,7 @@
             "shield_fact_location": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/WindShieldLocation"
+                  "$ref": "#/$defs/WindShieldLocation"
                 },
                 {
                   "type": "null"
@@ -914,7 +914,7 @@
               "format": "double"
             },
             "mass_distribution_class": {
-              "$ref": "#/definitions/MassDistributionClass"
+              "$ref": "#/$defs/MassDistributionClass"
             },
             "pitch": {
               "type": "number",
@@ -963,7 +963,7 @@
               "format": "double"
             },
             "mass_distribution_class": {
-              "$ref": "#/definitions/MassDistributionClass"
+              "$ref": "#/$defs/MassDistributionClass"
             },
             "pitch": {
               "type": "number",
@@ -1046,7 +1046,7 @@
         "header tank": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ColdWaterSourceDetails"
+              "$ref": "#/$defs/ColdWaterSourceDetails"
             },
             {
               "type": "null"
@@ -1056,7 +1056,7 @@
         "mains water": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ColdWaterSourceDetails"
+              "$ref": "#/$defs/ColdWaterSourceDetails"
             },
             {
               "type": "null"
@@ -1090,16 +1090,16 @@
       ],
       "properties": {
         "appliance_type": {
-          "$ref": "#/definitions/CombustionApplianceType"
+          "$ref": "#/$defs/CombustionApplianceType"
         },
         "exhaust_situation": {
-          "$ref": "#/definitions/FlueGasExhaustSituation"
+          "$ref": "#/$defs/FlueGasExhaustSituation"
         },
         "fuel_type": {
-          "$ref": "#/definitions/CombustionFuelType"
+          "$ref": "#/$defs/CombustionFuelType"
         },
         "supply_situation": {
-          "$ref": "#/definitions/CombustionAirSupplySituation"
+          "$ref": "#/$defs/CombustionAirSupplySituation"
         }
       },
       "additionalProperties": false
@@ -1127,7 +1127,7 @@
     "Control": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/ControlDetails"
+        "$ref": "#/$defs/ControlDetails"
       }
     },
     "ControlDetails": {
@@ -1144,7 +1144,7 @@
             "logic_type": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ControlLogicType"
+                  "$ref": "#/$defs/ControlLogicType"
                 },
                 {
                   "type": "null"
@@ -1152,7 +1152,7 @@
               ]
             },
             "schedule": {
-              "$ref": "#/definitions/Schedule_for_Boolean"
+              "$ref": "#/$defs/Schedule_for_Boolean"
             },
             "start_day": {
               "type": "integer",
@@ -1184,7 +1184,7 @@
             "logic_type": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ControlLogicType"
+                  "$ref": "#/$defs/ControlLogicType"
                 },
                 {
                   "type": "null"
@@ -1192,7 +1192,7 @@
               ]
             },
             "schedule": {
-              "$ref": "#/definitions/Schedule_for_double"
+              "$ref": "#/$defs/Schedule_for_double"
             },
             "start_day": {
               "type": "integer",
@@ -1244,7 +1244,7 @@
             "logic_type": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ControlLogicType"
+                  "$ref": "#/$defs/ControlLogicType"
                 },
                 {
                   "type": "null"
@@ -1252,7 +1252,7 @@
               ]
             },
             "schedule": {
-              "$ref": "#/definitions/Schedule_for_double"
+              "$ref": "#/$defs/Schedule_for_double"
             },
             "setpoint_max": {
               "type": [
@@ -1298,7 +1298,7 @@
             "charge_level": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ChargeLevel"
+                  "$ref": "#/$defs/ChargeLevel"
                 },
                 {
                   "type": "null"
@@ -1308,7 +1308,7 @@
             "logic_type": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ControlLogicType"
+                  "$ref": "#/$defs/ControlLogicType"
                 },
                 {
                   "type": "null"
@@ -1316,7 +1316,7 @@
               ]
             },
             "schedule": {
-              "$ref": "#/definitions/Schedule_for_Boolean"
+              "$ref": "#/$defs/Schedule_for_Boolean"
             },
             "start_day": {
               "type": "integer",
@@ -1411,7 +1411,7 @@
       ],
       "properties": {
         "ecodesign_control_class": {
-          "$ref": "#/definitions/EcoDesignControllerClass"
+          "$ref": "#/$defs/EcoDesignControllerClass"
         },
         "max_outdoor_temp": {
           "type": [
@@ -1439,11 +1439,9 @@
     },
     "EcoDesignControllerClass": {
       "type": "integer",
-      "restrictions": {
-        "minimum": 1,
-        "maximum": 8
-      }
-    },
+      "minimum": 1,
+      "maximum": 8
+  },
     "EdgeInsulation": {
       "oneOf": [
         {
@@ -1513,7 +1511,7 @@
           "format": "double"
         },
         "battery_location": {
-          "$ref": "#/definitions/BatteryLocation"
+          "$ref": "#/$defs/BatteryLocation"
         },
         "capacity": {
           "type": "number",
@@ -1546,10 +1544,10 @@
       ],
       "properties": {
         "HeatSource": {
-          "$ref": "#/definitions/DiverterHeatSourceType"
+          "$ref": "#/$defs/DiverterHeatSourceType"
         },
         "StorageTank": {
-          "$ref": "#/definitions/StorageTankType"
+          "$ref": "#/$defs/StorageTankType"
         }
       },
       "additionalProperties": false
@@ -1563,7 +1561,7 @@
         "ElectricBattery": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ElectricBattery"
+              "$ref": "#/$defs/ElectricBattery"
             },
             {
               "type": "null"
@@ -1573,7 +1571,7 @@
         "diverter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/EnergyDiverter"
+              "$ref": "#/$defs/EnergyDiverter"
             },
             {
               "type": "null"
@@ -1583,7 +1581,7 @@
         "factor": {
           "anyOf": [
             {
-              "$ref": "#/definitions/CustomEnergySourceFactor"
+              "$ref": "#/$defs/CustomEnergySourceFactor"
             },
             {
               "type": "null"
@@ -1591,7 +1589,7 @@
           ]
         },
         "fuel": {
-          "$ref": "#/definitions/FuelType"
+          "$ref": "#/$defs/FuelType"
         },
         "is_export_capable": {
           "type": [
@@ -1605,7 +1603,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/SecondarySupplyType"
+            "$ref": "#/$defs/SecondarySupplyType"
           }
         }
       },
@@ -1643,7 +1641,7 @@
         "daylight_savings": {
           "anyOf": [
             {
-              "$ref": "#/definitions/DaylightSavingsConfig"
+              "$ref": "#/$defs/DaylightSavingsConfig"
             },
             {
               "type": "null"
@@ -1725,7 +1723,7 @@
         "shading_segments": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ShadingSegment"
+            "$ref": "#/$defs/ShadingSegment"
           }
         },
         "solar_reflectivity_of_ground": {
@@ -1821,7 +1819,7 @@
       ],
       "properties": {
         "build_type": {
-          "$ref": "#/definitions/BuildType"
+          "$ref": "#/$defs/BuildType"
         },
         "storey_of_dwelling": {
           "type": [
@@ -1864,18 +1862,18 @@
       ],
       "properties": {
         "EnergySupply": {
-          "$ref": "#/definitions/EnergySupplyType"
+          "$ref": "#/$defs/EnergySupplyType"
         },
         "EnergySupply_aux": {
-          "$ref": "#/definitions/EnergySupplyType"
+          "$ref": "#/$defs/EnergySupplyType"
         },
         "boiler_location": {
-          "$ref": "#/definitions/HeatSourceLocation"
+          "$ref": "#/$defs/HeatSourceLocation"
         },
         "cost_schedule_hybrid": {
           "anyOf": [
             {
-              "$ref": "#/definitions/BoilerCostScheduleHybrid"
+              "$ref": "#/$defs/BoilerCostScheduleHybrid"
             },
             {
               "type": "null"
@@ -1987,7 +1985,7 @@
         "L": {
           "anyOf": [
             {
-              "$ref": "#/definitions/HeatPumpHotWaterOnlyTestDatum"
+              "$ref": "#/$defs/HeatPumpHotWaterOnlyTestDatum"
             },
             {
               "type": "null"
@@ -1995,7 +1993,7 @@
           ]
         },
         "M": {
-          "$ref": "#/definitions/HeatPumpHotWaterOnlyTestDatum"
+          "$ref": "#/$defs/HeatPumpHotWaterOnlyTestDatum"
         }
       },
       "additionalProperties": false
@@ -2076,7 +2074,7 @@
           "format": "double"
         },
         "test_letter": {
-          "$ref": "#/definitions/TestLetter"
+          "$ref": "#/$defs/TestLetter"
         }
       },
       "additionalProperties": false
@@ -2096,7 +2094,7 @@
             "Control": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatSourceControlType"
+                  "$ref": "#/$defs/HeatSourceControlType"
                 },
                 {
                   "type": "null"
@@ -2104,7 +2102,7 @@
               ]
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "heater_position": {
               "type": "number",
@@ -2150,7 +2148,7 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "area_module": {
               "type": "number",
@@ -2163,7 +2161,7 @@
             "control": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatSourceControlType"
+                  "$ref": "#/$defs/HeatSourceControlType"
                 },
                 {
                   "type": "null"
@@ -2208,7 +2206,7 @@
               "format": "double"
             },
             "sol_loc": {
-              "$ref": "#/definitions/SolarCellLocation"
+              "$ref": "#/$defs/SolarCellLocation"
             },
             "solar_loop_piping_hlc": {
               "type": "number",
@@ -2244,7 +2242,7 @@
             "ColdWaterSource": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/ColdWaterSourceType"
+                  "$ref": "#/$defs/ColdWaterSourceType"
                 },
                 {
                   "type": "null"
@@ -2254,7 +2252,7 @@
             "Control": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatSourceControlType"
+                  "$ref": "#/$defs/HeatSourceControlType"
                 },
                 {
                   "type": "null"
@@ -2262,7 +2260,7 @@
               ]
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "heater_position": {
               "type": "number",
@@ -2316,10 +2314,10 @@
           ],
           "properties": {
             "Control": {
-              "$ref": "#/definitions/HeatSourceControlType"
+              "$ref": "#/$defs/HeatSourceControlType"
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "daily_losses_declared": {
               "type": "number",
@@ -2346,7 +2344,7 @@
               "format": "double"
             },
             "test_data": {
-              "$ref": "#/definitions/HeatPumpHotWaterTestData"
+              "$ref": "#/$defs/HeatPumpHotWaterTestData"
             },
             "thermostat_position": {
               "type": "number",
@@ -2376,7 +2374,7 @@
           ],
           "properties": {
             "HotWaterTimer": {
-              "$ref": "#/definitions/ControlDetails"
+              "$ref": "#/$defs/ControlDetails"
             }
           },
           "additionalProperties": false
@@ -2388,7 +2386,7 @@
           ],
           "properties": {
             "WindowOpening": {
-              "$ref": "#/definitions/ControlDetails"
+              "$ref": "#/$defs/ControlDetails"
             }
           },
           "additionalProperties": false
@@ -2440,7 +2438,7 @@
             "BufferTank": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatPumpBufferTank"
+                  "$ref": "#/$defs/HeatPumpBufferTank"
                 },
                 {
                   "type": "null"
@@ -2448,7 +2446,7 @@
               ]
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "EnergySupply_heat_network": {
               "type": [
@@ -2463,12 +2461,12 @@
               ]
             },
             "backup_ctrl_type": {
-              "$ref": "#/definitions/HeatPumpBackupControlType"
+              "$ref": "#/$defs/HeatPumpBackupControlType"
             },
             "boiler": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatPumpBoiler"
+                  "$ref": "#/$defs/HeatPumpBoiler"
                 },
                 {
                   "type": "null"
@@ -2552,10 +2550,10 @@
               "format": "double"
             },
             "sink_type": {
-              "$ref": "#/definitions/HeatPumpSinkType"
+              "$ref": "#/$defs/HeatPumpSinkType"
             },
             "source_type": {
-              "$ref": "#/definitions/HeatPumpSourceType"
+              "$ref": "#/$defs/HeatPumpSourceType"
             },
             "temp_distribution_heat_network": {
               "type": [
@@ -2575,7 +2573,7 @@
             "test_data": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/HeatPumpTestDatum"
+                "$ref": "#/$defs/HeatPumpTestDatum"
               }
             },
             "time_constant_onoff_operation": {
@@ -2616,13 +2614,13 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "EnergySupply_aux": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "boiler_location": {
-              "$ref": "#/definitions/HeatSourceLocation"
+              "$ref": "#/$defs/HeatSourceLocation"
             },
             "efficiency_full_load": {
               "type": "number",
@@ -2685,7 +2683,7 @@
               "type": "string"
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "electricity_circ_pump": {
               "type": "number",
@@ -2696,7 +2694,7 @@
               "format": "double"
             },
             "heat_battery_location": {
-              "$ref": "#/definitions/HeatSourceLocation"
+              "$ref": "#/$defs/HeatSourceLocation"
             },
             "heat_storage_capacity": {
               "type": "number",
@@ -2739,7 +2737,7 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "HIU_daily_loss": {
               "type": "number",
@@ -2801,7 +2799,7 @@
         "Bath": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Baths"
+              "$ref": "#/$defs/Baths"
             },
             {
               "type": "null"
@@ -2814,13 +2812,13 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/WaterPipeworkSimple"
+            "$ref": "#/$defs/WaterPipeworkSimple"
           }
         },
         "Other": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OtherWaterUses"
+              "$ref": "#/$defs/OtherWaterUses"
             },
             {
               "type": "null"
@@ -2830,7 +2828,7 @@
         "Shower": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Showers"
+              "$ref": "#/$defs/Showers"
             },
             {
               "type": "null"
@@ -2847,7 +2845,7 @@
       ],
       "properties": {
         "hw cylinder": {
-          "$ref": "#/definitions/HotWaterSourceDetails"
+          "$ref": "#/$defs/HotWaterSourceDetails"
         }
       },
       "additionalProperties": false
@@ -2865,7 +2863,7 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "Control_hold_at_setpnt": {
               "type": [
@@ -2876,7 +2874,7 @@
             "HeatSource": {
               "type": "object",
               "additionalProperties": {
-                "$ref": "#/definitions/HeatSource"
+                "$ref": "#/$defs/HeatSource"
               }
             },
             "daily_losses": {
@@ -2903,7 +2901,7 @@
                 "null"
               ],
               "items": {
-                "$ref": "#/definitions/WaterPipework"
+                "$ref": "#/$defs/WaterPipework"
               }
             },
             "setpoint_temp": {
@@ -2943,13 +2941,13 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "HeatSourceWet": {
-              "$ref": "#/definitions/HeatSourceWetType"
+              "$ref": "#/$defs/HeatSourceWetType"
             },
             "Control": {
-              "$ref": "#/definitions/HeatSourceControlType"
+              "$ref": "#/$defs/HeatSourceControlType"
             },
             "daily_HW_usage": {
               "type": "number",
@@ -2972,7 +2970,7 @@
               "format": "double"
             },
             "separate_DHW_tests": {
-              "$ref": "#/definitions/BoilerHotWaterTest"
+              "$ref": "#/$defs/BoilerHotWaterTest"
             },
             "setpoint_temp": {
               "type": [
@@ -3003,15 +3001,15 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "HeatSourceWet": {
-              "$ref": "#/definitions/HeatSourceWetType"
+              "$ref": "#/$defs/HeatSourceWetType"
             },
             "Control": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/HeatSourceControlType"
+                  "$ref": "#/$defs/HeatSourceControlType"
                 },
                 {
                   "type": "null"
@@ -3044,10 +3042,10 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "efficiency": {
               "type": "number",
@@ -3106,13 +3104,13 @@
             "null"
           ],
           "additionalProperties": {
-            "$ref": "#/definitions/AirTerminalDevice"
+            "$ref": "#/$defs/AirTerminalDevice"
           }
         },
         "CombustionAppliances": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/CombustionAppliance"
+            "$ref": "#/$defs/CombustionAppliance"
           }
         },
         "Control_WindowAdjust": {
@@ -3128,12 +3126,12 @@
           }
         },
         "Leaks": {
-          "$ref": "#/definitions/VentilationLeaks"
+          "$ref": "#/$defs/VentilationLeaks"
         },
         "MechanicalVentilation": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/MechanicalVentilation"
+            "$ref": "#/$defs/MechanicalVentilation"
           }
         },
         "PDUs": {
@@ -3145,7 +3143,7 @@
         "Vents": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Vent"
+            "$ref": "#/$defs/Vent"
           }
         },
         "altitude": {
@@ -3162,10 +3160,10 @@
           ]
         },
         "shield_class": {
-          "$ref": "#/definitions/VentilationShieldClass"
+          "$ref": "#/$defs/VentilationShieldClass"
         },
         "terrain_class": {
-          "$ref": "#/definitions/TerrainClass"
+          "$ref": "#/$defs/TerrainClass"
         }
       },
       "additionalProperties": false
@@ -3176,7 +3174,7 @@
         "ColdWaterLosses": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3186,7 +3184,7 @@
         "evaporative_losses": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3196,7 +3194,7 @@
         "metabolic gains": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3206,7 +3204,7 @@
         "other": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3216,7 +3214,7 @@
         "total internal gains": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3226,7 +3224,7 @@
         "total_internal_gains": {
           "anyOf": [
             {
-              "$ref": "#/definitions/InternalGainsDetails"
+              "$ref": "#/$defs/InternalGainsDetails"
             },
             {
               "type": "null"
@@ -3245,7 +3243,7 @@
       ],
       "properties": {
         "schedule": {
-          "$ref": "#/definitions/Schedule_for_double"
+          "$ref": "#/$defs/Schedule_for_double"
         },
         "start_day": {
           "type": "integer",
@@ -3293,7 +3291,7 @@
           ]
         },
         "EnergySupply": {
-          "$ref": "#/definitions/EnergySupplyType"
+          "$ref": "#/$defs/EnergySupplyType"
         },
         "SFP": {
           "type": [
@@ -3326,7 +3324,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/MechanicalVentilationDuctwork"
+            "$ref": "#/$defs/MechanicalVentilationDuctwork"
           }
         },
         "measured_air_flow_rate": {
@@ -3353,7 +3351,7 @@
         "mvhr_location": {
           "anyOf": [
             {
-              "$ref": "#/definitions/MVHRLocation"
+              "$ref": "#/$defs/MVHRLocation"
             },
             {
               "type": "null"
@@ -3361,10 +3359,10 @@
           ]
         },
         "sup_air_flw_ctrl": {
-          "$ref": "#/definitions/SupplyAirFlowRateControlType"
+          "$ref": "#/$defs/SupplyAirFlowRateControlType"
         },
         "sup_air_temp_ctrl": {
-          "$ref": "#/definitions/SupplyAirTemperatureControlType"
+          "$ref": "#/$defs/SupplyAirTemperatureControlType"
         },
         "vent_sys_op": {
           "type": [
@@ -3373,7 +3371,7 @@
           ]
         },
         "vent_type": {
-          "$ref": "#/definitions/VentType"
+          "$ref": "#/$defs/VentType"
         }
       },
       "additionalProperties": false
@@ -3390,7 +3388,7 @@
       ],
       "properties": {
         "cross_section_shape": {
-          "$ref": "#/definitions/DuctShape"
+          "$ref": "#/$defs/DuctShape"
         },
         "duct_perimeter_mm": {
           "type": [
@@ -3400,7 +3398,7 @@
           "format": "double"
         },
         "duct_type": {
-          "$ref": "#/definitions/DuctType"
+          "$ref": "#/$defs/DuctType"
         },
         "external_diameter_mm": {
           "type": [
@@ -3454,7 +3452,7 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "base_height": {
               "type": "number",
@@ -3486,7 +3484,7 @@
             "shading": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/WindowShadingObject"
+                "$ref": "#/$defs/WindowShadingObject"
               }
             },
             "type": {
@@ -3496,7 +3494,7 @@
               ]
             },
             "ventilation_strategy": {
-              "$ref": "#/definitions/OnSiteGenerationVentilationStrategy"
+              "$ref": "#/$defs/OnSiteGenerationVentilationStrategy"
             },
             "width": {
               "type": "number",
@@ -3524,7 +3522,7 @@
       ],
       "properties": {
         "ColdWaterSource": {
-          "$ref": "#/definitions/ColdWaterSourceType"
+          "$ref": "#/$defs/ColdWaterSourceType"
         },
         "flowrate": {
           "type": "number",
@@ -3536,7 +3534,7 @@
     "OtherWaterUses": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/OtherWaterUseDetails"
+        "$ref": "#/$defs/OtherWaterUseDetails"
       }
     },
     "ScheduleEntry_for_Boolean": {
@@ -3548,7 +3546,7 @@
           "type": "boolean"
         },
         {
-          "$ref": "#/definitions/ScheduleRepeater_for_Boolean"
+          "$ref": "#/$defs/ScheduleRepeater_for_Boolean"
         },
         {
           "type": "string"
@@ -3565,7 +3563,7 @@
           "format": "double"
         },
         {
-          "$ref": "#/definitions/ScheduleRepeater_for_double"
+          "$ref": "#/$defs/ScheduleRepeater_for_double"
         },
         {
           "type": "string"
@@ -3577,11 +3575,11 @@
         {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ScheduleEntry_for_Boolean"
+            "$ref": "#/$defs/ScheduleEntry_for_Boolean"
           }
         },
         {
-          "$ref": "#/definitions/ScheduleEntry_for_Boolean"
+          "$ref": "#/$defs/ScheduleEntry_for_Boolean"
         }
       ]
     },
@@ -3590,11 +3588,11 @@
         {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ScheduleEntry_for_double"
+            "$ref": "#/$defs/ScheduleEntry_for_double"
           }
         },
         {
-          "$ref": "#/definitions/ScheduleEntry_for_double"
+          "$ref": "#/$defs/ScheduleEntry_for_double"
         }
       ]
     },
@@ -3625,7 +3623,7 @@
           "type": "string"
         },
         {
-          "$ref": "#/definitions/ScheduleRepeaterEntry_for_Boolean"
+          "$ref": "#/$defs/ScheduleRepeaterEntry_for_Boolean"
         }
       ]
     },
@@ -3635,7 +3633,7 @@
           "type": "string"
         },
         {
-          "$ref": "#/definitions/ScheduleRepeaterEntry_for_double"
+          "$ref": "#/$defs/ScheduleRepeaterEntry_for_double"
         }
       ]
     },
@@ -3652,7 +3650,7 @@
           "minimum": 0.0
         },
         "value": {
-          "$ref": "#/definitions/ScheduleRepeaterValue_for_Boolean"
+          "$ref": "#/$defs/ScheduleRepeaterValue_for_Boolean"
         }
       }
     },
@@ -3669,7 +3667,7 @@
           "minimum": 0.0
         },
         "value": {
-          "$ref": "#/definitions/ScheduleRepeaterValue_for_double"
+          "$ref": "#/$defs/ScheduleRepeaterValue_for_double"
         }
       }
     },
@@ -3682,7 +3680,7 @@
         "main": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ScheduleEntry_for_Boolean"
+            "$ref": "#/$defs/ScheduleEntry_for_Boolean"
           }
         }
       }
@@ -3696,7 +3694,7 @@
         "main": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ScheduleEntry_for_double"
+            "$ref": "#/$defs/ScheduleEntry_for_double"
           }
         }
       }
@@ -3725,7 +3723,7 @@
           "format": "double"
         },
         "type": {
-          "$ref": "#/definitions/ShadingObjectType"
+          "$ref": "#/$defs/ShadingObjectType"
         }
       }
     },
@@ -3759,7 +3757,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/ShadingObject"
+            "$ref": "#/$defs/ShadingObject"
           }
         },
         "start360": {
@@ -3779,7 +3777,7 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "WWHRS": {
               "type": [
@@ -3810,10 +3808,10 @@
           ],
           "properties": {
             "ColdWaterSource": {
-              "$ref": "#/definitions/ColdWaterSourceType"
+              "$ref": "#/$defs/ColdWaterSourceType"
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "rated_power": {
               "type": "number",
@@ -3833,7 +3831,7 @@
     "Showers": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/Shower"
+        "$ref": "#/$defs/Shower"
       }
     },
     "SimulationTime": {
@@ -3883,7 +3881,7 @@
           ]
         },
         "EnergySupply": {
-          "$ref": "#/definitions/EnergySupplyType"
+          "$ref": "#/$defs/EnergySupplyType"
         },
         "cooling_capacity": {
           "type": "number",
@@ -3905,7 +3903,7 @@
           "format": "double"
         },
         "type": {
-          "$ref": "#/definitions/SpaceCoolSystemType"
+          "$ref": "#/$defs/SpaceCoolSystemType"
         }
       },
       "additionalProperties": false
@@ -3935,12 +3933,12 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "HeatSource": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/SpaceHeatSystemHeatSource"
+                  "$ref": "#/$defs/SpaceHeatSystemHeatSource"
                 },
                 {
                   "type": "null"
@@ -4020,7 +4018,7 @@
               "type": "string"
             },
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "A_core": {
               "type": "number",
@@ -4108,7 +4106,7 @@
             "HeatSource": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/SpaceHeatSystemHeatSource"
+                  "$ref": "#/$defs/SpaceHeatSystemHeatSource"
                 },
                 {
                   "type": "null"
@@ -4148,7 +4146,7 @@
           ],
           "properties": {
             "HeatSource": {
-              "$ref": "#/definitions/SpaceHeatSystemHeatSource"
+              "$ref": "#/$defs/SpaceHeatSystemHeatSource"
             },
             "advanced_start": {
               "type": [
@@ -4172,7 +4170,7 @@
               "format": "int32"
             },
             "ecodesign_controller": {
-              "$ref": "#/definitions/EcoDesignController"
+              "$ref": "#/$defs/EcoDesignController"
             },
             "frac_convective": {
               "type": "number",
@@ -4219,7 +4217,7 @@
           ],
           "properties": {
             "HeatSource": {
-              "$ref": "#/definitions/SpaceHeatSystemHeatSource"
+              "$ref": "#/$defs/SpaceHeatSystemHeatSource"
             },
             "Control": {
               "type": [
@@ -4307,7 +4305,7 @@
       ],
       "properties": {
         "schedule": {
-          "$ref": "#/definitions/Schedule_for_double"
+          "$ref": "#/$defs/Schedule_for_double"
         }
       },
       "additionalProperties": false
@@ -4336,7 +4334,7 @@
         {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/ThermalBridgingDetails"
+            "$ref": "#/$defs/ThermalBridgingDetails"
           }
         },
         {
@@ -4475,7 +4473,7 @@
           ],
           "properties": {
             "EnergySupply": {
-              "$ref": "#/definitions/EnergySupplyType"
+              "$ref": "#/$defs/EnergySupplyType"
             },
             "SFP": {
               "type": "number",
@@ -4557,7 +4555,7 @@
       ],
       "properties": {
         "ColdWaterSource": {
-          "$ref": "#/definitions/ColdWaterSourceType"
+          "$ref": "#/$defs/ColdWaterSourceType"
         },
         "efficiencies": {
           "type": "array",
@@ -4581,7 +4579,7 @@
           }
         },
         "type": {
-          "$ref": "#/definitions/WwhrsType"
+          "$ref": "#/$defs/WwhrsType"
         },
         "utilisation_factor": {
           "type": "number",
@@ -4622,7 +4620,7 @@
         "additionalProperties": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/WaterHeatingEvent"
+            "$ref": "#/$defs/WaterHeatingEvent"
           }
         }
       }
@@ -4675,10 +4673,10 @@
           "format": "double"
         },
         "location": {
-          "$ref": "#/definitions/WaterPipeworkLocation"
+          "$ref": "#/$defs/WaterPipeworkLocation"
         },
         "pipe_contents": {
-          "$ref": "#/definitions/WaterPipeContentsType"
+          "$ref": "#/$defs/WaterPipeContentsType"
         },
         "surface_reflectivity": {
           "type": "boolean"
@@ -4733,12 +4731,12 @@
           "format": "double"
         },
         "location": {
-          "$ref": "#/definitions/WaterPipeworkLocation"
+          "$ref": "#/$defs/WaterPipeworkLocation"
         },
         "pipe_contents": {
           "anyOf": [
             {
-              "$ref": "#/definitions/WaterPipeContentsType"
+              "$ref": "#/$defs/WaterPipeContentsType"
             },
             {
               "type": "null"
@@ -4805,7 +4803,7 @@
           "format": "double"
         },
         "type": {
-          "$ref": "#/definitions/WindowShadingObjectType"
+          "$ref": "#/$defs/WindowShadingObjectType"
         }
       }
     },
@@ -4839,13 +4837,13 @@
         "BuildingElement": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/BuildingElement"
+            "$ref": "#/$defs/BuildingElement"
           }
         },
         "Control_WindowOpening": {
           "anyOf": [
             {
-              "$ref": "#/definitions/HeatSourceControlType"
+              "$ref": "#/$defs/HeatSourceControlType"
             },
             {
               "type": "null"
@@ -4855,7 +4853,7 @@
         "Lighting": {
           "anyOf": [
             {
-              "$ref": "#/definitions/ZoneLighting"
+              "$ref": "#/$defs/ZoneLighting"
             },
             {
               "type": "null"
@@ -4871,7 +4869,7 @@
         "SpaceHeatControl": {
           "anyOf": [
             {
-              "$ref": "#/definitions/SpaceHeatControlType"
+              "$ref": "#/$defs/SpaceHeatControlType"
             },
             {
               "type": "null"
@@ -4885,7 +4883,7 @@
           ]
         },
         "ThermalBridging": {
-          "$ref": "#/definitions/ThermalBridging"
+          "$ref": "#/$defs/ThermalBridging"
         },
         "area": {
           "type": "number",
