@@ -167,7 +167,7 @@ impl Default for FhsMeta {
             hem_version_date: NaiveDate::parse_from_str(HEM_VERSION_DATE, "%Y-%m-%d").unwrap(),
             fhs_version: FHS_VERSION,
             fhs_version_date: NaiveDate::parse_from_str(FHS_VERSION_DATE, "%Y-%m-%d").unwrap(),
-            software_version: Default::default(),
+            software_version: option_env!("HEM_SOFTWARE_VERSION"),
         }
     }
 }
