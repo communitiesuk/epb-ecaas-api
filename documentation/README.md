@@ -8,7 +8,7 @@ Note, the current schema was generated from the Rust HEM codebase with some smal
 
 ## How to generate static Redoc documentation
 
-The static HTML file was generated using Redocly. It can be regenerated using the below command:
+Static Redocly documentation can be generated from within this directory by running the following:
 
 ```
 npx @redocly/cli build-docs openapi.yaml
