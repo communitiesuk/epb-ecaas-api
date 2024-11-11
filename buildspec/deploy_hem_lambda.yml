@@ -16,7 +16,6 @@ phases:
       - export AWS_PROFILE=ci_server
 
       - cd lambda
-      - ls -al
       - aws lambda create-function --function-name hem-lambda --runtime provided.al2023 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server --handler rust.handler --zip-file fileb://./target/lambda/ecaas-lambda/bootstrap.zip
 
   post_build:
