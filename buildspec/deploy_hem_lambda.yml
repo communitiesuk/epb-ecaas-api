@@ -16,7 +16,7 @@ phases:
       - export AWS_PROFILE=ci_server
 
       - cd lambda
-      - cargo lambda deploy ecaas-lambda
+      - cargo lambda deploy hem-lambda
 
   post_build:
     commands:
