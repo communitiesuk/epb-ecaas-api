@@ -25,7 +25,7 @@ phases:
       - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
 
       # build the lambda
-      - cargo lambda build --arm64 -r
+      - cargo lambda build --arm64 -r --package ecaas-lambda
 
   post_build:
     commands:
