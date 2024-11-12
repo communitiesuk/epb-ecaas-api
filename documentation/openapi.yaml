@@ -25,12 +25,7 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - data
-              properties:
-                data:
-                  type: object
-                  $ref: "./fhs_input.schema.json"
+              $ref: "./fhs_input.schema.json"
       responses:
         "200":
           description: "A summary of a successful HEM calculation to determine compliance with the Future Homes Standard (FHS)."
