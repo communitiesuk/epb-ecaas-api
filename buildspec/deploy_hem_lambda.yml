@@ -6,7 +6,7 @@ phases:
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
 
-      - cd lambda
+      - find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
       - aws lambda create-function --function-name hem-lambda --runtime provided.al2023 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server --handler rust.handler --zip-file fileb://bootstrap.zip
 
   post_build:
