@@ -3,20 +3,11 @@ version: 0.2
 phases:
   build:
     commands:
-      # install rust and cargo
-      # -y option to accept default configuration
-      - curl https://sh.rustup.rs -sSf | sh -s -- -y
-
-      # configure shell so we can use "cargo" command
-      - . "$HOME/.cargo/env"
-
-      - pip3 install cargo-lambda
-
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
 
       - cd lambda
-      - aws lambda create-function --function-name hem-lambda --runtime provided.al2023 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server --handler rust.handler --zip-file fileb://./target/lambda/ecaas-lambda/bootstrap.zip
+      - aws lambda create-function --function-name hem-lambda --runtime provided.al2023 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server --handler rust.handler --zip-file fileb://bootstrap.zip
 
   post_build:
     commands:

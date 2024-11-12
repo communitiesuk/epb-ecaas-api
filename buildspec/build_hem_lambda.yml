@@ -36,4 +36,5 @@ phases:
 
 artifacts:
   files:
-    - "**/*"
+    - lambda/target/lambda/ecaas-lambda/bootstrap.zip
+  discard-paths: yes
