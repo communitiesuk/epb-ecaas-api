@@ -25,8 +25,9 @@ phases:
       - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
 
       # make HEM software version available in environment
-      - export HEM_SOFTWARE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION_hem_lambda_source_output
-      - printenv
+      - cd hem
+      - export HEM_SOFTWARE_VERSION=`git rev-parse HEAD`
+      - cd ..
 
       # build the lambda
       - cargo lambda build --arm64 -r --output-format zip
