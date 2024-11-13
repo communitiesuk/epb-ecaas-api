@@ -13,7 +13,11 @@ phases:
       # reference cargo directly
       - cargo --version
 
+      # install cargo-lambda
       - pip3 install cargo-lambda
+
+      # add package to assist building openssl crate
+      - yum install perl-IPC-Cmd
 
       # copy the weather file
       - aws s3 cp s3://ecaas-api-pipeline-storage/ecaas-api-pipeline/weather.epw lambda/src/weather.epw
