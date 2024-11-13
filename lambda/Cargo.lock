@@ -60,7 +60,7 @@ dependencies = [
  "paste",
  "rand",
  "rand_xoshiro",
- "thiserror",
+ "thiserror 1.0.68",
 ]
 
 [[package]]
@@ -75,7 +75,7 @@ dependencies = [
  "num-integer",
  "num-traits",
  "rand",
- "thiserror",
+ "thiserror 1.0.68",
 ]
 
 [[package]]
@@ -622,6 +622,7 @@ dependencies = [
  "statrs",
  "strum",
  "strum_macros",
+ "thiserror 2.0.3",
  "tracing",
  "tracing-subscriber",
 ]
@@ -1320,7 +1321,7 @@ dependencies = [
  "nalgebra 0.33.2",
  "num-traits",
  "simba 0.9.0",
- "thiserror",
+ "thiserror 1.0.68",
 ]
 
 [[package]]
@@ -1958,7 +1959,7 @@ dependencies = [
  "rand",
  "serde",
  "serde_json",
- "thiserror",
+ "thiserror 1.0.68",
  "time",
  "url",
  "uuid",
@@ -2076,7 +2077,7 @@ dependencies = [
  "serde_json",
  "serde_valid_derive",
  "serde_valid_literal",
- "thiserror",
+ "thiserror 1.0.68",
  "unicode-segmentation",
 ]
 
@@ -2282,7 +2283,7 @@ dependencies = [
  "fastrand",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2291,7 +2292,16 @@ version = "1.0.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02dd99dc800bbb97186339685293e1cc5d9df1f8fae2d0aecd9ff1c77efea892"
 dependencies = [
- "thiserror-impl",
+ "thiserror-impl 1.0.68",
+]
+
+[[package]]
+name = "thiserror"
+version = "2.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c006c85c7651b3cf2ada4584faa36773bd07bac24acfb39f3c431b36d7e667aa"
+dependencies = [
+ "thiserror-impl 2.0.3",
 ]
 
 [[package]]
@@ -2299,6 +2309,17 @@ name = "thiserror-impl"
 version = "1.0.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7c61ec9a6f64d2793d8a45faba21efbe3ced62a886d44c36a009b2b519b4c7e"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "2.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f077553d607adc1caf65430528a576c757a71ed73944b66ebb58ef2bbd243568"
 dependencies = [
  "proc-macro2",
  "quote",

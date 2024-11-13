@@ -1,4 +1,5 @@
 use chrono::NaiveDate;
+use hem::errors::HemError;
 use hem::output::{Output, SinkOutput};
 use hem::read_weather_file::weather_data_to_vec;
 use hem::{
@@ -9,6 +10,7 @@ use parking_lot::Mutex;
 use sentry::ClientOptions;
 use serde::Serialize;
 use serde_json::json;
+use std::error::Error as StdError;
 use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
 use std::str::from_utf8;
@@ -41,11 +43,12 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             .header("content-type", "application/json")
             .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
-        Err(e) => Response::builder()
-            .status(422)
-            .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
-            .map_err(Box::new)?,
+        Err(e @ HemError::InvalidRequest(_)) => error_422(e)?,
+        Err(e @ HemError::PanicInWrapper(_)) => error_500(e)?,
+        Err(e @ HemError::FailureInCalculation(_)) => error_500(e)?,
+        Err(e @ HemError::PanicInCalculation(_)) => error_500(e)?,
+        Err(e @ HemError::ErrorInPostprocessing(_)) => error_500(e)?,
+        Err(e @ HemError::GeneralPanic(_)) => error_500(e)?,
     };
 
     Ok(resp)
@@ -81,6 +84,31 @@ fn main() -> Result<(), Error> {
         .block_on(async { run(service_fn(function_handler)).await })?;
 
     Ok(())
+}
+
+fn error_422<E>(e: E) -> Result<Response<Body>, Error>
+where
+    E: StdError,
+{
+    error_x(e, 422)
+}
+
+fn error_500<E>(e: E) -> Result<Response<Body>, Error>
+where
+    E: StdError,
+{
+    error_x(e, 500)
+}
+
+fn error_x<E>(e: E, status: u16) -> Result<Response<Body>, Error>
+where
+    E: StdError,
+{
+    Ok(Response::builder()
+            .status(status)
+            .header("Content-Type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
+            .map_err(Box::new)?)
 }
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
