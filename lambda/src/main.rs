@@ -50,8 +50,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     Ok(resp)
 }
 
-#[tokio::main]
-async fn main() -> Result<(), Error> {
+fn main() -> Result<(), Error> {
     tracing::subscriber::set_global_default(
         tracing_subscriber::fmt()
             .json()
@@ -60,7 +59,13 @@ async fn main() -> Result<(), Error> {
             .finish(),
     )?;
 
-    run(service_fn(function_handler)).await
+    tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async { run(service_fn(function_handler)).await })?;
+
+    Ok(())
 }
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
