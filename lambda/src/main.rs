@@ -6,6 +6,7 @@ use hem::{
 };
 use lambda_http::{run, service_fn, Body, Error, Request, Response};
 use parking_lot::Mutex;
+use sentry::ClientOptions;
 use serde::Serialize;
 use serde_json::json;
 use std::io;
@@ -58,6 +59,20 @@ fn main() -> Result<(), Error> {
             .with_span_events(FmtSpan::CLOSE)
             .finish(),
     )?;
+
+    let _guard = match std::env::var("SENTRY_DSN") {
+        Ok(dsn) => Some(sentry::init((
+            dsn,
+            ClientOptions {
+                release: sentry::release_name!(),
+                ..Default::default()
+            },
+        ))),
+        Err(_) => {
+            tracing::warn!("Sentry DSN is not set up in this environment.");
+            None
+        }
+    };
 
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()

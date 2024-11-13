@@ -8,7 +8,9 @@ anyhow = "1.0.92"
 chrono = { version = "0.4.38", default-features = false, features = ["std", "serde"]}
 hem = { path = "hem", features = ["fhs"] }
 lambda_http = { version = "0.13.0", default-features = false, features = ["apigw_rest", "apigw_http"] }
+openssl = { version = "0.10.68", features = ["vendored"] }
 parking_lot = "0.12.3"
+sentry = "0.34.0"
 serde = "1.0.214"
 serde_json = { version = "1.0.132", features = ["preserve_order"] }
 tokio = { version = "1", features = ["macros"] }
