@@ -44,3 +44,8 @@ artifacts:
   files:
     - lambda/target/lambda/ecaas-lambda/bootstrap.zip
   discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.cargo/registry/**/*'
+    - 'lambda/target/**/*'
