@@ -116,7 +116,7 @@ where
     Ok(Response::builder()
             .status(status)
             .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": "422", "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?)
 }
 
