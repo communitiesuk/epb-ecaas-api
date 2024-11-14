@@ -44,18 +44,11 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
         Err(e @ HemError::InvalidRequest(_)) => error_422(e)?,
-        Err(e @ HemError::PanicInWrapper(_)) => {
-            sentry::capture_error(&e);
-            error_500(e)?
-        },
+        Err(e @ HemError::PanicInWrapper(_)) => error_500(e)?,
         Err(e @ HemError::FailureInCalculation(_)) => error_500(e)?,
-        Err(e @ HemError::PanicInCalculation(_)) => {
-            sentry::capture_error(&e);
-            error_500(e)?
-        },
+        Err(e @ HemError::PanicInCalculation(_)) => error_500(e)?,
         Err(e @ HemError::ErrorInPostprocessing(_)) => error_500(e)?,
         Err(e @ HemError::GeneralPanic(_)) => {
-            sentry::capture_error(&e);
             error_500(e)?
         },
     };
