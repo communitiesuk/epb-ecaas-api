@@ -1,7 +1,9 @@
 
-# epb-ecaas-api 
+# epb-ecaas-api
 
 This is where the buildspecs for building and deploying the HEM lambda live.
+
+This repo also contains the code for the lambda itslef inside the `lamda` directory.
 
 ## Contributing
 
