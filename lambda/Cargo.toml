@@ -17,3 +17,9 @@ tokio = { version = "1", features = ["macros"] }
 tracing = "0.1.40"
 tracing-subscriber = "0.3.18"
 uuid = { version = "1.11.0", features = ["v4", "serde"] }
+
+[profile.release]
+# keep debug symbols for now
+debug = true
+# adopt unwind behaviour for panics for now (remove when we have no more panics!)
+panic = "unwind"
