@@ -385,7 +385,8 @@
         },
         "start": {
           "type": "number",
-          "format": "double"
+          "format": "double",
+          "examples": [1]
         }
       },
       "additionalProperties": false
