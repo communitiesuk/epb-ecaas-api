@@ -10,8 +10,6 @@ build-lambda-zip: set-env-vars
 watch-lambda:
 	cargo lambda watch --release
 
-auth-watch-lambda:
-	aws-vault exec ecaas-integration -- cargo lambda watch
 
 invoke-lambda:
 	cargo lambda invoke --data-file examples/api_gateway_demo_fhs_bottomup.json

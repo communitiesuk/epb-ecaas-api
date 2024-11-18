@@ -20,6 +20,24 @@ use tracing_subscriber::fmt::format::FmtSpan;
 use uuid::Uuid;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
+    let config = aws_config::load_from_env().await;
+    let xray_client = xray::Client::new(&config);
+
+    let trace_segment = json!({
+      "name" : "Test trace segment",
+      "id" : "70de5b6f19ff9a0b",
+      "start_time" : 1.478293361271E9,
+      "trace_id" : "1-581cf771-a006649127e371903a2de979",
+      "in_progress": true
+    })
+    .to_string();
+
+    let xray_builder = xray_client
+        .put_trace_segments()
+        .set_trace_segment_documents(Some(vec![trace_segment]));
+
+    xray_builder.send().await?;
+
     // Extract some useful information from the request
     let input = match event.body() {
         Body::Empty => "",
@@ -57,31 +75,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     Ok(resp)
 }
 
-#[tokio::main]
-async fn send_x_ray_traces() {
-    {
-        let config = aws_config::load_from_env().await;
-        let xray_client = xray::Client::new(&config);
-
-        let trace_segment = json!({
-        "name" : "Test trace segment",
-        "id" : "70de5b6f19ff9a0b",
-        "start_time" : 1.478293361271E9,
-        "trace_id" : "1-581cf771-a006649127e371903a2de979",
-        "in_progress": true
-        })
-        .to_string();
-
-        let xray_builder = xray_client
-            .put_trace_segments()
-            .set_trace_segment_documents(Some(vec![trace_segment]));
-
-        xray_builder.send().await;
-    }
-}
-
 fn main() -> Result<(), Error> {
-    send_x_ray_traces();
     tracing::subscriber::set_global_default(
         tracing_subscriber::fmt()
             .json()
