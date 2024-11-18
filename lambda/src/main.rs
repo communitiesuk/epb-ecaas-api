@@ -36,7 +36,9 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         .put_trace_segments()
         .set_trace_segment_documents(Some(vec![trace_segment]));
 
-    xray_builder.send().await?;
+    let get_trace_segments = xray_builder.get_trace_segment_documents();
+
+    println!("trace_segments: {:?}", get_trace_segments);
 
     // Extract some useful information from the request
     let input = match event.body() {
