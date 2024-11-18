@@ -1,4 +1,3 @@
-use aws_sdk_xray as xray;
 use chrono::NaiveDate;
 use hem::errors::HemError;
 use hem::output::{Output, SinkOutput};
@@ -20,26 +19,6 @@ use tracing_subscriber::fmt::format::FmtSpan;
 use uuid::Uuid;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
-    let config = aws_config::load_from_env().await;
-    let xray_client = xray::Client::new(&config);
-
-    let trace_segment = json!({
-      "name" : "Test trace segment",
-      "id" : "70de5b6f19ff9a0b",
-      "start_time" : 1.478293361271E9,
-      "trace_id" : "1-581cf771-a006649127e371903a2de979",
-      "in_progress": true
-    })
-    .to_string();
-
-    let xray_builder = xray_client
-        .put_trace_segments()
-        .set_trace_segment_documents(Some(vec![trace_segment]));
-
-    let get_trace_segments = xray_builder.get_trace_segment_documents();
-
-    println!("trace_segments: {:?}", get_trace_segments);
-
     // Extract some useful information from the request
     let input = match event.body() {
         Body::Empty => "",
