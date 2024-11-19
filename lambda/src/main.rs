@@ -15,6 +15,7 @@ use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
 use std::str::from_utf8;
 use std::sync::Arc;
+use tracing::error;
 use tracing_subscriber::fmt::format::FmtSpan;
 use uuid::Uuid;
 
@@ -44,12 +45,30 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::default()}))?))
             .map_err(Box::new)?,
         Err(e @ HemError::InvalidRequest(_)) => error_422(e)?,
-        Err(e @ HemError::PanicInWrapper(_)) => error_500(e)?,
-        Err(e @ HemError::FailureInCalculation(_)) => error_500(e)?,
-        Err(e @ HemError::PanicInCalculation(_)) => error_500(e)?,
-        Err(e @ HemError::ErrorInPostprocessing(_)) => error_500(e)?,
+        Err(e @ HemError::PanicInWrapper(_)) => {
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
+        },
+        Err(e @ HemError::FailureInCalculation(_)) => {
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
+        },
+        Err(e @ HemError::PanicInCalculation(_)) => {
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
+        },
+        Err(e @ HemError::ErrorInPostprocessing(_)) => {
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
+        },
         Err(e @ HemError::GeneralPanic(_)) => {
-            error_500(e)?
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
         },
     };
 
