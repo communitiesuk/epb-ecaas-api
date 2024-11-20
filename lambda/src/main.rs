@@ -65,16 +65,17 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             error!("{:?}", e);
             response?
         },
-        Err(e @ HemError::GeneralPanic(_)) => {
-            let response = error_500(&e);
-            error!("{:?}", e);
-            response?
-        },
+
         Err(e @ HemError::NotImplemented(_)) => {
             let response = error_x(&e, 501);
             error!("{:?}", e);
             response?
         }
+        Err(e) => {
+            let response = error_500(&e);
+            error!("{:?}", e);
+            response?
+        },
     };
 
     Ok(resp)
