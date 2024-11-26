@@ -5,7 +5,9 @@ use hem::read_weather_file::weather_data_to_vec;
 use hem::{
     run_project, ProjectFlags, FHS_VERSION, FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
 };
-use lambda_http::{run, service_fn, Body, Error, Request, Response};
+use lambda_http::aws_lambda_events::apigw::{ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext};
+use lambda_http::request::RequestContext;
+use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 use parking_lot::Mutex;
 use sentry::ClientOptions;
 use serde::Serialize;
@@ -21,6 +23,7 @@ use uuid::Uuid;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     // Extract some useful information from the request
+    let aws_request_id = extract_aws_request_id(&event);
     let input = match event.body() {
         Body::Empty => "",
         Body::Text(text) => text.as_str(),
@@ -37,42 +40,42 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         Ok(Some(resp)) => Response::builder()
             .status(200)
             .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"data": resp, "meta": FhsMeta::default()}))?))
+            .body(Body::from(serde_json::to_string(&json!({"data": resp, "meta": FhsMeta::with_request_id(aws_request_id)}))?))
             .map_err(Box::new)?,
         Ok(None) => Response::builder()
             .status(503)
             .header("content-type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::default()}))?))
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::with_request_id(aws_request_id)}))?))
             .map_err(Box::new)?,
-        Err(e @ HemError::InvalidRequest(_)) => error_422(e)?,
+        Err(e @ HemError::InvalidRequest(_)) => error_422(e, aws_request_id)?,
         Err(e @ HemError::PanicInWrapper(_)) => {
-            let response = error_500(&e);
+            let response = error_500(&e, aws_request_id);
             error!("{:?}", e);
             response?
         },
         Err(e @ HemError::FailureInCalculation(_)) => {
-            let response = error_500(&e);
+            let response = error_500(&e, aws_request_id);
             error!("{:?}", e);
             response?
         },
         Err(e @ HemError::PanicInCalculation(_)) => {
-            let response = error_500(&e);
+            let response = error_500(&e, aws_request_id);
             error!("{:?}", e);
             response?
         },
         Err(e @ HemError::ErrorInPostprocessing(_)) => {
-            let response = error_500(&e);
+            let response = error_500(&e, aws_request_id);
             error!("{:?}", e);
             response?
         },
 
         Err(e @ HemError::NotImplemented(_)) => {
-            let response = error_x(&e, 501);
+            let response = error_x(&e, 501, aws_request_id);
             error!("{:?}", e);
             response?
         }
         Err(e) => {
-            let response = error_500(&e);
+            let response = error_500(&e, aws_request_id);
             error!("{:?}", e);
             response?
         },
@@ -113,29 +116,38 @@ fn main() -> Result<(), Error> {
     Ok(())
 }
 
-fn error_422<E>(e: E) -> Result<Response<Body>, Error>
+fn error_422<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
 where
     E: StdError,
 {
-    error_x(e, 422)
+    error_x(e, 422, aws_request_id)
 }
 
-fn error_500<E>(e: E) -> Result<Response<Body>, Error>
+fn error_500<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
 where
     E: StdError,
 {
-    error_x(e, 500)
+    error_x(e, 500, aws_request_id)
 }
 
-fn error_x<E>(e: E, status: u16) -> Result<Response<Body>, Error>
+fn error_x<E>(e: E, status: u16, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
 where
     E: StdError,
 {
     Ok(Response::builder()
             .status(status)
             .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()}], "meta": FhsMeta::default()}))?))
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()}], "meta": FhsMeta::with_request_id(aws_request_id)}))?))
             .map_err(Box::new)?)
+}
+
+fn extract_aws_request_id(event: &Request) -> Option<String> {
+    match event.extensions().request_context() {
+        RequestContext::ApiGatewayV2(ApiGatewayV2httpRequestContext { request_id, .. }) => {
+            request_id
+        },
+        RequestContext::ApiGatewayV1(ApiGatewayProxyRequestContext { request_id, .. }) => request_id,
+    }
 }
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
@@ -155,7 +167,11 @@ impl LambdaOutput {
 }
 
 impl Output for LambdaOutput {
-    fn writer_for_location_key(&self, location_key: &str, file_extension: &str) -> anyhow::Result<impl Write> {
+    fn writer_for_location_key(
+        &self,
+        location_key: &str,
+        file_extension: &str,
+    ) -> anyhow::Result<impl Write> {
         Ok(FileLikeStringWriter::new(
             self.0.clone(),
             location_key.to_string(),
@@ -165,7 +181,11 @@ impl Output for LambdaOutput {
 }
 
 impl Output for &LambdaOutput {
-    fn writer_for_location_key(&self, location_key: &str, file_extension: &str) -> anyhow::Result<impl Write> {
+    fn writer_for_location_key(
+        &self,
+        location_key: &str,
+        file_extension: &str,
+    ) -> anyhow::Result<impl Write> {
         <LambdaOutput as Output>::writer_for_location_key(self, location_key, file_extension)
     }
 }
@@ -205,8 +225,13 @@ impl Write for FileLikeStringWriter {
             if !output_string.is_empty() {
                 output_string.push_str("\n\n");
             }
-            output_string
-                .push_str(format!("Writing out file '{}' ({}):\n\n", self.location_key, self.file_extension).as_str());
+            output_string.push_str(
+                format!(
+                    "Writing out file '{}' ({}):\n\n",
+                    self.location_key, self.file_extension
+                )
+                .as_str(),
+            );
             self.has_output_file_header = true;
         }
         let utf8 = match from_utf8(buf) {
@@ -227,7 +252,7 @@ impl Write for FileLikeStringWriter {
     }
 }
 
-/// Metadata object containing versioning information for the HEM calculation. Corresponds to "FhsMeta" in the API specification.
+/// Metadata object containing versioning information for the HEM calculation, and a request ID. Corresponds to "FhsMeta" in the API specification.
 #[derive(Serialize)]
 struct FhsMeta {
     hem_version: &'static str,
@@ -236,6 +261,8 @@ struct FhsMeta {
     fhs_version_date: NaiveDate,
     #[serde(skip_serializing_if = "Option::is_none")]
     software_version: Option<&'static str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    ecaas_request_id: Option<String>,
 }
 
 impl Default for FhsMeta {
@@ -246,6 +273,16 @@ impl Default for FhsMeta {
             fhs_version: FHS_VERSION,
             fhs_version_date: NaiveDate::parse_from_str(FHS_VERSION_DATE, "%Y-%m-%d").unwrap(),
             software_version: option_env!("HEM_SOFTWARE_VERSION"),
+            ecaas_request_id: None,
+        }
+    }
+}
+
+impl FhsMeta {
+    fn with_request_id(request_id: Option<String>) -> Self {
+        Self {
+            ecaas_request_id: request_id,
+            ..Default::default()
         }
     }
 }
