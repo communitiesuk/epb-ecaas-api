@@ -93,15 +93,15 @@ fn main() -> Result<(), Error> {
             .finish(),
     )?;
 
-    let _guard = match std::env::var("SENTRY_DSN") {
-        Ok(dsn) => Some(sentry::init((
+    let _guard = match option_env!("SENTRY_DSN") {
+        Some(dsn) => Some(sentry::init((
             dsn,
             ClientOptions {
                 release: sentry::release_name!(),
                 ..Default::default()
             },
         ))),
-        Err(_) => {
+        None => {
             tracing::warn!("Sentry DSN is not set up in this environment.");
             None
         }
