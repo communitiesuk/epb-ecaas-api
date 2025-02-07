@@ -22,7 +22,7 @@ phases:
       - cd hem
 
       # run tests
-      - cargo test
+      - cargo test --all
 
 cache:
   paths:
