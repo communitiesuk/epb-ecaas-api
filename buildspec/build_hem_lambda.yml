@@ -25,7 +25,7 @@ phases:
       # enter lambda directory
       - cd lambda
 
-      # overwrite hem symlink to epb-home-energy-model location
+      # ensure hem symlink to epb-home-energy-model location
       - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
 
       # make HEM software version available in environment

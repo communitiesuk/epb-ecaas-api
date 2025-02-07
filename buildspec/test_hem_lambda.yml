@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      # install rust and cargo
+      # -y option to accept default configuration
+      - curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+      # configure shell so we can use "cargo" command
+      - . "$HOME/.cargo/env"
+
+      # add package to assist building openssl crate
+      - yum -y install perl-IPC-Cmd
+
+      # copy the weather file
+      - aws s3 cp s3://ecaas-api-pipeline-storage/ecaas-api-pipeline/weather.epw lambda/src/weather.epw
+
+      # enter directory for lambda, overwriting hem symlink
+      - cd lambda
+      - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
+      - cd hem
+
+      # run tests
+      - cargo test
+
+cache:
+  paths:
+    - '/root/.cargo/registry/**/*'
