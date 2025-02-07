@@ -10,9 +10,6 @@ phases:
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
 
-      # add package to assist building openssl crate
-      - yum -y install perl-IPC-Cmd
-
       # copy the weather file
       - aws s3 cp s3://ecaas-api-pipeline-storage/ecaas-api-pipeline/weather.epw lambda/src/weather.epw
 
