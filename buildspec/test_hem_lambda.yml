@@ -18,6 +18,9 @@ phases:
       - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
       - cd hem
 
+      # copy weather file into hem code
+      - cp ../src/weather.epw src/weather.epw
+
       # run tests
       - cargo test --all
 
