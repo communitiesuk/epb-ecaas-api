@@ -5,7 +5,9 @@ use hem::read_weather_file::weather_data_to_vec;
 use hem::{
     run_project, ProjectFlags, FHS_VERSION, FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
 };
-use lambda_http::aws_lambda_events::apigw::{ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext};
+use lambda_http::aws_lambda_events::apigw::{
+    ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
+};
 use lambda_http::request::RequestContext;
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 use parking_lot::Mutex;
@@ -36,7 +38,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let external_conditions =
         weather_data_to_vec(BufReader::new(Cursor::new(include_str!("./weather.epw")))).ok();
 
-    let resp = match run_project(input, output, external_conditions, &ProjectFlags::FHS_COMPLIANCE) {
+    let resp = match run_project(input, output, external_conditions, None, &ProjectFlags::FHS_COMPLIANCE) {
         Ok(Some(resp)) => Response::builder()
             .status(200)
             .header("Content-Type", "application/json")
@@ -145,8 +147,10 @@ fn extract_aws_request_id(event: &Request) -> Option<String> {
     match event.extensions().request_context() {
         RequestContext::ApiGatewayV2(ApiGatewayV2httpRequestContext { request_id, .. }) => {
             request_id
-        },
-        RequestContext::ApiGatewayV1(ApiGatewayProxyRequestContext { request_id, .. }) => request_id,
+        }
+        RequestContext::ApiGatewayV1(ApiGatewayProxyRequestContext { request_id, .. }) => {
+            request_id
+        }
     }
 }
 
