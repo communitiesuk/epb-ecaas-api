@@ -19,6 +19,8 @@ use std::io;
 use std::io::{BufReader, Cursor, ErrorKind, Write};
 use std::str::from_utf8;
 use std::sync::Arc;
+use resolve_products::resolve_products;
+use thiserror::Error;
 use tracing::error;
 use tracing_subscriber::fmt::format::FmtSpan;
 use uuid::Uuid;
@@ -37,6 +39,13 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
     let external_conditions =
         weather_data_to_vec(BufReader::new(Cursor::new(include_str!("./weather.epw")))).ok();
+
+    let input = match resolve_products(input) {
+        Ok(input) => input,
+        Err(e) => {
+            return error_422(ResolveProductError(e.to_string()), aws_request_id)
+        }
+    };
 
     let resp = match run_project(input, output, external_conditions, None, &ProjectFlags::FHS_COMPLIANCE) {
         Ok(Some(resp)) => Response::builder()
@@ -153,6 +162,10 @@ fn extract_aws_request_id(event: &Request) -> Option<String> {
         }
     }
 }
+
+#[derive(Debug, Error)]
+#[error("Error resolving products from PCDB: {0}")]
+struct ResolveProductError(String);
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
 /// can write to - this string can then be used as the response body for the Lambda.
