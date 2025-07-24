@@ -23,7 +23,7 @@ phases:
       - cd lambda
 
       # ensure hem symlink to epb-home-energy-model location
-      - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
+      - ln -sf $CODEBUILD_SRC_DIR_hem_core_source_output hem
 
       # make HEM software version available in environment
       - cd hem
