@@ -15,7 +15,7 @@ phases:
 
       # enter directory for lambda, overwriting hem symlink and setting up weather file in hem
       - cd lambda
-      - ln -sf $CODEBUILD_SRC_DIR_hem_lambda_source_output hem
+      - ln -sf $CODEBUILD_SRC_DIR_hem_core_source_output hem
       - cp src/weather.epw hem/src/weather.epw
 
       # run tests
