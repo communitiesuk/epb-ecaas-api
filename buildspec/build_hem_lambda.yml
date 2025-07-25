@@ -28,6 +28,10 @@ phases:
       # ensure pcdb symlink to epb-ecaas-pcdb location
       - ln -sf $CODEBUILD_SRC_DIR_resolve_pcdb_data_source_output pcdb
 
+      # temporarily output pcdb resolve-products directory
+      - ls -al pcdb
+      - ls -al pcdb/resolve-products
+
       # make HEM software version available in environment
       - cd hem
       - export HEM_SOFTWARE_VERSION=`git rev-parse HEAD`
