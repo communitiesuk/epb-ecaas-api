@@ -11,6 +11,7 @@ use lambda_http::aws_lambda_events::apigw::{
 use lambda_http::request::RequestContext;
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 use parking_lot::Mutex;
+use resolve_products::errors::ResolvePcdbProductsError;
 use sentry::ClientOptions;
 use serde::Serialize;
 use serde_json::json;
@@ -43,7 +44,12 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let input = match resolve_products(input) {
         Ok(input) => input,
         Err(e) => {
-            return error_422(ResolveProductError(e.to_string()), aws_request_id)
+            return if let ResolvePcdbProductsError::InvalidRequest(validation_error) = e {
+                // don't wrap in the resolve product error because this is just down to the request being invalid
+                error_422(validation_error, aws_request_id)
+            } else {
+                error_422(ResolveProductError(e.to_string()), aws_request_id)
+            };
         }
     };
 
