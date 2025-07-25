@@ -26,7 +26,7 @@ phases:
       - ln -sf $CODEBUILD_SRC_DIR_hem_core_source_output hem
 
       # ensure pcdb symlink to epb-ecaas-pcdb location
-      - ln -sf $CODEBUILD_SRC_DIR_resolve_pcdb_data_source_output pcdb
+#      - ln -sf $CODEBUILD_SRC_DIR_resolve_pcdb_data_source_output pcdb
 
       # temporarily output lambda directory
       - ls -al
