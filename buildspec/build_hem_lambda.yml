@@ -22,15 +22,6 @@ phases:
       # enter lambda directory
       - cd lambda
 
-      # ensure hem symlink to epb-home-energy-model location
-      - ln -sf $CODEBUILD_SRC_DIR_hem_core_source_output hem
-
-      # ensure pcdb symlink to epb-ecaas-pcdb location
-#      - ln -sf $CODEBUILD_SRC_DIR_resolve_pcdb_data_source_output pcdb
-
-      # temporarily output lambda directory
-      - ls -al
-
       # make HEM software version available in environment
       - cd hem
       - export HEM_SOFTWARE_VERSION=`git rev-parse HEAD`
