@@ -44,9 +44,9 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let input = match resolve_products(input) {
         Ok(input) => input,
         Err(e) => {
-            return if let ResolvePcdbProductsError::InvalidRequest(validation_error) = e {
+            return if let ResolvePcdbProductsError::InvalidRequest(_) = e {
                 // don't wrap in the resolve product error because this is just down to the request being invalid
-                error_422(validation_error, aws_request_id)
+                error_422(e, aws_request_id)
             } else {
                 error_422(ResolveProductError(e.to_string()), aws_request_id)
             };
