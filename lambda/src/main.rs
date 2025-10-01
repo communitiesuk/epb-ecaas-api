@@ -115,6 +115,7 @@ fn main() -> Result<(), Error> {
             dsn,
             ClientOptions {
                 release: sentry::release_name!(),
+                environment: Some(option_env!("SENTRY_ENVIRONMENT").unwrap_or("development").into()),
                 ..Default::default()
             },
         ))),
