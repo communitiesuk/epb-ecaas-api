@@ -23,9 +23,8 @@ phases:
       - cd lambda
 
       # make HEM software version available in environment
-      - cd hem
-      - export HEM_SOFTWARE_VERSION=`git rev-parse HEAD`
-      - cd ..
+      - export HEM_SOFTWARE_VERSION=`grep "^source.*home\-energy\-model" Cargo.lock | grep -oE "[0-9a-f]{7}" | head -1`
+      - echo "HEM_SOFTWARE_VERSION=$HEM_SOFTWARE_VERSION"
 
       # build the lambda
       - cargo lambda build --arm64 -r --output-format zip
