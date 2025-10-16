@@ -11,7 +11,7 @@ lambda_http = { version = "0.17.0", default-features = false, features = ["apigw
 openssl = { version = "0.10.74", features = ["vendored"] }
 parking_lot = "0.12.5"
 # resolve directly from github for now
-resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "main" }
+resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "0.34" }
 sentry = "0.45.0"
 serde = "1.0.228"
 serde_json = { version = "1.0.145", features = ["preserve_order"] }

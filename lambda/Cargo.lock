@@ -2611,7 +2611,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#16cccb2cbd48a0f62d96b4fb0102e854bc756cf4"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=0.34#eac20482c0363b458e81eda6a0a3d1902c7fcbbd"
 dependencies = [
  "indexmap",
  "itertools 0.14.0",
