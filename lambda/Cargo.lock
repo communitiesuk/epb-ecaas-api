@@ -1084,6 +1084,7 @@ checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 [[package]]
 name = "hem"
 version = "0.34.0-alpha"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#9acaab0dd7a80fa84fb985774d092975f5b84cc6"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -1962,9 +1963,9 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 
 [[package]]
 name = "openssl"
-version = "0.10.73"
+version = "0.10.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8505734d46c8ab1e19a1dce3aef597ad87dcb4c37e7188231769bd6bd51cebf8"
+checksum = "24ad14dd45412269e1a30f52ad8f0664f0f4f4a89ee8fe28c3b3527021ebb654"
 dependencies = [
  "bitflags",
  "cfg-if",
@@ -2003,9 +2004,9 @@ dependencies = [
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.109"
+version = "0.9.110"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90096e2e47630d78b7d1c20952dc621f957103f8bc2c8359ec81290d75238571"
+checksum = "0a9f0075ba3c21b09f8e8b2026584b1d18d49388648f2fbbf3c97ea8deced8e2"
 dependencies = [
  "cc",
  "libc",
@@ -2610,7 +2611,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git#16cccb2cbd48a0f62d96b4fb0102e854bc756cf4"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#16cccb2cbd48a0f62d96b4fb0102e854bc756cf4"
 dependencies = [
  "indexmap",
  "itertools 0.14.0",

@@ -6,20 +6,20 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.98"
 chrono = { version = "0.4.41", default-features = false, features = ["std", "serde"]}
-hem = { path = "hem", features = ["fhs"] }
+hem = { git = "https://github.com/communitiesuk/epb-home-energy-model.git", branch = "main", features = ["fhs"] }
 lambda_http = { version = "0.17.0", default-features = false, features = ["apigw_rest", "apigw_http"] }
-openssl = { version = "0.10.73", features = ["vendored"] }
-parking_lot = "0.12.4"
+openssl = { version = "0.10.74", features = ["vendored"] }
+parking_lot = "0.12.5"
 # resolve directly from github for now
-resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git" }
+resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "main" }
 sentry = "0.45.0"
-serde = "1.0.219"
-serde_json = { version = "1.0.140", features = ["preserve_order"] }
-thiserror = "2.0.12"
+serde = "1.0.228"
+serde_json = { version = "1.0.145", features = ["preserve_order"] }
+thiserror = "2.0.17"
 tokio = { version = "1", features = ["macros"] }
 tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["json"] }
-uuid = { version = "1.17.0", features = ["v4", "serde"] }
+tracing-subscriber = { version = "0.3.20", features = ["json"] }
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
 
 [profile.release]
 # keep debug symbols for now
