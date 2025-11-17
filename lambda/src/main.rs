@@ -32,7 +32,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let input = match event.body() {
         Body::Empty => "",
         Body::Text(text) => text.as_str(),
-        Body::Binary(_) => unimplemented!(),
+        _ => return error_415(UnsupportedBodyError("Non-text inputs are not accepted"), aws_request_id),
     }
     .as_bytes();
 
@@ -134,6 +134,13 @@ fn main() -> Result<(), Error> {
     Ok(())
 }
 
+fn error_415<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
+where
+    E: StdError,
+{
+    error_x(e, 415, aws_request_id)
+}
+
 fn error_422<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
 where
     E: StdError,
@@ -167,12 +174,17 @@ fn extract_aws_request_id(event: &Request) -> Option<String> {
         RequestContext::ApiGatewayV1(ApiGatewayProxyRequestContext { request_id, .. }) => {
             request_id
         }
+        _ => None
     }
 }
 
 #[derive(Debug, Error)]
 #[error("Error resolving products from PCDB: {0}")]
 struct ResolveProductError(String);
+
+#[derive(Debug, Error)]
+#[error("{0}")]
+struct UnsupportedBodyError(&'static str);
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
 /// can write to - this string can then be used as the response body for the Lambda.
