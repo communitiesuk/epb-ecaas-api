@@ -11,7 +11,7 @@ aws-sdk-dynamodb = "1.82.0"
 chrono = { version = "0.4.41", default-features = false, features = ["std", "serde"] }
 home-energy-model-wrapper-fhs = { git = "https://github.com/communitiesuk/epb-hem-wrapper-fhs" }
 lambda_http = { version = "1.0.1", default-features = false, features = ["apigw_rest", "apigw_http"] }
-openssl = { version = "0.10.74", features = ["vendored"] }
+openssl = { version = "0.10.79", features = ["vendored"] }
 parking_lot = "0.12.5"
 # resolve directly from github for now
 resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "main" }
