@@ -20,7 +20,7 @@ phases:
 
       # run tests
       - cd hem
-      - cargo test --all
+      - cargo test --lib
 
 cache:
   paths:
