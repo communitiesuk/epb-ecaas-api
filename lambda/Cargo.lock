@@ -2096,7 +2096,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model-wrapper-fhs"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=production#2b2b4661b130537b9b810ad676a2b9adb13fba09"
+source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=production#9592076b401d06375e782afe82f963ab0d8b1204"
 dependencies = [
  "anyhow",
  "approx",
