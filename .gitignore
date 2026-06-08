@@ -36,6 +36,7 @@ terraform.rc
 .DS_STORE
 .idea
 .env
+.idea
 
 # avoid committing the lambda zip file
 /api/lambda.zip

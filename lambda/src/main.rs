@@ -1,7 +1,10 @@
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
 use chrono::NaiveDate;
-use home_energy_model_wrapper_fhs::{run_wrappers, FhsFlags, FHS_VERSION, FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE, HemError, OutputWriter, SinkOutputWriter};
+use home_energy_model_wrapper_fhs::{
+    run_wrappers, FhsFlags, HemError, OutputWriter, SinkOutputWriter, FHS_VERSION,
+    FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
+};
 use lambda_http::aws_lambda_events::apigw::{
     ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
 };
@@ -69,11 +72,18 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let input = match resolve_products(input, get_global_client().await).await {
         Ok(input) => input,
         Err(e) => {
-            return if let ResolvePcdbProductsError::InvalidRequest(_) = e {
-                // don't wrap in the resolve product error because this is just down to the request being invalid
-                error_422(e, aws_request_id)
-            } else {
-                error_422(ResolveProductError(e.to_string()), aws_request_id)
+            return match e {
+                ResolvePcdbProductsError::InvalidRequest(_) => {
+                    // don't wrap in the resolve product error because this is just down to the request being invalid
+                    error_422(e, aws_request_id)
+                }
+                ResolvePcdbProductsError::AccessError(_) => {
+                    error_x(ResolveProductError("Error encountered when accessing HEM database products. Try again in a few minutes.".into()), 503, aws_request_id)
+                }
+                ResolvePcdbProductsError::DeserializeError(_) | ResolvePcdbProductsError::InUseFactorEntryMissingError | ResolvePcdbProductsError::InUseFactorsInaccessibleError => {
+                    error_500(ResolveProductError("Error encountered when accessing HEM database information".into()), aws_request_id)
+                }
+                _ => error_422(ResolveProductError(e.to_string()), aws_request_id)
             };
         }
     };
