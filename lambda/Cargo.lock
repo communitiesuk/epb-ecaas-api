@@ -2040,7 +2040,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#5cadc0a7035419865ac5da17bc8267ea58bec25b"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#62d3df705690f33b3fc3e905c9971d4f3743bf2e"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -2085,7 +2085,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model-wrapper-fhs"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#1397b08bcf83f8827a1a3df025241df5461259b1"
+source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#e660d179e797c08782478f5e9b411317f7a48b7d"
 dependencies = [
  "anyhow",
  "approx",
