@@ -16,7 +16,7 @@ openssl = { version = "0.10.81", features = ["vendored"] }
 parking_lot = "0.12.5"
 # resolve directly from github for now
 resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "main" }
-sentry = "0.47.0"
+sentry = "0.48.0"
 serde = "1.0.228"
 serde_json = { version = "1.0.145", features = ["preserve_order"] }
 thiserror = "2.0.17"
