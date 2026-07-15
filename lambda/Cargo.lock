@@ -3959,11 +3959,10 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#a5a4977768f01a0bf39a71acb638e4955d54064d"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#b9edccf0bee2dae9a526d07efafb9826dcc3ef63"
 dependencies = [
  "aws-sdk-dynamodb",
- "indexmap 2.14.0",
- "itertools 0.14.0",
+ "itertools 0.15.0",
  "jsonpath-rust",
  "jsonschema 0.47.0",
  "rust_decimal",

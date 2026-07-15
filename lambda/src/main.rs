@@ -81,6 +81,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
                     error_x(ResolveProductError("Error encountered when accessing HEM database products. Try again in a few minutes.".into()), 503, aws_request_id)
                 }
                 ResolvePcdbProductsError::DeserializeError(_) | ResolvePcdbProductsError::InUseFactorEntryMissingError | ResolvePcdbProductsError::InUseFactorsInaccessibleError => {
+                    report_error(&e);
                     error_500(ResolveProductError("Error encountered when accessing HEM database information".into()), aws_request_id)
                 }
                 _ => error_422(ResolveProductError(e.to_string()), aws_request_id)
@@ -102,33 +103,33 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         Err(e @ HemError::InvalidRequest(_)) => error_422(e, aws_request_id)?,
         Err(e @ HemError::PanicInWrapper(_)) => {
             let response = error_500(&e, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         },
         Err(e @ HemError::FailureInCalculation(_)) => {
             let response = error_500(&e, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         },
         Err(e @ HemError::PanicInCalculation(_)) => {
             let response = error_500(&e, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         },
         Err(e @ HemError::ErrorInPostprocessing(_)) => {
             let response = error_500(&e, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         },
 
         Err(e @ HemError::NotImplemented(_)) => {
             let response = error_x(&e, 501, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         }
         Err(e) => {
             let response = error_500(&e, aws_request_id);
-            error!("{:?}", e);
+            report_error(&e);
             response?
         },
     };
@@ -171,6 +172,11 @@ fn main() -> Result<(), Error> {
         .block_on(async { run(service_fn(function_handler)).await })?;
 
     Ok(())
+}
+
+fn report_error<T: std::error::Error>(e: &T) {
+    error!("{e:?}");
+    sentry::capture_error(&e);
 }
 
 fn error_415<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
