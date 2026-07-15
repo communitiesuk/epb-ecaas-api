@@ -152,7 +152,7 @@ fn main() -> Result<(), Error> {
                 release: sentry::release_name!(),
                 environment: Some(
                     option_env!("SENTRY_ENVIRONMENT")
-                        .unwrap_or("development")
+                        .unwrap_or("unknown")
                         .into(),
                 ),
                 ..Default::default()
