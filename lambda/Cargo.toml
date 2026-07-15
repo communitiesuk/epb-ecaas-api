@@ -2,6 +2,7 @@
 name = "ecaas-lambda"
 version = "0.1.0"
 rust-version = "1.85.0"
+resolver = "3"
 edition = "2021"
 
 [dependencies]
