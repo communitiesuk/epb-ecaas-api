@@ -152,8 +152,8 @@ fn main() -> Result<(), Error> {
             ClientOptions {
                 release: sentry::release_name!(),
                 environment: Some(
-                    option_env!("SENTRY_ENVIRONMENT")
-                        .unwrap_or("unknown")
+                    std::env::var("SENTRY_ENVIRONMENT")
+                        .unwrap_or("unknown".to_owned())
                         .into(),
                 ),
                 ..Default::default()
