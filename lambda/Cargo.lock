@@ -931,9 +931,9 @@ checksum = "dc0b364ead1874514c8c2855ab558056ebfeb775653e7ae45ff72f28f8f3166c"
 
 [[package]]
 name = "borsh"
-version = "1.7.0"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f3f6da4992df95bbcd9af42a6c7dcb994498fc9048230405f3b36ff7cd3f145"
+checksum = "a88b7ea17d208c4193f2c1e6de3c35fe71f98c96982d5ced308bdcc749ff6e1f"
 dependencies = [
  "borsh-derive",
  "bytes",
@@ -942,9 +942,9 @@ dependencies = [
 
 [[package]]
 name = "borsh-derive"
-version = "1.7.0"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ae8fb4fb5740e4b2c4884ff95f5f32f5e8479db1e8fd8eb49ddbe09eb09bb7c"
+checksum = "d8f347189c62a579b8cd5f80714efa178f52e461dc2e6d701d264f5ff22e566c"
 dependencies = [
  "once_cell",
  "proc-macro-crate",
@@ -1056,9 +1056,9 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "cfg_aliases"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
+checksum = "f079e83a288787bcd14a6aea84cee5c87a67c5a3e660c30f557a3d24761b3527"
 
 [[package]]
 name = "chacha20"
@@ -1389,27 +1389,6 @@ dependencies = [
  "rustc_version",
  "syn 2.0.119",
  "unicode-xid 0.2.6",
-]
-
-[[package]]
-name = "differential-equations"
-version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d59c6f4160bf75916dd69b58f6323171dd22e2e4a68cf7e31b1b2bf54b7433a"
-dependencies = [
- "differential-equations-derive",
- "simba 0.9.1",
-]
-
-[[package]]
-name = "differential-equations-derive"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68a7fe2019075c678918caa15cc0be080f0c4400ae58256aaf31ab7059b4920b"
-dependencies = [
- "proc-macro2 1.0.106",
- "quote 1.0.46",
- "syn 2.0.119",
 ]
 
 [[package]]
@@ -2071,7 +2050,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#37e70a5f3dbdf6382fa6f18fe7c3658da315ccdf"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#4aa5c24dc4c3845f703a2079120b1847d0dba7b3"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -2083,7 +2062,6 @@ dependencies = [
  "convert_case 0.11.0",
  "csv",
  "derivative",
- "differential-equations",
  "eqsolver",
  "erased-serde",
  "field_types",
@@ -2096,6 +2074,7 @@ dependencies = [
  "jsonschema 0.47.0",
  "monostate",
  "nalgebra 0.34.2",
+ "ndarray",
  "ordered-float",
  "parking_lot",
  "petgraph",
@@ -2116,7 +2095,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model-wrapper-fhs"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#683742a3e315902979372f891ffae94d8b85b754"
+source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#211769150eed01fc09dc34ad46b8122eafdb2839"
 dependencies = [
  "anyhow",
  "approx",
@@ -3015,6 +2994,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "ndarray"
+version = "0.17.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "520080814a7a6b4a6e9070823bb24b4531daac8c4627e08ba5de8c5ef2f2752d"
+dependencies = [
+ "matrixmultiply",
+ "num-complex",
+ "num-integer",
+ "num-traits",
+ "portable-atomic",
+ "portable-atomic-util",
+ "rawpointer",
+]
+
+[[package]]
 name = "nix"
 version = "0.31.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3536,6 +3530,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "portable-atomic"
+version = "1.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c33a9471896f1c69cecef8d20cbe2f7accd12527ce60845ff44c153bb2a21b49"
+
+[[package]]
+name = "portable-atomic-util"
+version = "0.2.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c2a106d1259c23fac8e543272398ae0e3c0b8d33c88ed73d0cc71b0f1d902618"
+dependencies = [
+ "portable-atomic",
+]
+
+[[package]]
 name = "potential_utf"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3952,7 +3961,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#5f4eb1d1f94d4f4cec8f67d84a7cce2dbc36d1a8"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#0fc82ec132f113597f864ce39f61322794eae700"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
@@ -4991,9 +5000,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "tokio"
-version = "1.52.3"
+version = "1.53.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8fc7f01b389ac15039e4dc9531aa973a135d7a4135281b12d7c1bc79fd57fffe"
+checksum = "d988bcd52dbe076d3d46903332f58c912b87a2c49b1428419a5845154762ffee"
 dependencies = [
  "bytes",
  "libc",
@@ -5008,9 +5017,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-macros"
-version = "2.7.0"
+version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "385a6cb71ab9ab790c5fe8d67f1645e6c450a7ce006a33de03daa956cf70a496"
+checksum = "6328af13490e73a9b4694030fafd93f8c8c6a9dede33e821c3fc63eddf8042ba"
 dependencies = [
  "proc-macro2 1.0.106",
  "quote 1.0.46",
