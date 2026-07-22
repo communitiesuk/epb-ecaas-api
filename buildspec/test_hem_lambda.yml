@@ -7,9 +7,6 @@ phases:
       # -y option to accept default configuration
       - curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-      # install just
-      - cargo install just
-
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
 
