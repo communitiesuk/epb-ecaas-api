@@ -10,6 +10,7 @@ anyhow = "1.0.98"
 aws-config = "1.8.15"
 aws-sdk-dynamodb = "1.82.0"
 chrono = { version = "0.4.41", default-features = false, features = ["std", "serde"] }
+constcat = "0.6.1"
 home-energy-model-wrapper-fhs = { git = "https://github.com/communitiesuk/epb-hem-wrapper-fhs" }
 lambda_http = { version = "1.0.1", default-features = false, features = ["apigw_rest", "apigw_http"] }
 openssl = { version = "0.10.81", features = ["vendored"] }

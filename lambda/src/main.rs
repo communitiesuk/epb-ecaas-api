@@ -1,6 +1,7 @@
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
 use chrono::NaiveDate;
+use constcat::concat;
 use home_energy_model_wrapper_fhs::{
     run_wrappers, FhsFlags, HemError, OutputWriter, SinkOutputWriter, FHS_VERSION,
     FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
@@ -16,6 +17,7 @@ use resolve_products::resolve_products;
 use sentry::ClientOptions;
 use serde::Serialize;
 use serde_json::json;
+use std::borrow::Cow;
 use std::error::Error as StdError;
 use std::io;
 use std::io::{ErrorKind, Write};
@@ -153,8 +155,11 @@ fn main() -> Result<(), Error> {
                 release: sentry::release_name!(),
                 environment: Some(
                     std::env::var("SENTRY_ENVIRONMENT")
-                        .unwrap_or("unknown".to_owned())
-                        .into(),
+                        .map(|env| Cow::Owned(format!("{ERROR_REPORTING_APP_PREFIX}-{env}")))
+                        .unwrap_or(Cow::Borrowed(concat!(
+                            ERROR_REPORTING_APP_PREFIX,
+                            "-unknown"
+                        ))),
                 ),
                 ..Default::default()
             },
@@ -173,6 +178,8 @@ fn main() -> Result<(), Error> {
 
     Ok(())
 }
+
+const ERROR_REPORTING_APP_PREFIX: &str = "ecaas-fhs-api";
 
 fn report_error<T: std::error::Error>(e: &T) {
     error!("{e:?}");
