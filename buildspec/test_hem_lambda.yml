@@ -21,6 +21,7 @@ phases:
       # run tests
       - cd hem
       - cargo test --lib
+      - cargo test --test e2e -- --nocapture
 
 cache:
   paths:
