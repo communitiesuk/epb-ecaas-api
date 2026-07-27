@@ -1,10 +1,15 @@
+mod errors;
+pub(crate) mod fhs;
+
+use crate::errors::{
+    error_415, error_422, error_500, error_x, ResolveProductError, UnsupportedBodyError,
+};
+use crate::fhs::FhsMeta;
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
-use chrono::NaiveDate;
 use constcat::concat;
 use home_energy_model_wrapper_fhs::{
-    run_wrappers, FhsFlags, HemError, OutputWriter, SinkOutputWriter, FHS_VERSION,
-    FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE,
+    run_wrappers, FhsFlags, HemError, OutputWriter, SinkOutputWriter,
 };
 use lambda_http::aws_lambda_events::apigw::{
     ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
@@ -15,19 +20,15 @@ use parking_lot::Mutex;
 use resolve_products::errors::ResolvePcdbProductsError;
 use resolve_products::resolve_products;
 use sentry::ClientOptions;
-use serde::Serialize;
 use serde_json::json;
 use std::borrow::Cow;
-use std::error::Error as StdError;
 use std::io;
 use std::io::{ErrorKind, Write};
 use std::str::from_utf8;
 use std::sync::Arc;
-use thiserror::Error;
 use tokio::sync::OnceCell;
 use tracing::error;
 use tracing_subscriber::fmt::format::FmtSpan;
-use uuid::Uuid;
 
 static DYNAMO_DB_CLIENT: OnceCell<Client> = OnceCell::const_new();
 
@@ -62,7 +63,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         Body::Text(text) => text.as_str(),
         _ => {
             return error_415(
-                UnsupportedBodyError("Non-text inputs are not accepted"),
+                UnsupportedBodyError::new("Non-text inputs are not accepted"),
                 aws_request_id,
             )
         }
@@ -80,13 +81,13 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
                     error_422(e, aws_request_id)
                 }
                 ResolvePcdbProductsError::AccessError(_) => {
-                    error_x(ResolveProductError("Error encountered when accessing HEM database products. Try again in a few minutes.".into()), 503, aws_request_id)
+                    error_x(ResolveProductError::new("Error encountered when accessing HEM database products. Try again in a few minutes."), 503, aws_request_id)
                 }
                 ResolvePcdbProductsError::DeserializeError(_) | ResolvePcdbProductsError::InUseFactorEntryMissingError | ResolvePcdbProductsError::InUseFactorsInaccessibleError => {
                     report_error(&e);
-                    error_500(ResolveProductError("Error encountered when accessing HEM database information".into()), aws_request_id)
+                    error_500(ResolveProductError::new("Error encountered when accessing HEM database information"), aws_request_id)
                 }
-                _ => error_422(ResolveProductError(e.to_string()), aws_request_id)
+                _ => error_422(ResolveProductError::new(e.to_string()), aws_request_id)
             };
         }
     };
@@ -186,38 +187,6 @@ fn report_error<T: std::error::Error>(e: &T) {
     sentry::capture_error(&e);
 }
 
-fn error_415<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
-where
-    E: StdError,
-{
-    error_x(e, 415, aws_request_id)
-}
-
-fn error_422<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
-where
-    E: StdError,
-{
-    error_x(e, 422, aws_request_id)
-}
-
-fn error_500<E>(e: E, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
-where
-    E: StdError,
-{
-    error_x(e, 500, aws_request_id)
-}
-
-fn error_x<E>(e: E, status: u16, aws_request_id: Option<String>) -> Result<Response<Body>, Error>
-where
-    E: StdError,
-{
-    Ok(Response::builder()
-            .status(status)
-            .header("Content-Type", "application/json")
-            .body(Body::from(serde_json::to_string(&json!({"errors": [{"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()}], "meta": FhsMeta::with_request_id(aws_request_id)}))?))
-            .map_err(Box::new)?)
-}
-
 fn extract_aws_request_id(event: &Request) -> Option<String> {
     match event.extensions().request_context() {
         RequestContext::ApiGatewayV2(ApiGatewayV2httpRequestContext { request_id, .. }) => {
@@ -229,14 +198,6 @@ fn extract_aws_request_id(event: &Request) -> Option<String> {
         _ => None,
     }
 }
-
-#[derive(Debug, Error)]
-#[error("Error resolving products from PCDB: {0}")]
-struct ResolveProductError(String);
-
-#[derive(Debug, Error)]
-#[error("{0}")]
-struct UnsupportedBodyError(&'static str);
 
 /// This output uses a shared string that individual "file" writers (the FileLikeStringWriter type)
 /// can write to - this string can then be used as the response body for the Lambda.
@@ -341,40 +302,5 @@ impl Write for FileLikeStringWriter {
 
     fn flush(&mut self) -> std::io::Result<()> {
         Ok(())
-    }
-}
-
-/// Metadata object containing versioning information for the HEM calculation, and a request ID. Corresponds to "FhsMeta" in the API specification.
-#[derive(Serialize)]
-struct FhsMeta {
-    hem_version: &'static str,
-    hem_version_date: NaiveDate,
-    fhs_version: &'static str,
-    fhs_version_date: NaiveDate,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    software_version: Option<&'static str>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    ecaas_request_id: Option<String>,
-}
-
-impl Default for FhsMeta {
-    fn default() -> Self {
-        Self {
-            hem_version: HEM_VERSION,
-            hem_version_date: NaiveDate::parse_from_str(HEM_VERSION_DATE, "%Y-%m-%d").unwrap(),
-            fhs_version: FHS_VERSION,
-            fhs_version_date: NaiveDate::parse_from_str(FHS_VERSION_DATE, "%Y-%m-%d").unwrap(),
-            software_version: option_env!("HEM_SOFTWARE_VERSION"),
-            ecaas_request_id: None,
-        }
-    }
-}
-
-impl FhsMeta {
-    fn with_request_id(request_id: Option<String>) -> Self {
-        Self {
-            ecaas_request_id: request_id,
-            ..Default::default()
-        }
     }
 }
