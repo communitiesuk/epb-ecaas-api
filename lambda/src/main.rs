@@ -1,23 +1,18 @@
 mod errors;
 pub(crate) mod fhs;
 
-use crate::errors::{
-    error_415, error_422, error_500, error_x, ResolveProductError, UnsupportedBodyError,
-};
+use crate::errors::{error_415_legacy, response_for_error, ApiError, UnsupportedBodyError};
 use crate::fhs::FhsMeta;
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
 use constcat::concat;
-use home_energy_model_wrapper_fhs::{
-    run_wrappers, FhsFlags, HemError, OutputWriter, SinkOutputWriter,
-};
+use home_energy_model_wrapper_fhs::{run_wrappers, FhsFlags, OutputWriter, SinkOutputWriter};
 use lambda_http::aws_lambda_events::apigw::{
     ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
 };
 use lambda_http::request::RequestContext;
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 use parking_lot::Mutex;
-use resolve_products::errors::ResolvePcdbProductsError;
 use resolve_products::resolve_products;
 use sentry::ClientOptions;
 use serde_json::json;
@@ -62,7 +57,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         Body::Empty => "",
         Body::Text(text) => text.as_str(),
         _ => {
-            return error_415(
+            return error_415_legacy(
                 UnsupportedBodyError::new("Non-text inputs are not accepted"),
                 aws_request_id,
             )
@@ -75,20 +70,13 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let input = match resolve_products(input, get_global_client().await).await {
         Ok(input) => input,
         Err(e) => {
-            return match e {
-                ResolvePcdbProductsError::InvalidRequest(_) => {
-                    // don't wrap in the resolve product error because this is just down to the request being invalid
-                    error_422(e, aws_request_id)
-                }
-                ResolvePcdbProductsError::AccessError(_) => {
-                    error_x(ResolveProductError::new("Error encountered when accessing HEM database products. Try again in a few minutes."), 503, aws_request_id)
-                }
-                ResolvePcdbProductsError::DeserializeError(_) | ResolvePcdbProductsError::InUseFactorEntryMissingError | ResolvePcdbProductsError::InUseFactorsInaccessibleError => {
-                    report_error(&e);
-                    error_500(ResolveProductError::new("Error encountered when accessing HEM database information"), aws_request_id)
-                }
-                _ => error_422(ResolveProductError::new(e.to_string()), aws_request_id)
-            };
+            let (response, api_error) =
+                response_for_error(Box::new(e) as Box<dyn std::error::Error>, aws_request_id)?;
+            if let Some(api_error) = api_error {
+                report_api_error(&api_error);
+            }
+
+            return Ok(response);
         }
     };
 
@@ -103,38 +91,17 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             .header("content-type", "application/json")
             .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::with_request_id(aws_request_id)}))?))
             .map_err(Box::new)?,
-        Err(e @ HemError::InvalidRequest(_)) => error_422(e, aws_request_id)?,
-        Err(e @ HemError::PanicInWrapper(_)) => {
-            let response = error_500(&e, aws_request_id);
-            report_error(&e);
-            response?
-        },
-        Err(e @ HemError::FailureInCalculation(_)) => {
-            let response = error_500(&e, aws_request_id);
-            report_error(&e);
-            response?
-        },
-        Err(e @ HemError::PanicInCalculation(_)) => {
-            let response = error_500(&e, aws_request_id);
-            report_error(&e);
-            response?
-        },
-        Err(e @ HemError::ErrorInPostprocessing(_)) => {
-            let response = error_500(&e, aws_request_id);
-            report_error(&e);
-            response?
-        },
-
-        Err(e @ HemError::NotImplemented(_)) => {
-            let response = error_x(&e, 501, aws_request_id);
-            report_error(&e);
-            response?
-        }
         Err(e) => {
-            let response = error_500(&e, aws_request_id);
-            report_error(&e);
-            response?
-        },
+            let (response, api_error) = response_for_error(
+                Box::new(e) as Box<dyn std::error::Error>,
+                aws_request_id,
+            )?;
+            if let Some(api_error) = api_error {
+                report_api_error(&api_error);
+            }
+
+            response
+        }
     };
 
     Ok(resp)
@@ -180,9 +147,14 @@ fn main() -> Result<(), Error> {
 
 const ERROR_REPORTING_APP_PREFIX: &str = "ecaas-fhs-api";
 
-fn report_error<T: std::error::Error>(e: &T) {
-    error!("{e:?}");
-    sentry::capture_error(&e);
+fn report_api_error(api_error: &ApiError) {
+    error!(
+        "{} {} reported with details {:?}",
+        api_error.status(),
+        api_error.title().unwrap_or("Unclassified error"),
+        api_error.error()
+    );
+    sentry::capture_error(api_error.error());
 }
 
 fn extract_aws_request_id(event: &Request) -> Option<String> {
