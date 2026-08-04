@@ -6,7 +6,7 @@ phases:
       rust: latest
     commands:
       - rustup update stable
-      - rustup default stables
+      - rustup default stable
       - rustc --version
   build:
     commands:
