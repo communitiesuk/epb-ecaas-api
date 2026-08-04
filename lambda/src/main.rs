@@ -152,9 +152,9 @@ fn main() -> Result<(), Error> {
     let _guard = match option_env!("SENTRY_DSN") {
         Some(dsn) => Some(sentry::init((
             dsn,
-            ClientOptions {
-                release: sentry::release_name!(),
-                environment: Some(
+            ClientOptions::new()
+                .maybe_release(sentry::release_name!())
+                .environment(
                     std::env::var("SENTRY_ENVIRONMENT")
                         .map(|env| Cow::Owned(format!("{ERROR_REPORTING_APP_PREFIX}-{env}")))
                         .unwrap_or(Cow::Borrowed(concat!(
@@ -162,8 +162,6 @@ fn main() -> Result<(), Error> {
                             "-unknown"
                         ))),
                 ),
-                ..Default::default()
-            },
         ))),
         None => {
             tracing::warn!("Sentry DSN is not set up in this environment.");
