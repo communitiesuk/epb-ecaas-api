@@ -20,7 +20,7 @@ phases:
       - cargo --version
 
       # install cargo-lambda
-      - pip3 install cargo-lambda
+      - curl -fsSL https://cargo-lambda.info/install.sh | sh
 
       # enter lambda directory
       - cd lambda
