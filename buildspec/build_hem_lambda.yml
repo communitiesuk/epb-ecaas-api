@@ -4,12 +4,15 @@ env:
   shell: bash
 
 phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stable
+      - rustc --version
   build:
     commands:
-      # install rust and cargo
-      # -y option to accept default configuration
-      - curl https://sh.rustup.rs -sSf | sh -s -- -y
-
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
       
