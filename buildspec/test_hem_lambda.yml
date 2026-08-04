@@ -1,12 +1,15 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stables
+      - rustc --version
   build:
     commands:
-      # install rust and cargo
-      # -y option to accept default configuration
-      - curl https://sh.rustup.rs -sSf | sh -s -- -y
-
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
 
