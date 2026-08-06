@@ -20,7 +20,7 @@ use crate::errors::hem_database::HemDatabaseLayerErrorClassification;
 use crate::fhs::FhsMeta;
 use enum_assoc::Assoc;
 use home_energy_model_wrapper_fhs::HemError;
-use lambda_http::{http::StatusCode, Body, Error, Response};
+use lambda_http::{Body, Error, Response, http::StatusCode};
 use resolve_products::errors::ResolvePcdbProductsError;
 use serde_json::json;
 use std::borrow::Cow;
@@ -213,8 +213,8 @@ mod hem_database {
     use crate::errors::{FhsApiErrorClassification, LegacyClassification};
     use enum_assoc::Assoc;
     use lambda_http::http::StatusCode;
-    use resolve_products::errors::{ResolvePcdbProductsError, SingleOrList};
     use resolve_products::FuelType;
+    use resolve_products::errors::{ResolvePcdbProductsError, SingleOrList};
 
     #[derive(Assoc, Debug)]
     #[func(pub fn code(&self) -> u16)]
