@@ -1,17 +1,17 @@
 mod errors;
 pub(crate) mod fhs;
 
-use crate::errors::{error_415_legacy, response_for_error, ApiError, UnsupportedBodyError};
+use crate::errors::{ApiError, UnsupportedBodyError, error_415_legacy, response_for_error};
 use crate::fhs::FhsMeta;
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
 use constcat::concat;
-use home_energy_model_wrapper_fhs::{run_wrappers, FhsFlags, OutputWriter, SinkOutputWriter};
+use home_energy_model_wrapper_fhs::{FhsFlags, OutputWriter, SinkOutputWriter, run_wrappers};
 use lambda_http::aws_lambda_events::apigw::{
     ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
 };
 use lambda_http::request::RequestContext;
-use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
+use lambda_http::{Body, Error, Request, RequestExt, Response, run, service_fn};
 use parking_lot::Mutex;
 use resolve_products::resolve_products;
 use sentry::ClientOptions;
@@ -60,7 +60,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
             return error_415_legacy(
                 UnsupportedBodyError::new("Non-text inputs are not accepted"),
                 aws_request_id,
-            )
+            );
         }
     }
     .as_bytes();
@@ -80,7 +80,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         }
     };
 
-    let resp = match run_wrappers(input, output, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]) {
+    let resp = match run_wrappers(input, &output, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]) {
         Ok(Some(resp)) => Response::builder()
             .status(200)
             .header("Content-Type", "application/json")

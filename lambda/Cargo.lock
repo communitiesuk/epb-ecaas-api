@@ -76,9 +76,9 @@ dependencies = [
 
 [[package]]
 name = "actix-server"
-version = "2.6.0"
+version = "2.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a65064ea4a457eaf07f2fba30b4c695bf43b721790e9530d26cb6f9019ff7502"
+checksum = "3716aae056e2f869b7b5cfd8a08fcf98890f8455bec61d69c7dff5d8576f9d2b"
 dependencies = [
  "actix-rt",
  "actix-service",
@@ -86,7 +86,7 @@ dependencies = [
  "futures-core",
  "futures-util",
  "mio",
- "socket2 0.5.10",
+ "socket2 0.6.5",
  "tokio",
  "tracing",
 ]
@@ -207,9 +207,9 @@ checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
 
 [[package]]
 name = "android_system_properties"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
+checksum = "ae221649c9976a6f6c56ae1facf410f3ddb33cc661c4b7b61020a912d4237fbc"
 dependencies = [
  "libc",
 ]
@@ -475,9 +475,9 @@ dependencies = [
 
 [[package]]
 name = "aws-sdk-dynamodb"
-version = "1.119.0"
+version = "1.120.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0176c1927f2e065f43cecde84602f769959b34ab53a317da92a64022ba09345"
+checksum = "f578638cafe182113da770e9798e7063d6de96cbbfe06f647d0026f197c9b97c"
 dependencies = [
  "arc-swap",
  "aws-credential-types",
@@ -497,6 +497,7 @@ dependencies = [
  "http 1.5.0",
  "regex-lite",
  "tracing",
+ "url",
 ]
 
 [[package]]
@@ -1577,6 +1578,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "fancy-regex"
+version = "0.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "476de73bddf2ef8490aa4ee8f1cf40b430bf1d56c48c22080e5186952cd580e6"
+dependencies = [
+ "bit-set",
+ "regex-automata",
+ "regex-syntax",
+]
+
+[[package]]
 name = "fastrand"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2071,7 +2083,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#7df65c506441a3d97fa03f162b68199c3c620b80"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#a57cbd50eb37602bc87030be3f64ec17726ac68b"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -2092,7 +2104,7 @@ dependencies = [
  "interp",
  "is_close",
  "itertools 0.15.0",
- "jsonschema 0.49.4",
+ "jsonschema 0.49.6",
  "monostate",
  "nalgebra 0.34.2",
  "ndarray",
@@ -2115,7 +2127,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model-wrapper-fhs"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#579ce37000b826201ef98520cc842b4cac409deb"
+source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#df21cfe9da36321c967d4c5d615461aa4bbe1767"
 dependencies = [
  "anyhow",
  "approx",
@@ -2677,7 +2689,7 @@ dependencies = [
  "bytecount",
  "data-encoding",
  "email_address",
- "fancy-regex",
+ "fancy-regex 0.18.0",
  "fraction",
  "getrandom 0.3.4",
  "idna",
@@ -2698,26 +2710,26 @@ dependencies = [
 
 [[package]]
 name = "jsonschema"
-version = "0.49.4"
+version = "0.49.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "257549c093d8f3d043337ba0d507e8eeace2447dfae3f0ee37eb0f57d3df7655"
+checksum = "7e17384278234b10419a63c93fc85695ac9fc2da0833e3c59167f9986499590c"
 dependencies = [
  "ahash 0.8.12",
  "async-trait",
  "bytecount",
  "data-encoding",
  "email_address",
- "fancy-regex",
+ "fancy-regex 0.19.0",
  "fraction",
  "getrandom 0.3.4",
  "idna",
  "itoa",
- "jsonschema-regex 0.49.4",
+ "jsonschema-regex 0.49.6",
  "jsonschema-value",
  "num-cmp",
  "num-traits",
  "percent-encoding",
- "referencing 0.49.4",
+ "referencing 0.49.6",
  "regex",
  "reqwest",
  "rustls 0.23.43",
@@ -2740,18 +2752,18 @@ dependencies = [
 
 [[package]]
 name = "jsonschema-regex"
-version = "0.49.4"
+version = "0.49.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "474790e948498099d61ec85c10dc72d459d61298b7975eda7fb163af1934b134"
+checksum = "ac634e339e73bf9629f6fb207f7b064d872253ae3b3f5c6e0ce8fd762b16e40f"
 dependencies = [
  "regex-syntax",
 ]
 
 [[package]]
 name = "jsonschema-value"
-version = "0.49.4"
+version = "0.49.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8212315eb8e0bc44959d1af653cd5ec515771a3cdca966cfc0a10999bff144b9"
+checksum = "92b8e258eb4515a3fc912a9c46e3987040dc07280592280097ea2085527870b8"
 dependencies = [
  "ahash 0.8.12",
  "bytecount",
@@ -3894,9 +3906,9 @@ dependencies = [
 
 [[package]]
 name = "referencing"
-version = "0.49.4"
+version = "0.49.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2bf1a74e036be2546c0c81cdfad6b2def6a25bf31c4e34a468037058d3bd05c6"
+checksum = "42902112f88a27e9afd5683e2ba31956fed2a5d43395f166dd26775ae9c0dedb"
 dependencies = [
  "ahash 0.8.12",
  "async-trait",
@@ -4011,7 +4023,7 @@ dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
  "jsonpath-rust",
- "jsonschema 0.49.4",
+ "jsonschema 0.49.6",
  "rust_decimal",
  "serde",
  "serde-enum-str",
