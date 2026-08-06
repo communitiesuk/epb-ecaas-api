@@ -43,7 +43,6 @@ pub enum LegacyClassification {
     ClientError,
     // transient server error - i.e. may be due to brief outage in infrastructure
     #[assoc(status = StatusCode::SERVICE_UNAVAILABLE)]
-    #[allow(dead_code)]
     TransientServerError,
     #[assoc(status = StatusCode::NOT_IMPLEMENTED)]
     NotImplemented,
