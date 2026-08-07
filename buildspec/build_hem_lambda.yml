@@ -20,7 +20,7 @@ phases:
       - cargo --version
 
       # install cargo-lambda
-      - pip3 install cargo-lambda
+      - pip3 install --root-user-action=ignore cargo-lambda
 
       # enter lambda directory
       - cd lambda
