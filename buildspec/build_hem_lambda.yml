@@ -4,12 +4,15 @@ env:
   shell: bash
 
 phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stable
+      - rustc --version
   build:
     commands:
-      # install rust and cargo
-      # -y option to accept default configuration
-      - curl https://sh.rustup.rs -sSf | sh -s -- -y
-
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
       
@@ -17,10 +20,7 @@ phases:
       - cargo --version
 
       # install cargo-lambda
-      - pip3 install cargo-lambda
-
-      # copy the weather file
-      - aws s3 cp s3://ecaas-api-pipeline-storage/ecaas-api-pipeline/weather.epw lambda/src/weather.epw
+      - pip3 install --root-user-action=ignore cargo-lambda
 
       # enter lambda directory
       - cd lambda
