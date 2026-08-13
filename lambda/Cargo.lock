@@ -4114,7 +4114,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#2721735e7753388a432e3e00d4eb0202dbbab059"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#7b8e1d531ce5f871f16a9994d9d8bf32dc318002"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
@@ -4131,6 +4131,7 @@ dependencies = [
  "this-error-from-box",
  "thiserror 2.0.20",
  "tokio",
+ "tracing",
 ]
 
 [[package]]
