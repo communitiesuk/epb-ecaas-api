@@ -4114,7 +4114,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#7b8e1d531ce5f871f16a9994d9d8bf32dc318002"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#d4c276e1b819871f2355d25f0ae9b7b3d46b2861"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
