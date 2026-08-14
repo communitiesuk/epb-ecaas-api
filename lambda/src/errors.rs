@@ -166,6 +166,10 @@ impl ApiError {
         self.original_error.as_ref()
     }
 
+    pub fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        self.original_error.source()
+    }
+
     pub fn title(&self) -> Option<&str> {
         self.classification.title()
     }
