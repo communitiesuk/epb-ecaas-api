@@ -153,10 +153,7 @@ fn report_api_error(api_error: &ApiError) {
         api_error.status(),
         api_error.title().unwrap_or("Unclassified error"),
         api_error.error(),
-        api_error
-            .source()
-            .map(|e| format!("{e:?}"))
-            .unwrap_or("(unavailable)".to_string())
+        api_error.source()
     );
     sentry::capture_error(api_error.error());
 }
