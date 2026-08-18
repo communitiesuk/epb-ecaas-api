@@ -2363,7 +2363,7 @@ dependencies = [
  "libc",
  "percent-encoding",
  "pin-project-lite",
- "socket2 0.5.10",
+ "socket2 0.6.5",
  "tokio",
  "tower-service",
  "tracing",
@@ -4018,7 +4018,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=production#68c4bf5dc8c12556aa6ab54b80badb65b60d5eca"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=production#469679231334c2de735cf49e78f261a9a9485461"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
