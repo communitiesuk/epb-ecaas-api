@@ -330,7 +330,7 @@ mod hem_database {
                 }
                 ResolvePcdbProductsError::InvalidProduct(_, _)
                 | ResolvePcdbProductsError::DeserializeError(_)
-                | ResolvePcdbProductsError::InUseFactorsInaccessibleError
+                | ResolvePcdbProductsError::InUseFactorsInaccessibleError(_)
                 | ResolvePcdbProductsError::InUseFactorEntryMissingError => {
                     FhsApiErrorClassification::Legacy(LegacyClassification::ServerError)
                 }
