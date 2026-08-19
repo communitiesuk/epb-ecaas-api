@@ -166,6 +166,15 @@ impl ApiError {
         self.original_error.as_ref()
     }
 
+    pub fn source(&self) -> &(dyn std::error::Error + 'static) {
+        let mut root: &(dyn std::error::Error + 'static) = self.original_error.as_ref();
+        while let Some(source) = root.source() {
+            root = source;
+        }
+
+        root
+    }
+
     pub fn title(&self) -> Option<&str> {
         self.classification.title()
     }
@@ -321,7 +330,7 @@ mod hem_database {
                 }
                 ResolvePcdbProductsError::InvalidProduct(_, _)
                 | ResolvePcdbProductsError::DeserializeError(_)
-                | ResolvePcdbProductsError::InUseFactorsInaccessibleError
+                | ResolvePcdbProductsError::InUseFactorsInaccessibleError(_)
                 | ResolvePcdbProductsError::InUseFactorEntryMissingError => {
                     FhsApiErrorClassification::Legacy(LegacyClassification::ServerError)
                 }
