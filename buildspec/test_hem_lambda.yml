@@ -13,14 +13,19 @@ phases:
       # configure shell so we can use "cargo" command
       - . "$HOME/.cargo/env"
 
-      # enter directory for lambda, overwriting hem symlink and setting up weather file in hem
+      # enter directory for lambda, make hem & fhs sources available
       - cd lambda
       - ln -sf $CODEBUILD_SRC_DIR_hem_core_source_output hem
+      - ln -sf $CODEBUILD_SRC_DIR_fhs_wrapper_source_output fhs
 
-      # run tests
+      # run hem core tests
       - cd hem
       - cargo test --lib
       - cargo test --test e2e -- --nocapture
+
+      # run fhs wrapper tests
+      - cd ../fhs
+      - cargo test --lib
 
 cache:
   paths:
