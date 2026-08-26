@@ -25,6 +25,10 @@ phases:
       # enter lambda directory
       - cd lambda
 
+      # ensure we get the latest versions of FHS wrapper, core and pcdb from git
+      - cargo update home-energy-model-wrapper-fhs
+      - cargo update resolve-products
+
       # make HEM software version available in environment
       - export HEM_SOFTWARE_VERSION=`grep "^source.*home-energy-model" Cargo.lock | grep -oE "[0-9a-f]{7}" | head -1`
 
