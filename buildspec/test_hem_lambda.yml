@@ -8,7 +8,7 @@ phases:
       - rustup update stable
       - rustup default stable
       - rustc --version
-      - zstd --version
+
   build:
     commands:
       # configure shell so we can use "cargo" command
