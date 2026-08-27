@@ -21,7 +21,7 @@ phases:
       - ln -sf $CODEBUILD_SRC_DIR_fhs_wrapper_source_output fhs
 
       # run pcdb tests
-      - (cd pcdb && cargo test --lib)
+      - (cd pcdb && cargo test --workspace)
 
       # run hem core tests
       - (cd hem && cargo test --lib && cargo test --test e2e -- --nocapture)
