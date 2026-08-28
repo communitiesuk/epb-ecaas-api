@@ -26,10 +26,9 @@ phases:
       # run hem core tests
       - (cd hem && cargo test --lib && cargo test --test e2e -- --nocapture)
 
-      # run fhs wrapper tests
-      - (cd fhs && cargo test --lib)
-
+      # run fhs wrapper unit and preprocessing e2e tests
+      - (cd fhs && cargo test --lib && cargo test --test test_future_homes_standard_preprocessing --release -- --nocapture)
 
 cache:
   paths:
-    - '/root/.cargo/registry/**/*'
+    - "/root/.cargo/registry/**/*"
