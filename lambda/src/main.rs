@@ -116,7 +116,7 @@ fn main() -> Result<(), Error> {
             .finish(),
     )?;
 
-    let _guard = match option_env!("SENTRY_DSN") {
+    let _guard = match option_env!("SENTRY_DSN_API") {
         Some(dsn) => Some(sentry::init((
             dsn,
             ClientOptions::new()
@@ -135,6 +135,8 @@ fn main() -> Result<(), Error> {
             None
         }
     };
+
+    sentry::capture_message("test API Sentry logging", sentry::Level::Error);
 
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
