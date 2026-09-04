@@ -136,6 +136,8 @@ fn main() -> Result<(), Error> {
         }
     };
 
+    sentry::capture_message("test API Sentry logging", sentry::Level::Error);
+
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()
