@@ -116,7 +116,7 @@ fn main() -> Result<(), Error> {
             .finish(),
     )?;
 
-    let _guard = match option_env!("SENTRY_DSN") {
+    let _guard = match option_env!("SENTRY_DSN_API") {
         Some(dsn) => Some(sentry::init((
             dsn,
             ClientOptions::new()
