@@ -2764,9 +2764,9 @@ dependencies = [
 
 [[package]]
 name = "jsonpath-rust"
-version = "1.0.8"
+version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e07021eefc09f897611b067ba7897b5e9266edfc902768418968772e5bb06a7"
+checksum = "d23892d4caa103325a558250e9f4e406d81cf64f7c01679ae7a64e0413321e51"
 dependencies = [
  "pest",
  "pest_derive",
@@ -4059,7 +4059,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#9f9443a5de34537dc384ab7b5591f47388767182"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#9624e6b6a29e880a2919e7fd767072231a9d1910"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
