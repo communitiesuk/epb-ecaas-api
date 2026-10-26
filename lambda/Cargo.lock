@@ -342,17 +342,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "async-trait"
-version = "0.1.92"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "82f6aeea286b8eb4dd3431a1be1b59d290ace00f5bfd8e2a159bc2a05e2c1667"
-dependencies = [
- "proc-macro2 1.0.107",
- "quote 1.0.47",
- "syn 3.0.9",
-]
-
-[[package]]
 name = "atomic-waker"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1731,16 +1720,6 @@ checksum = "c59d4b42303d6fdd5f2e058d7a420103752ec6c4bf260c08abd86a14ea5223a3"
 
 [[package]]
 name = "fraction"
-version = "0.15.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e076045bb43dac435333ed5f04caf35c7463631d0dae2deb2638d94dd0a5b872"
-dependencies = [
- "lazy_static",
- "num",
-]
-
-[[package]]
-name = "fraction"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33fee0259ffdc3d7bd64438b6b08437884d4df5700f9cb8a23b079c3958ae578"
@@ -2778,39 +2757,6 @@ dependencies = [
 
 [[package]]
 name = "jsonschema"
-version = "0.49.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59ec8a241beed129f06114aa68007e905ca350e7baeb6e17a7631bb7978d91b2"
-dependencies = [
- "ahash",
- "async-trait",
- "bytecount",
- "data-encoding",
- "email_address",
- "fancy-regex",
- "fraction 0.15.4",
- "getrandom 0.3.4",
- "idna",
- "itoa",
- "jsonschema-regex 0.49.9",
- "jsonschema-value 0.49.9",
- "num-cmp",
- "num-traits",
- "percent-encoding",
- "referencing 0.49.9",
- "regex",
- "reqwest",
- "rustls 0.23.46",
- "serde",
- "serde_json",
- "strum",
- "tokio",
- "unicode-general-category",
- "uuid-simd",
-]
-
-[[package]]
-name = "jsonschema"
 version = "0.50.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29b6bb4e22283b09119c671e57ac6a185e9a0c70c31585e56b729b626d877753"
@@ -2854,7 +2800,7 @@ dependencies = [
  "fraction 0.17.0",
  "getrandom 0.3.4",
  "itoa",
- "jsonschema-macros",
+ "jsonschema-macros 0.58.6",
  "jsonschema-regex 0.58.6",
  "jsonschema-value 0.58.6",
  "num-cmp",
@@ -2870,12 +2816,51 @@ dependencies = [
 ]
 
 [[package]]
+name = "jsonschema"
+version = "0.60.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "65de752665c4a06528af6759955eecf60ba73ae7442d35349963a09c8031cd71"
+dependencies = [
+ "ahash",
+ "bytecount",
+ "data-encoding",
+ "email_address",
+ "fancy-regex",
+ "fraction 0.17.0",
+ "getrandom 0.3.4",
+ "itoa",
+ "jsonschema-macros 0.60.1",
+ "jsonschema-regex 0.60.1",
+ "jsonschema-value 0.60.1",
+ "num-cmp",
+ "num-traits",
+ "percent-encoding",
+ "referencing 0.60.1",
+ "regex",
+ "serde",
+ "serde_json",
+ "strum",
+ "unicode-general-category",
+ "uuid-simd",
+]
+
+[[package]]
 name = "jsonschema-macros"
 version = "0.58.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5553b59276ad81f2f49c80cd381a6d6d873e74139cdeb2bef0f9eb28a2ded2b6"
 dependencies = [
- "jsonschema-macros-core",
+ "jsonschema-macros-core 0.58.6",
+ "proc-macro2 1.0.107",
+]
+
+[[package]]
+name = "jsonschema-macros"
+version = "0.60.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cdff476d114a63256d073bc6e9eb272cc0bf361ab2851a0c7126d4c5df094be4"
+dependencies = [
+ "jsonschema-macros-core 0.60.1",
  "proc-macro2 1.0.107",
 ]
 
@@ -2899,12 +2884,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "jsonschema-regex"
-version = "0.49.9"
+name = "jsonschema-macros-core"
+version = "0.60.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91994f45017ed5e66aa8e59b8415f4cb033a6380d7200387b7cf117595fbdf85"
+checksum = "46226bcac3338786466c9221b536397618e6e35f2330862df57c080e4dd5a4cb"
 dependencies = [
- "regex-syntax",
+ "fancy-regex",
+ "indexmap 2.14.2",
+ "jsonschema-regex 0.60.1",
+ "percent-encoding",
+ "proc-macro-crate",
+ "proc-macro2 1.0.107",
+ "quote 1.0.47",
+ "referencing 0.60.1",
+ "regex",
+ "serde_json",
+ "syn 2.0.119",
 ]
 
 [[package]]
@@ -2926,17 +2921,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "jsonschema-value"
-version = "0.49.9"
+name = "jsonschema-regex"
+version = "0.60.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ec7637f83e510868ae6ed625f7ebfbbde4554ee8ce49854caa5126a8b9b9ecb"
+checksum = "6f8a848331614144c03e815fb931f238c9e342bd7ab501b29e35d647e7cd5688"
 dependencies = [
- "ahash",
- "bytecount",
- "fraction 0.15.4",
- "num-cmp",
- "num-traits",
- "serde_json",
+ "regex-syntax",
 ]
 
 [[package]]
@@ -2963,6 +2953,23 @@ dependencies = [
  "bytecount",
  "fraction 0.17.0",
  "getrandom 0.3.4",
+ "num-cmp",
+ "num-traits",
+ "serde_json",
+ "zmij",
+]
+
+[[package]]
+name = "jsonschema-value"
+version = "0.60.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5a5a947ef798eeacacb43edf29b1d0ab64bdf5e2c9fbcaad10ee8663d922b544"
+dependencies = [
+ "ahash",
+ "bytecount",
+ "fraction 0.17.0",
+ "getrandom 0.3.4",
+ "memchr",
  "num-cmp",
  "num-traits",
  "serde_json",
@@ -4070,25 +4077,6 @@ dependencies = [
 
 [[package]]
 name = "referencing"
-version = "0.49.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6efa2154ea6f5ce0fdecdd2a8d18f2fa1a39a8fbba91564f555a592e4dce8278"
-dependencies = [
- "ahash",
- "async-trait",
- "fluent-uri",
- "futures",
- "getrandom 0.3.4",
- "hashbrown 0.17.1",
- "itoa",
- "micromap",
- "parking_lot",
- "percent-encoding",
- "serde_json",
-]
-
-[[package]]
-name = "referencing"
 version = "0.50.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a0a32a2a2c2d7dd0ee54705b5fd641be73037271928f68e9b0e7205b71c9d30"
@@ -4109,6 +4097,23 @@ name = "referencing"
 version = "0.58.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "558f3855529c0a7e78a48e409fa653456e55f1b167eab4109c16a255b7727e3f"
+dependencies = [
+ "ahash",
+ "fluent-uri",
+ "getrandom 0.3.4",
+ "hashbrown 0.17.1",
+ "itoa",
+ "micromap",
+ "parking_lot",
+ "percent-encoding",
+ "serde_json",
+]
+
+[[package]]
+name = "referencing"
+version = "0.60.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "922268812b6f9e20b4ab0f1efe8e07036958eed7346ceddb31c777b5531fd11f"
 dependencies = [
  "ahash",
  "fluent-uri",
@@ -4207,12 +4212,12 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#a777065d5647859531b41c3a24523883a33314ff"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=main#f0d0869c9057a7ba55bc7a5a70bfd4cb5303749b"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
  "jsonpath-rust",
- "jsonschema 0.49.9",
+ "jsonschema 0.60.1",
  "rust_decimal",
  "serde",
  "serde-enum-str",
@@ -4220,7 +4225,6 @@ dependencies = [
  "serde_json",
  "serde_repr",
  "serde_valid",
- "smartstring",
  "this-error-from-box",
  "thiserror 2.0.21",
  "tokio",
