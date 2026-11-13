@@ -2134,14 +2134,13 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=main#3d48a53d2686000d205c415b73ddb70bdd4c1f02"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=1_0_0a7#dd71726ab3724580b1cd0b043176ed2b92543ab3"
 dependencies = [
  "accurate",
  "anyhow",
  "approx",
  "arc-swap",
  "argmin",
- "arrayvec",
  "atomic_float",
  "bounded-vec-deque",
  "chrono",
@@ -2157,7 +2156,7 @@ dependencies = [
  "indexmap 2.14.2",
  "interp",
  "itertools 0.15.0",
- "jsonschema 0.58.6",
+ "jsonschema 0.60.2",
  "monostate",
  "nalgebra 0.34.2",
  "ordered-float",
@@ -2170,6 +2169,7 @@ dependencies = [
  "serde_repr",
  "serde_valid 3.2.0",
  "serde_with",
+ "smallvec",
  "smartstring",
  "thiserror 2.0.21",
  "tracing",
@@ -2179,7 +2179,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model-wrapper-fhs"
 version = "1.0.0-alpha-7"
-source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs#9ab7dea247567adef7a4df8d746f3d22f6ea58f1"
+source = "git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=1_0_0a7#d6806c527bebf2adca3cbaf60d43d9f9e57fdcab"
 dependencies = [
  "anyhow",
  "approx",
