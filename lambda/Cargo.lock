@@ -78,9 +78,9 @@ dependencies = [
 
 [[package]]
 name = "actix-rt"
-version = "2.15.0"
+version = "2.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5f794807f82bbd36430c12cd600c73bbab0f52fdde4f0ed49978df113f4807f"
+checksum = "07c6d0b470c2b069868a1dc26ad646516e7d19dbf6f9563997c4a563faff6674"
 dependencies = [
  "futures-core",
  "tokio",
@@ -4106,7 +4106,7 @@ dependencies = [
 [[package]]
 name = "resolve-products"
 version = "0.1.0"
-source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=1_0_0a9#d4e5926de3e9a7fc27957d96d10518f895ce34ad"
+source = "git+https://github.com/communitiesuk/epb-ecaas-pcdb.git?branch=1_0_0a9#2015c24fdee91bae2d90b91d3f5d4749d0e8fe70"
 dependencies = [
  "aws-sdk-dynamodb",
  "itertools 0.15.0",
