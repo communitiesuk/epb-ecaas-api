@@ -1,5 +1,5 @@
 [package]
-name = "ecaas-lambda"
+name = "fhs-monolith"
 version = "0.1.0"
 edition = "2024"
 
@@ -40,3 +40,6 @@ lto = true
 # use a single thread for code generation - allows maximum optimisation visibility
 codegen-units = 1
 
+[[bin]]
+name = "fhs-monolith"
+path = "src/main.rs"

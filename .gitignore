@@ -39,3 +39,5 @@ terraform.rc
 
 # avoid committing the lambda zip file
 /api/lambda.zip
+
+target/*

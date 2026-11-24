@@ -30,7 +30,7 @@ static DYNAMO_DB_CLIENT: OnceCell<Client> = OnceCell::const_new();
 async fn get_global_client() -> &'static Client {
     DYNAMO_DB_CLIENT
         .get_or_init(|| async {
-            // if we are running in a cargo-lambda watch environment, use a local DynamoDB instance
+            // if we are running in a cargo-fhs-monolith watch environment, use a local DynamoDB instance
             // otherwise we expect to be within real AWS
             if std::env::var("CARGO_HOME").is_ok() {
                 let config = aws_config::defaults(aws_config::BehaviorVersion::latest())
