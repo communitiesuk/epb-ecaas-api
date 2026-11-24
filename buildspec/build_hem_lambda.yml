@@ -34,7 +34,7 @@ phases:
 
 artifacts:
   files:
-    - fhs-monolith/target/fhs-monolith/ecaas-fhs-monolith/bootstrap.zip
+    - target/lambda/fhs-monolith/bootstrap.zip
   discard-paths: yes
 
 cache:
