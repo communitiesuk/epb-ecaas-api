@@ -1043,12 +1043,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "be95d4a884358a21a199689323c29e9256b4a1b315e22f183d155422041d3a9a"
 
 [[package]]
-name = "constcat"
-version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "136d3e02915a2cea4d74caa8681e2d44b1c3254bdbf17d11d41d587ff858832c"
-
-[[package]]
 name = "convert_case"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1536,17 +1530,15 @@ checksum = "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
 name = "fhs-monolith"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "aws-config",
  "aws-sdk-dynamodb",
  "chrono",
- "constcat",
  "enum-assoc",
  "home-energy-model-wrapper-fhs",
  "json-pointer",
+ "lambda-common",
  "lambda_http",
  "openssl",
- "parking_lot 0.13.0",
  "resolve-products",
  "sentry",
  "serde",
@@ -1555,7 +1547,6 @@ dependencies = [
  "thiserror 2.0.21",
  "tokio",
  "tracing",
- "tracing-subscriber",
  "url",
  "uuid",
 ]
@@ -2810,6 +2801,16 @@ dependencies = [
  "num-traits",
  "serde_json",
  "zmij",
+]
+
+[[package]]
+name = "lambda-common"
+version = "0.1.0"
+dependencies = [
+ "lambda_http",
+ "sentry",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

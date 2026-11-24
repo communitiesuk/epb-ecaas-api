@@ -5,27 +5,20 @@ use crate::errors::{ApiError, UnsupportedBodyError, error_415_legacy, response_f
 use crate::fhs::FhsMeta;
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
-use constcat::concat;
 use home_energy_model_wrapper_fhs::{FhsFlags, SinkOutputWriter, run_wrappers};
-use lambda_http::aws_lambda_events::apigw::{
-    ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
-};
-use lambda_http::request::RequestContext;
-use lambda_http::{Body, Error, Request, RequestExt, Response, run, service_fn};
+use lambda_common::{create_sentry_guard, extract_aws_request_id, set_tracing_subscriber};
+use lambda_http::{Body, Error, Request, Response, run, service_fn};
 use resolve_products::resolve_products;
-use sentry::ClientOptions;
 use serde_json::json;
-use std::borrow::Cow;
 use tokio::sync::OnceCell;
 use tracing::error;
-use tracing_subscriber::fmt::format::FmtSpan;
 
 static DYNAMO_DB_CLIENT: OnceCell<Client> = OnceCell::const_new();
 
 async fn get_global_client() -> &'static Client {
     DYNAMO_DB_CLIENT
         .get_or_init(|| async {
-            // if we are running in a cargo-fhs-monolith watch environment, use a local DynamoDB instance
+            // if we are running in a cargo-lambda watch environment, use a local DynamoDB instance
             // otherwise we expect to be within real AWS
             if std::env::var("CARGO_HOME").is_ok() {
                 let config = aws_config::defaults(aws_config::BehaviorVersion::latest())
@@ -103,33 +96,9 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 }
 
 fn main() -> Result<(), Error> {
-    tracing::subscriber::set_global_default(
-        tracing_subscriber::fmt()
-            .json()
-            .with_max_level(tracing::Level::INFO)
-            .with_span_events(FmtSpan::CLOSE)
-            .finish(),
-    )?;
+    set_tracing_subscriber()?;
 
-    let _guard = match option_env!("SENTRY_DSN_API") {
-        Some(dsn) => Some(sentry::init((
-            dsn,
-            ClientOptions::new()
-                .maybe_release(sentry::release_name!())
-                .environment(
-                    std::env::var("SENTRY_ENVIRONMENT")
-                        .map(|env| Cow::Owned(format!("{ERROR_REPORTING_APP_PREFIX}-{env}")))
-                        .unwrap_or(Cow::Borrowed(concat!(
-                            ERROR_REPORTING_APP_PREFIX,
-                            "-unknown"
-                        ))),
-                ),
-        ))),
-        None => {
-            tracing::warn!("Sentry DSN is not set up in this environment.");
-            None
-        }
-    };
+    let _guard = create_sentry_guard(ERROR_REPORTING_APP_PREFIX);
 
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
@@ -151,16 +120,4 @@ fn report_api_error(api_error: &ApiError) {
         api_error.source()
     );
     sentry::capture_error(api_error.error());
-}
-
-fn extract_aws_request_id(event: &Request) -> Option<String> {
-    match event.extensions().request_context() {
-        RequestContext::ApiGatewayV2(ApiGatewayV2httpRequestContext { request_id, .. }) => {
-            request_id
-        }
-        RequestContext::ApiGatewayV1(ApiGatewayProxyRequestContext { request_id, .. }) => {
-            request_id
-        }
-        _ => None,
-    }
 }
