@@ -43,3 +43,6 @@ codegen-units = 1
 [[bin]]
 name = "fhs-monolith"
 path = "src/main.rs"
+
+[lints.rust]
+linker_messages = "allow"
