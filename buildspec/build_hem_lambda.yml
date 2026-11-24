@@ -22,14 +22,11 @@ phases:
       # install cargo-lambda
       - pip3 install --root-user-action=ignore cargo-lambda
 
-      # enter lambda directory
-      - cd lambda
-
       # make HEM software version available in environment
       - export HEM_SOFTWARE_VERSION=`grep "^source.*home-energy-model" Cargo.lock | grep -oE "[0-9a-f]{7}" | head -1`
 
       # build the lambda
-      - cargo lambda build --arm64 -r --output-format zip
+      - cargo lambda build -p fhs-monolith --arm64 -r --output-format zip
 
   post_build:
     commands:
@@ -37,10 +34,10 @@ phases:
 
 artifacts:
   files:
-    - lambda/target/lambda/ecaas-lambda/bootstrap.zip
+    - target/lambda/fhs-monolith/bootstrap.zip
   discard-paths: yes
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
-    - 'lambda/target/**/*'
+    - 'fhs-monolith/target/**/*'
