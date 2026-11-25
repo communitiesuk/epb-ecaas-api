@@ -24,7 +24,6 @@ use lambda_http::{Body, Error, Response, http::StatusCode};
 use resolve_products::errors::ResolvePcdbProductsError;
 use serde_json::json;
 use std::borrow::Cow;
-use thiserror::Error;
 use uuid::Uuid;
 
 #[derive(Debug)]
@@ -80,29 +79,6 @@ impl FhsApiErrorClassification {
     }
 }
 
-pub fn error_415_legacy(
-    e: impl std::error::Error,
-    aws_request_id: Option<String>,
-) -> Result<Response<Body>, Error> {
-    error_x_legacy(e, 415, aws_request_id)
-}
-
-pub fn error_x_legacy(
-    e: impl std::error::Error,
-    status: u16,
-    aws_request_id: Option<String>,
-) -> Result<Response<Body>, Error> {
-    let error_json =
-        json!({"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()});
-    Ok(Response::builder()
-        .status(status)
-        .header("Content-Type", "application/json")
-        .body(Body::from(serde_json::to_string(
-            &json!({"errors": [error_json], "meta": FhsMeta::with_request_id(aws_request_id)}),
-        )?))
-        .map_err(Box::new)?)
-}
-
 pub fn response_for_error(
     error: Box<dyn std::error::Error + 'static>,
     aws_request_id: Option<String>,
@@ -121,14 +97,27 @@ pub fn response_for_error(
     ))
 }
 
-#[derive(Debug, Error)]
-#[error("{0}")]
-pub struct UnsupportedBodyError(&'static str);
+pub fn error_x_legacy(
+    e: impl std::error::Error,
+    status: u16,
+    aws_request_id: Option<String>,
+) -> Result<Response<Body>, Error> {
+    let error_json =
+        json!({"id": Uuid::new_v4(), "status": status.to_string(), "detail": e.to_string()});
+    Ok(Response::builder()
+        .status(status)
+        .header("Content-Type", "application/json")
+        .body(Body::from(serde_json::to_string(
+            &json!({"errors": [error_json], "meta": FhsMeta::with_request_id(aws_request_id)}),
+        )?))
+        .map_err(Box::new)?)
+}
 
-impl UnsupportedBodyError {
-    pub fn new(message: &'static str) -> Self {
-        Self(message)
-    }
+pub fn error_415_legacy(
+    e: impl std::error::Error,
+    aws_request_id: Option<String>,
+) -> Result<Response<Body>, Error> {
+    error_x_legacy(e, 415, aws_request_id)
 }
 
 pub struct ApiError {

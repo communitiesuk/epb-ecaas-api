@@ -1,11 +1,12 @@
 mod errors;
 pub(crate) mod fhs;
 
-use crate::errors::{ApiError, UnsupportedBodyError, error_415_legacy, response_for_error};
+use crate::errors::{ApiError, error_415_legacy, response_for_error};
 use crate::fhs::FhsMeta;
 use aws_config::BehaviorVersion;
 use aws_sdk_dynamodb::Client;
 use home_energy_model_wrapper_fhs::{FhsFlags, SinkOutputWriter, run_wrappers};
+use lambda_common::errors::UnsupportedBodyError;
 use lambda_common::{create_sentry_guard, extract_aws_request_id, set_tracing_subscriber};
 use lambda_http::{Body, Error, Request, Response, run, service_fn};
 use resolve_products::resolve_products;

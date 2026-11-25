@@ -1,3 +1,5 @@
+pub mod errors;
+
 use lambda_http::aws_lambda_events::apigw::{
     ApiGatewayProxyRequestContext, ApiGatewayV2httpRequestContext,
 };

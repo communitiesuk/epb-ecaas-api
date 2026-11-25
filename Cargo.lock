@@ -1110,6 +1110,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "crc32fast"
+version = "1.5.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fd9ae8fcb3ea71b0b26338b4ffb13006bb175de8fd07921089a906ce7e5e6945"
+dependencies = [
+ "cfg-if",
+]
+
+[[package]]
 name = "crossbeam-deque"
 version = "0.8.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1544,7 +1553,6 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_with",
- "thiserror 2.0.21",
  "tokio",
  "tracing",
  "url",
@@ -1574,6 +1582,17 @@ name = "fixedbitset"
 version = "0.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5905ec755cc8386d7928353e4d356d2be3e89e81e5ca01fe630a1ca4d08dc175"
+
+[[package]]
+name = "flate2"
+version = "1.1.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "626d4928326b646e70f65ed36fc7cf9f206bdb68a0019ee7c6b4709da4e084c4"
+dependencies = [
+ "crc32fast",
+ "miniz_oxide",
+ "zlib-rs",
+]
 
 [[package]]
 name = "fluent-uri"
@@ -1978,6 +1997,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 
 [[package]]
+name = "hem"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "home-energy-model",
+ "lambda-common",
+ "lambda_http",
+ "serde_json",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
 name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1995,7 +2027,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-9"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=1_0_0a9#e562016926ca2aa7a9177c2f550f894164267760"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model?branch=1_0_0a9#e562016926ca2aa7a9177c2f550f894164267760"
 dependencies = [
  "accurate",
  "anyhow",
@@ -2809,6 +2841,8 @@ version = "0.1.0"
 dependencies = [
  "lambda_http",
  "sentry",
+ "serde_json",
+ "thiserror 2.0.21",
  "tracing",
  "tracing-subscriber",
 ]
@@ -2878,6 +2912,8 @@ dependencies = [
  "hyper 1.13.0",
  "hyper-util",
  "tower",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -2947,6 +2983,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
 
 [[package]]
+name = "matchers"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d1525a2a28c7f4fa0fc98bb91ae755d1e2d1505079e05539e35bc876b5d65ae9"
+dependencies = [
+ "regex-automata",
+]
+
+[[package]]
 name = "matrixmultiply"
 version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2981,6 +3026,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b63fbc4a50860e98e7b2aa7804ded1db5cbc3aff9193adaff57a6931bf7c4b4c"
 dependencies = [
  "adler2",
+ "simd-adler32",
 ]
 
 [[package]]
@@ -4739,6 +4785,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "simd-adler32"
+version = "0.3.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3a219298ac11a56ea9a6d2120044824d6f01aeb034955e7af7bc16858527deea"
+
+[[package]]
 name = "simdutf8"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5217,12 +5269,16 @@ version = "0.3.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cb7f578e5945fb242538965c2d0b04418d38ec25c79d160cd279bf0731c8d319"
 dependencies = [
+ "matchers",
  "nu-ansi-term",
+ "once_cell",
+ "regex-automata",
  "serde",
  "serde_json",
  "sharded-slab",
  "smallvec",
  "thread_local",
+ "tracing",
  "tracing-core",
  "tracing-log",
  "tracing-serde",
@@ -5827,6 +5883,12 @@ dependencies = [
  "quote",
  "syn 3.0.10",
 ]
+
+[[package]]
+name = "zlib-rs"
+version = "0.6.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa76918995d776d9dd34d371030be228d021137449771493d56e29f77e4148ac"
 
 [[package]]
 name = "zmij"

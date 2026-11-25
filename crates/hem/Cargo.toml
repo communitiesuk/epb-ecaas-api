@@ -1,0 +1,28 @@
+[package]
+name = "hem"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+flate2 = "1.1.11"
+home-energy-model = { git = "https://github.com/communitiesuk/epb-home-energy-model", branch = "1_0_0a9" }
+lambda-common = { workspace = true }
+lambda_http = "1.0.0"
+serde_json = { version = "1.0.145", features = ["preserve_order"] }
+tokio = { version = "1", features = ["macros"] }
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
+
+[profile.release]
+# keep line numbers for logs, but remove heavy variable/type data
+debug = 1
+# adopt unwind behaviour for panics for now (remove when we have no more panics!)
+panic = "unwind"
+# optimise for binary size
+opt-level = 3
+# enable link-time optimisation
+lto = true
+# use a single thread for code generation - allows maximum optimisation visibility
+codegen-units = 1
+
+[lints.rust]
+linker_messages = "allow"

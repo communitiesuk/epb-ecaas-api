@@ -6,5 +6,7 @@ edition = "2024"
 [dependencies]
 lambda_http = { version = "1.3.2", default-features = false, features = ["apigw_rest", "apigw_http"] }
 sentry = "0.49.6"
+serde_json = { version = "1.0.145", features = ["preserve_order"] }
+thiserror = "2.0.21"
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["json"] }
