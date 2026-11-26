@@ -1,6 +1,10 @@
+use aws_sdk_sfn::Client as AwsStepFunctionClient;
+use fhs_common::FhsMeta;
 use fhs_common::dynamodb::get_global_dynamodb_client;
 use fhs_common::errors::{error_415_legacy, report_api_error, response_for_error};
-use home_energy_model_wrapper_fhs::{FhsFlags, run_wrappers};
+use home_energy_model_wrapper_fhs::{
+    AwsStepFunctionHemRunner, FhsFlags, SinkOutputWriter, run_wrappers,
+};
 use lambda_common::errors::UnsupportedBodyError;
 use lambda_common::extract_aws_request_id;
 use lambda_http::{Body, Error, Request, Response};
@@ -22,7 +26,7 @@ pub async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     }
     .as_bytes();
 
-    let output = SinkOutputWriter {};
+    let output_writer = SinkOutputWriter {};
 
     let input = match resolve_products(input, get_global_dynamodb_client().await).await {
         Ok(input) => input,
@@ -37,7 +41,16 @@ pub async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         }
     };
 
-    let resp = match run_wrappers(input, &output, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]) {
+    let aws_config = aws_config::load_from_env().await;
+
+    let sfn_client = AwsStepFunctionClient::new(&aws_config);
+
+    let step_function_runner = AwsStepFunctionHemRunner::new(
+        "arn:aws:states:eu-west-2:600627353560:stateMachine:hem-fan-out".into(),
+        &sfn_client,
+    );
+
+    let resp = match run_wrappers(input, &output_writer, &step_function_runner, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]).await {
         Ok(Some(resp)) => Response::builder()
             .status(200)
             .header("Content-Type", "application/json")

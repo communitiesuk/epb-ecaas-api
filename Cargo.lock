@@ -457,6 +457,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "aws-sdk-sfn"
+version = "1.129.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "357708b9b6d55adc079aa45be1381822da1d2c5bf8929b710cc5c215a251437e"
+dependencies = [
+ "arc-swap",
+ "aws-credential-types",
+ "aws-runtime",
+ "aws-smithy-async",
+ "aws-smithy-http",
+ "aws-smithy-json",
+ "aws-smithy-observability",
+ "aws-smithy-runtime",
+ "aws-smithy-runtime-api",
+ "aws-smithy-schema",
+ "aws-smithy-types",
+ "aws-types",
+ "fastrand",
+ "regex-lite",
+ "tracing",
+]
+
+[[package]]
 name = "aws-sdk-sso"
 version = "1.123.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1538,6 +1561,8 @@ checksum = "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
 name = "fhs"
 version = "0.1.0"
 dependencies = [
+ "aws-config",
+ "aws-sdk-sfn",
  "fhs-common",
  "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=hem_runner)",
  "lambda-common",
@@ -2105,6 +2130,8 @@ dependencies = [
  "arcstr",
  "argmin",
  "atomic_float",
+ "aws-config",
+ "aws-sdk-sfn",
  "bounded-vec-deque",
  "chrono",
  "convert_case 0.12.0",
@@ -2135,6 +2162,7 @@ dependencies = [
  "serde_with",
  "smallvec",
  "thiserror 2.0.21",
+ "tokio",
  "tracing",
  "trait-variant",
 ]

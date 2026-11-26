@@ -1,5 +1,5 @@
 use fhs_common::errors::ERROR_REPORTING_APP_PREFIX;
-use lambda_http::{Error, run, service_fn, tracing};
+use lambda_http::{Error, run, service_fn};
 mod http_handler;
 use http_handler::function_handler;
 use lambda_common::{create_sentry_guard, set_tracing_subscriber};
