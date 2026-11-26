@@ -1,0 +1,65 @@
+use fhs_common::dynamodb::get_global_dynamodb_client;
+use fhs_common::errors::{error_415_legacy, report_api_error, response_for_error};
+use home_energy_model_wrapper_fhs::{FhsFlags, run_wrappers};
+use lambda_common::errors::UnsupportedBodyError;
+use lambda_common::extract_aws_request_id;
+use lambda_http::{Body, Error, Request, Response};
+use resolve_products::resolve_products;
+use serde_json::json;
+
+pub async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
+    // Extract some useful information from the request
+    let aws_request_id = extract_aws_request_id(&event);
+    let input = match event.body() {
+        Body::Empty => "",
+        Body::Text(text) => text.as_str(),
+        _ => {
+            return error_415_legacy(
+                UnsupportedBodyError::new("Non-text inputs are not accepted"),
+                aws_request_id,
+            );
+        }
+    }
+    .as_bytes();
+
+    let output = SinkOutputWriter {};
+
+    let input = match resolve_products(input, get_global_dynamodb_client().await).await {
+        Ok(input) => input,
+        Err(e) => {
+            let (response, api_error) =
+                response_for_error(Box::new(e) as Box<dyn std::error::Error>, aws_request_id)?;
+            if let Some(api_error) = api_error {
+                report_api_error(&api_error);
+            }
+
+            return Ok(response);
+        }
+    };
+
+    let resp = match run_wrappers(input, &output, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]) {
+        Ok(Some(resp)) => Response::builder()
+            .status(200)
+            .header("Content-Type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"data": resp, "meta": FhsMeta::with_request_id(aws_request_id)}))?))
+            .map_err(Box::new)?,
+        Ok(None) => Response::builder()
+            .status(503)
+            .header("content-type", "application/json")
+            .body(Body::from(serde_json::to_string(&json!({"errors": [{"status": "503", "detail": "Calculation response not available"}], "meta": FhsMeta::with_request_id(aws_request_id)}))?))
+            .map_err(Box::new)?,
+        Err(e) => {
+            let (response, api_error) = response_for_error(
+                Box::new(e) as Box<dyn std::error::Error>,
+                aws_request_id,
+            )?;
+            if let Some(api_error) = api_error {
+                report_api_error(&api_error);
+            }
+
+            response
+        }
+    };
+
+    Ok(resp)
+}

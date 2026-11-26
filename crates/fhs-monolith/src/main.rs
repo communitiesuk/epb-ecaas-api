@@ -1,43 +1,14 @@
-mod errors;
-pub(crate) mod fhs;
-
-use crate::errors::{ApiError, error_415_legacy, response_for_error};
-use crate::fhs::FhsMeta;
-use aws_config::BehaviorVersion;
-use aws_sdk_dynamodb::Client;
+use fhs_common::FhsMeta;
+use fhs_common::dynamodb::get_global_dynamodb_client;
+use fhs_common::errors::{
+    ERROR_REPORTING_APP_PREFIX, error_415_legacy, report_api_error, response_for_error,
+};
 use home_energy_model_wrapper_fhs::{FhsFlags, SinkOutputWriter, run_wrappers};
 use lambda_common::errors::UnsupportedBodyError;
 use lambda_common::{create_sentry_guard, extract_aws_request_id, set_tracing_subscriber};
 use lambda_http::{Body, Error, Request, Response, run, service_fn};
 use resolve_products::resolve_products;
 use serde_json::json;
-use tokio::sync::OnceCell;
-use tracing::error;
-
-static DYNAMO_DB_CLIENT: OnceCell<Client> = OnceCell::const_new();
-
-async fn get_global_client() -> &'static Client {
-    DYNAMO_DB_CLIENT
-        .get_or_init(|| async {
-            // if we are running in a cargo-lambda watch environment, use a local DynamoDB instance
-            // otherwise we expect to be within real AWS
-            if std::env::var("CARGO_HOME").is_ok() {
-                let config = aws_config::defaults(aws_config::BehaviorVersion::latest())
-                    // DynamoDB run locally uses port 8000 by default.
-                    .endpoint_url("http://localhost:8000")
-                    .load()
-                    .await;
-                let dynamodb_local_config =
-                    aws_sdk_dynamodb::config::Builder::from(&config).build();
-
-                aws_sdk_dynamodb::Client::from_conf(dynamodb_local_config)
-            } else {
-                let config = aws_config::load_defaults(BehaviorVersion::latest()).await;
-                Client::new(&config)
-            }
-        })
-        .await
-}
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     // Extract some useful information from the request
@@ -56,7 +27,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
     let output = SinkOutputWriter {};
 
-    let input = match resolve_products(input, get_global_client().await).await {
+    let input = match resolve_products(input, get_global_dynamodb_client().await).await {
         Ok(input) => input,
         Err(e) => {
             let (response, api_error) =
@@ -108,17 +79,4 @@ fn main() -> Result<(), Error> {
         .block_on(async { run(service_fn(function_handler)).await })?;
 
     Ok(())
-}
-
-const ERROR_REPORTING_APP_PREFIX: &str = "ecaas-fhs-api";
-
-fn report_api_error(api_error: &ApiError) {
-    error!(
-        "{} {} reported with details {:?} and source error {:?}",
-        api_error.status(),
-        api_error.title().unwrap_or("Unclassified error"),
-        api_error.error(),
-        api_error.source()
-    );
-    sentry::capture_error(api_error.error());
 }

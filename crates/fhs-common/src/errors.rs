@@ -16,10 +16,11 @@
 //! 606 - Booster heat pump needed for heat network - A fifth generation heat network was referenced but no booster heat pump provided
 //! 607 - Invalid combination of input and HEM database product data - Invalid combination of input and HEM database product data
 
+use crate::FhsMeta;
 use crate::errors::hem_database::HemDatabaseLayerErrorClassification;
-use crate::fhs::FhsMeta;
 use enum_assoc::Assoc;
 use home_energy_model_wrapper_fhs::HemError;
+use lambda_http::tracing::error;
 use lambda_http::{Body, Error, Response, http::StatusCode};
 use resolve_products::errors::ResolvePcdbProductsError;
 use serde_json::json;
@@ -365,16 +366,16 @@ mod json_api {
     #[skip_serializing_none]
     #[derive(Debug, Default, Serialize)]
     pub struct ErrorObject<'a> {
-        pub(super) id: Option<Cow<'a, str>>,
-        pub(super) links: Option<ErrorLinks<'a>>,
+        pub id: Option<Cow<'a, str>>,
+        pub links: Option<ErrorLinks<'a>>,
         #[serde(serialize_with = "status_to_string")]
-        pub(super) status: Option<StatusCode>,
+        pub status: Option<StatusCode>,
         // N.B. `code` should be serialised as a string, but we are constraining it to a number here in the struct
         #[serde(serialize_with = "code_to_string")]
-        pub(super) code: Option<u16>,
-        pub(super) title: Option<Cow<'a, str>>,
-        pub(super) detail: Option<Cow<'a, str>>,
-        pub(super) source: Option<ErrorSource<'a>>,
+        pub code: Option<u16>,
+        pub title: Option<Cow<'a, str>>,
+        pub detail: Option<Cow<'a, str>>,
+        pub source: Option<ErrorSource<'a>>,
     }
 
     fn status_to_string<S: Serializer>(
@@ -449,4 +450,17 @@ mod json_api {
 
     #[derive(Debug, Serialize)]
     pub struct LinkUrl<'a>(Cow<'a, Url>);
+}
+
+pub const ERROR_REPORTING_APP_PREFIX: &str = "ecaas-fhs-api";
+
+pub fn report_api_error(api_error: &ApiError) {
+    error!(
+        "{} {} reported with details {:?} and source error {:?}",
+        api_error.status(),
+        api_error.title().unwrap_or("Unclassified error"),
+        api_error.error(),
+        api_error.source()
+    );
+    sentry::capture_error(api_error.error());
 }

@@ -2,6 +2,9 @@ use chrono::NaiveDate;
 use home_energy_model_wrapper_fhs::{FHS_VERSION, FHS_VERSION_DATE, HEM_VERSION, HEM_VERSION_DATE};
 use serde::Serialize;
 
+pub mod dynamodb;
+pub mod errors;
+
 /// Metadata object containing versioning information for the HEM calculation, and a request ID. Corresponds to "FhsMeta" in the API specification.
 #[derive(Serialize)]
 pub struct FhsMeta {
