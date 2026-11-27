@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+aws-config = "1.13.4"
 aws-sdk-sfn = "1.129.0"
 ecaas-api-fhs-common = { workspace = true }
 ecaas-api-lambda-common = { workspace = true }
@@ -14,7 +15,6 @@ openssl = { version = "0.10.82", features = ["vendored"] }
 resolve-products = { git = "https://github.com/communitiesuk/epb-ecaas-pcdb.git", branch = "1_0_0a9" }
 serde_json = { version = "1.0.145", features = ["preserve_order"] }
 tokio = { version = "1", features = ["macros"] }
-aws-config = "1.13.4"
 
 [profile.release]
 # keep line numbers for logs, but remove heavy variable/type data
