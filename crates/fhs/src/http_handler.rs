@@ -1,12 +1,12 @@
 use aws_sdk_sfn::Client as AwsStepFunctionClient;
-use fhs_common::FhsMeta;
-use fhs_common::dynamodb::get_global_dynamodb_client;
-use fhs_common::errors::{error_415_legacy, report_api_error, response_for_error};
+use ecaas_api_fhs_common::FhsMeta;
+use ecaas_api_fhs_common::dynamodb::get_global_dynamodb_client;
+use ecaas_api_fhs_common::errors::{error_415_legacy, report_api_error, response_for_error};
+use ecaas_api_lambda_common::errors::UnsupportedBodyError;
+use ecaas_api_lambda_common::extract_aws_request_id;
 use home_energy_model_wrapper_fhs::{
     AwsStepFunctionHemRunner, FhsFlags, SinkOutputWriter, run_wrappers,
 };
-use lambda_common::errors::UnsupportedBodyError;
-use lambda_common::extract_aws_request_id;
 use lambda_http::{Body, Error, Request, Response};
 use resolve_products::resolve_products;
 use serde_json::json;

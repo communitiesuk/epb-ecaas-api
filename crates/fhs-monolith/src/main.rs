@@ -1,11 +1,13 @@
-use fhs_common::FhsMeta;
-use fhs_common::dynamodb::get_global_dynamodb_client;
-use fhs_common::errors::{
+use ecaas_api_fhs_common::FhsMeta;
+use ecaas_api_fhs_common::dynamodb::get_global_dynamodb_client;
+use ecaas_api_fhs_common::errors::{
     ERROR_REPORTING_APP_PREFIX, error_415_legacy, report_api_error, response_for_error,
 };
+use ecaas_api_lambda_common::errors::UnsupportedBodyError;
+use ecaas_api_lambda_common::{
+    create_sentry_guard, extract_aws_request_id, set_tracing_subscriber,
+};
 use home_energy_model_wrapper_fhs::{FhsFlags, SinkOutputWriter, run_wrappers};
-use lambda_common::errors::UnsupportedBodyError;
-use lambda_common::{create_sentry_guard, extract_aws_request_id, set_tracing_subscriber};
 use lambda_http::{Body, Error, Request, Response, run, service_fn};
 use resolve_products::resolve_products;
 use serde_json::json;

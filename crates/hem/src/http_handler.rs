@@ -1,11 +1,11 @@
 use crate::errors::error_415_legacy;
-use flate2::write::GzEncoder;
+use ecaas_api_lambda_common::errors::UnsupportedBodyError;
+use ecaas_api_lambda_common::extract_aws_request_id;
 use flate2::Compression;
+use flate2::write::GzEncoder;
 use home_energy_model::errors::HemError;
 use home_energy_model::output_writer::SinkOutputWriter;
-use home_energy_model::{run_project_from_input_file, CalculationResult, RunInput};
-use lambda_common::errors::UnsupportedBodyError;
-use lambda_common::extract_aws_request_id;
+use home_energy_model::{CalculationResult, RunInput, run_project_from_input_file};
 use lambda_http::{Body, Error, Request, Response};
 use serde_json::json;
 use std::io::BufReader;
@@ -23,7 +23,7 @@ pub(crate) async fn function_handler(event: Request) -> Result<Response<Body>, E
             return error_415_legacy(
                 UnsupportedBodyError::new("Non-text inputs are not accepted"),
                 aws_request_id,
-            )
+            );
         }
     };
 

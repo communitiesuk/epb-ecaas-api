@@ -1,9 +1,9 @@
-use lambda_http::{run, service_fn, Error};
+use ecaas_api_lambda_common::set_tracing_subscriber;
+use http_handler::function_handler;
+use lambda_http::{Error, run, service_fn};
+
 mod errors;
 mod http_handler;
-
-use http_handler::function_handler;
-use lambda_common::set_tracing_subscriber;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {

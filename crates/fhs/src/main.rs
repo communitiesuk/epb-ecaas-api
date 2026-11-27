@@ -1,8 +1,9 @@
-use fhs_common::errors::ERROR_REPORTING_APP_PREFIX;
-use lambda_http::{Error, run, service_fn};
-mod http_handler;
+use ecaas_api_fhs_common::errors::ERROR_REPORTING_APP_PREFIX;
+use ecaas_api_lambda_common::{create_sentry_guard, set_tracing_subscriber};
 use http_handler::function_handler;
-use lambda_common::{create_sentry_guard, set_tracing_subscriber};
+use lambda_http::{Error, run, service_fn};
+
+mod http_handler;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
