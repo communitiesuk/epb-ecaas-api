@@ -10,8 +10,8 @@ async fn main() -> Result<(), Error> {
 
     let _guard = create_sentry_guard(ERROR_REPORTING_APP_PREFIX);
 
-    let step_function_arn =
-        std::env::var("STEP_FUNCTION_ARN").expect("STEP_FUNCTION_ARN must be set");
+    let step_function_arn = std::env::var("STEP_FUNCTION_ARN")
+        .map_err(|e| format!("Missing or invalid STATE_MACHINE_ARN: {e}"))?;
 
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
