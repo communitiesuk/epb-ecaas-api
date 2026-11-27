@@ -26,7 +26,7 @@ phases:
       - export HEM_SOFTWARE_VERSION=`grep "^source.*home-energy-model" Cargo.lock | grep -oE "[0-9a-f]{7}" | head -1`
 
       # build the lambda
-      - cargo lambda build -p fhs --arm64 -r --output-format zip
+      - cargo lambda build -p ecaas-api-fhs-lambda --arm64 -r --output-format zip
 
   post_build:
     commands:
@@ -34,10 +34,10 @@ phases:
 
 artifacts:
   files:
-    - target/lambda/fhs/bootstrap.zip
+    - target/lambda/ecaas-api-fhs-lambda/bootstrap.zip
   discard-paths: yes
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
-    - 'fhs/target/**/*'
+    - 'ecaas-api-fhs-lambda/target/**/*'

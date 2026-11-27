@@ -23,7 +23,7 @@ phases:
       - pip3 install --root-user-action=ignore cargo-lambda
 
       # build the lambda
-      - cargo lambda build -p hem --arm64 -r --output-format zip
+      - cargo lambda build -p ecaas-api-hem-lambda --arm64 -r --output-format zip
 
   post_build:
     commands:
@@ -31,10 +31,10 @@ phases:
 
 artifacts:
   files:
-    - target/lambda/hem/bootstrap.zip
+    - target/lambda/ecaas-api-hem-lambda/bootstrap.zip
   discard-paths: yes
 
 cache:
   paths:
     - '/root/.cargo/registry/**/*'
-    - 'hem/target/**/*'
+    - 'ecaas-api-hem-lambda/target/**/*'
