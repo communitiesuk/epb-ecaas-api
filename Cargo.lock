@@ -2053,6 +2053,7 @@ dependencies = [
  "home-energy-model 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-home-energy-model?branch=1_0_0a9)",
  "lambda-common",
  "lambda_http",
+ "openssl",
  "serde_json",
  "tokio",
  "uuid",
