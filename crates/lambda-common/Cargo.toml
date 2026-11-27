@@ -1,5 +1,5 @@
 [package]
-name = "lambda-common"
+name = "ecaas-api-lambda-common"
 version = "0.1.0"
 edition = "2024"
 

@@ -1406,6 +1406,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d0881ea181b1df73ff77ffaaf9c7544ecc11e82fba9b5f27b262a3c73a332555"
 
 [[package]]
+name = "ecaas-api-fhs-lambda"
+version = "0.1.0"
+dependencies = [
+ "aws-config",
+ "aws-sdk-sfn",
+ "fhs-common",
+ "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=hem_runner)",
+ "lambda-common",
+ "lambda_http",
+ "openssl",
+ "resolve-products",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "educe"
 version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1556,22 +1572,6 @@ name = "fastrand"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
-
-[[package]]
-name = "fhs"
-version = "0.1.0"
-dependencies = [
- "aws-config",
- "aws-sdk-sfn",
- "fhs-common",
- "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=hem_runner)",
- "lambda-common",
- "lambda_http",
- "openssl",
- "resolve-products",
- "serde_json",
- "tokio",
-]
 
 [[package]]
 name = "fhs-common"
