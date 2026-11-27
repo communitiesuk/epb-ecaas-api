@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stable
+      - rustc --version
+
+  build:
+    commands:
+      # configure shell so we can use "cargo" command
+      - . "$HOME/.cargo/env"
+
+      # enter directory for fhs-lambda, make hem & fhs sources available
+      - cd crates/fhs-monolith
+      - ln -sfn "${CODEBUILD_SRC_DIR_resolve_pcdb_data_source_output}" pcdb
+
+      # run pcdb tests
+      - (cd pcdb && cargo test --workspace)
+
+cache:
+  paths:
+    - "/root/.cargo/registry/**/*"

@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stable
+      - rustc --version
+
+  build:
+    commands:
+      # configure shell so we can use "cargo" command
+      - . "$HOME/.cargo/env"
+
+      # enter directory for fhs-lambda, make hem & fhs sources available
+      - cd crates/fhs-monolith
+      - ln -sfn "${CODEBUILD_SRC_DIR_fhs_wrapper_source_output}" fhs
+
+      # run fhs wrapper unit and preprocessing e2e tests
+      - (cd fhs && cargo test --lib && cargo test --test test_future_homes_standard_preprocessing --release -- --nocapture)
+
+cache:
+  paths:
+    - "/root/.cargo/registry/**/*"
