@@ -2133,7 +2133,7 @@ dependencies = [
 [[package]]
 name = "home-energy-model"
 version = "1.0.0-alpha-9"
-source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=hem_runner_wip#b2c989980fc0b9d7ea1d8c5d921299b34a4f1a72"
+source = "git+https://github.com/communitiesuk/epb-home-energy-model.git?branch=hem_runner_wip#8a3e12a5c897872870d37d0257da4e3062eae857"
 dependencies = [
  "accurate",
  "anyhow",
