@@ -11,7 +11,10 @@ use lambda_http::{Body, Error, Request, Response};
 use resolve_products::resolve_products;
 use serde_json::json;
 
-pub async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
+pub async fn function_handler(
+    event: Request,
+    step_function_arn: &str,
+) -> Result<Response<Body>, Error> {
     // Extract some useful information from the request
     let aws_request_id = extract_aws_request_id(&event);
     let input = match event.body() {
@@ -45,10 +48,7 @@ pub async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
     let sfn_client = AwsStepFunctionClient::new(&aws_config);
 
-    let step_function_runner = AwsStepFunctionHemRunner::new(
-        "arn:aws:states:eu-west-2:600627353560:stateMachine:hem-fan-out".into(),
-        &sfn_client,
-    );
+    let step_function_runner = AwsStepFunctionHemRunner::new(step_function_arn.into(), &sfn_client);
 
     let resp = match run_wrappers(input, &output_writer, &step_function_runner, None, None, &FhsFlags::FHS_COMPLIANCE, false, false, false, &[]).await {
         Ok(Some(resp)) => Response::builder()
