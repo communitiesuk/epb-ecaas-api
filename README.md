@@ -1,9 +1,8 @@
-
 # epb-ecaas-api
 
-This is where the buildspecs for building and deploying the HEM Lambda live.
+This is where the buildspecs for building and deploying the ECaaS AWS Lambda instances live.
 
-This repo also contains the code for the lambda itself inside the `lambda` directory.
+This repo also contains the crates for the lambdas itself inside the `crates` directory.
 
 ## Contributing
 
@@ -12,8 +11,8 @@ This repo also contains the code for the lambda itself inside the `lambda` direc
 If you've done work in a pair or ensemble why not add your co-author(s) to the commit? This way everyone involved is
 given credit and people know who they can approach for questions about specific commits. To make this easy there is a
 commit template with a list of regular contributors to this code base. You will find it at the root of this
-project: `commit_template.txt`. Each row represents a possible co-author, however everyone is commented out by default (
-using `#`), and any row that is commented out will not show up in the commit.
+project: `commit_template.txt`. Each row represents a possible co-author, however everyone is commented out by default
+(using `#`), and any row that is commented out will not show up in the commit.
 
 #### Editing the template
 
