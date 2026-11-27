@@ -1,0 +1,43 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      rust: latest
+    commands:
+      - rustup update stable
+      - rustup default stable
+      - rustc --version
+  build:
+    commands:
+      # configure shell so we can use "cargo" command
+      - . "$HOME/.cargo/env"
+      
+      # reference cargo directly
+      - cargo --version
+
+      # install cargo-lambda
+      - pip3 install --root-user-action=ignore cargo-lambda
+
+      # make HEM software version available in environment
+      - export HEM_SOFTWARE_VERSION=`grep "^source.*home-energy-model" Cargo.lock | grep -oE "[0-9a-f]{7}" | head -1`
+
+      # build the lambda
+      - cargo lambda build -p fhs --arm64 -r --output-format zip
+
+  post_build:
+    commands:
+      - echo "Running post_build commands"
+
+artifacts:
+  files:
+    - target/lambda/fhs/bootstrap.zip
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.cargo/registry/**/*'
+    - 'fhs/target/**/*'
