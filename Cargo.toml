@@ -3,5 +3,5 @@ members = ["crates/*"]
 resolver = "3"
 
 [workspace.dependencies]
-fhs-common = { path = "crates/fhs-common" }
-lambda-common = { path = "crates/lambda-common" }
+ecaas-api-fhs-common = { path = "crates/fhs-common" }
+ecaas-api-lambda-common = { path = "crates/lambda-common" }

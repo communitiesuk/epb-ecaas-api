@@ -5,9 +5,9 @@ edition = "2024"
 
 [dependencies]
 aws-sdk-sfn = "1.129.0"
+ecaas-api-fhs-common = { workspace = true }
+ecaas-api-lambda-common = { workspace = true }
 home-energy-model-wrapper-fhs = { git = "https://github.com/communitiesuk/epb-hem-wrapper-fhs", branch = "hem_runner", features = ["use-aws-step-functions"] }
-fhs-common = { workspace = true }
-lambda-common = { workspace = true }
 lambda_http = { version = "1.3.0", default-features = false, features = ["apigw_rest", "apigw_http"] }
 openssl = { version = "0.10.82", features = ["vendored"] }
 # resolve directly from github for now

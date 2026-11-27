@@ -1406,19 +1406,79 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d0881ea181b1df73ff77ffaaf9c7544ecc11e82fba9b5f27b262a3c73a332555"
 
 [[package]]
+name = "ecaas-api-fhs-common"
+version = "0.1.0"
+dependencies = [
+ "aws-config",
+ "aws-sdk-dynamodb",
+ "chrono",
+ "enum-assoc",
+ "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=1_0_0a9)",
+ "json-pointer",
+ "lambda_http",
+ "resolve-products",
+ "sentry",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "tokio",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "ecaas-api-fhs-lambda"
 version = "0.1.0"
 dependencies = [
  "aws-config",
  "aws-sdk-sfn",
- "fhs-common",
+ "ecaas-api-fhs-common",
+ "ecaas-api-lambda-common",
  "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=hem_runner)",
- "lambda-common",
  "lambda_http",
  "openssl",
  "resolve-products",
  "serde_json",
  "tokio",
+]
+
+[[package]]
+name = "ecaas-api-fhs-monolith-lambda"
+version = "0.1.0"
+dependencies = [
+ "ecaas-api-fhs-common",
+ "ecaas-api-lambda-common",
+ "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=1_0_0a9)",
+ "lambda_http",
+ "openssl",
+ "resolve-products",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "ecaas-api-hem-lambda"
+version = "0.1.0"
+dependencies = [
+ "ecaas-api-lambda-common",
+ "flate2",
+ "home-energy-model 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-home-energy-model?branch=1_0_0a9)",
+ "lambda_http",
+ "openssl",
+ "serde_json",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "ecaas-api-lambda-common"
+version = "0.1.0"
+dependencies = [
+ "lambda_http",
+ "sentry",
+ "thiserror 2.0.21",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -1572,41 +1632,6 @@ name = "fastrand"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
-
-[[package]]
-name = "fhs-common"
-version = "0.1.0"
-dependencies = [
- "aws-config",
- "aws-sdk-dynamodb",
- "chrono",
- "enum-assoc",
- "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=1_0_0a9)",
- "json-pointer",
- "lambda_http",
- "resolve-products",
- "sentry",
- "serde",
- "serde_json",
- "serde_with",
- "tokio",
- "url",
- "uuid",
-]
-
-[[package]]
-name = "fhs-monolith"
-version = "0.1.0"
-dependencies = [
- "fhs-common",
- "home-energy-model-wrapper-fhs 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-hem-wrapper-fhs?branch=1_0_0a9)",
- "lambda-common",
- "lambda_http",
- "openssl",
- "resolve-products",
- "serde_json",
- "tokio",
-]
 
 [[package]]
 name = "find-msvc-tools"
@@ -2044,20 +2069,6 @@ name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
-
-[[package]]
-name = "hem"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "home-energy-model 1.0.0-alpha-9 (git+https://github.com/communitiesuk/epb-home-energy-model?branch=1_0_0a9)",
- "lambda-common",
- "lambda_http",
- "openssl",
- "serde_json",
- "tokio",
- "uuid",
-]
 
 [[package]]
 name = "hex"
@@ -2960,18 +2971,6 @@ dependencies = [
  "num-traits",
  "serde_json",
  "zmij",
-]
-
-[[package]]
-name = "lambda-common"
-version = "0.1.0"
-dependencies = [
- "lambda_http",
- "sentry",
- "serde_json",
- "thiserror 2.0.21",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
